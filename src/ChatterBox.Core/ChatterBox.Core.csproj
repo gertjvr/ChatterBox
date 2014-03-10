@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChatterBox.Core</RootNamespace>
     <AssemblyName>ChatterBox.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConfigInjector">
+    <Reference Include="ConfigInjector, Version=1.1.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\ConfigInjector.1.1.0.5\lib\net45\ConfigInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -42,9 +44,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThirdDrawer, Version=1.0.1.3, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ThirdDrawer, Version=1.0.1.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ThirdDrawer.1.0.1.3\lib\net40\ThirdDrawer.dll</HintPath>
+      <HintPath>..\..\packages\ThirdDrawer.1.0.1.4\lib\net40\ThirdDrawer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
