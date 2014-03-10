@@ -11,6 +11,10 @@
             while (true)
             {
                 var message = System.Console.ReadLine();
+
+                if (message == "quit")
+                    break;
+
                 client.Send(message).Wait();
             }
 

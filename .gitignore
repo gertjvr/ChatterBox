@@ -2,5 +2,7 @@
 *.suo
 [Oo]bj
 [Bb]in
+[Cc]sx
+[Rr]cf
 _ReSharper.*
 [Ll]ogs
