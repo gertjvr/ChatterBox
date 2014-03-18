@@ -9,7 +9,7 @@ namespace ChatterBox.MessageContracts.Commands
 
         public string Message { get; set; }
 
-        public SendMessageCommand()
+        protected SendMessageCommand()
         {
 
         }
