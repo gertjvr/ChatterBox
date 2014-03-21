@@ -88,12 +88,11 @@
     <Compile Include="Configuration\MinimumLogLevelSetting.cs" />
     <Compile Include="Configuration\NimbusConnectionStringProvider.cs" />
     <Compile Include="Configuration\NimbusConnectionStringSetting.cs" />
-    <Compile Include="Handlers\MessageHandler.cs" />
+    <Compile Include="Handlers\BroadcastMessageHandler.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
