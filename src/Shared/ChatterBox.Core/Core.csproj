@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\..\packages\Autofac.3.3.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="ConfigInjector, Version=1.1.0.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\ConfigInjector.1.1.0.6\lib\net45\ConfigInjector.dll</HintPath>
@@ -46,7 +49,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="ThirdDrawer, Version=1.0.1.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ThirdDrawer.1.0.1.4\lib\net40\ThirdDrawer.dll</HintPath>
+      <HintPath>..\..\..\packages\ThirdDrawer.1.0.1.4\lib\net40\ThirdDrawer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -45,20 +45,25 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus">
-      <HintPath>..\..\..\packages\Nimbus.1.2.0.2\lib\net45\Nimbus.dll</HintPath>
+    <Reference Include="Nimbus, Version=1.2.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.1.2.0.3\lib\net45\Nimbus.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.Autofac">
-      <HintPath>..\..\..\packages\Nimbus.Autofac.1.2.0.2\lib\net45\Nimbus.Autofac.dll</HintPath>
+    <Reference Include="Nimbus.Autofac, Version=1.2.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.Autofac.1.2.0.3\lib\net45\Nimbus.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.InfrastructureContracts">
-      <HintPath>..\..\..\packages\Nimbus.InfrastructureContracts.1.2.0.2\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
+    <Reference Include="Nimbus.InfrastructureContracts, Version=1.2.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.InfrastructureContracts.1.2.0.3\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.Logger.Serilog">
-      <HintPath>..\..\..\packages\Nimbus.Logger.Serilog.1.2.0.2\lib\net45\Nimbus.Logger.Serilog.dll</HintPath>
+    <Reference Include="Nimbus.Logger.Serilog, Version=1.2.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.Logger.Serilog.1.2.0.3\lib\net45\Nimbus.Logger.Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.MessageContracts">
-      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.2.0.2\lib\net45\Nimbus.MessageContracts.dll</HintPath>
+    <Reference Include="Nimbus.MessageContracts, Version=1.2.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.2.0.3\lib\net45\Nimbus.MessageContracts.dll</HintPath>
     </Reference>
     <Reference Include="Serilog">
       <HintPath>..\..\..\packages\Serilog.1.2.29\lib\net45\Serilog.dll</HintPath>

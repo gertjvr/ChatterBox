@@ -42,8 +42,9 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.MessageContracts">
-      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.2.0.2\lib\net45\Nimbus.MessageContracts.dll</HintPath>
+    <Reference Include="Nimbus.MessageContracts, Version=1.2.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.2.0.3\lib\net45\Nimbus.MessageContracts.dll</HintPath>
     </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
@@ -51,11 +52,13 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture">
-      <HintPath>..\..\..\packages\AutoFixture.3.17.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture, Version=3.18.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AutoFixture.3.18.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture.AutoNSubstitute">
-      <HintPath>..\..\..\packages\AutoFixture.AutoNSubstitute.3.17.0\lib\net40\Ploeh.AutoFixture.AutoNSubstitute.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture.AutoNSubstitute, Version=3.18.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AutoFixture.AutoNSubstitute.3.18.0\lib\net40\Ploeh.AutoFixture.AutoNSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="Shouldly">
       <HintPath>..\..\..\packages\Shouldly.2.1.1\lib\net40\Shouldly.dll</HintPath>
