@@ -53,11 +53,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutofacModules\CoreModule.cs" />
+    <Compile Include="AutofacModules\PersistenceModule.cs" />
+    <Compile Include="Infrastructure\Entities\AggregateRoot.cs" />
+    <Compile Include="Infrastructure\Entities\ChildEntity.cs" />
+    <Compile Include="Infrastructure\Entities\Entity.cs" />
+    <Compile Include="Infrastructure\Entities\IAggregateRoot.cs" />
+    <Compile Include="Infrastructure\Facts\FactAbout.cs" />
+    <Compile Include="Infrastructure\Facts\FactAttribute.cs" />
+    <Compile Include="Infrastructure\Facts\IFact.cs" />
+    <Compile Include="Infrastructure\IClock.cs" />
+    <Compile Include="Infrastructure\SourcererFactory.cs" />
+    <Compile Include="Infrastructure\SystemClock.cs" />
+    <Compile Include="Persistence\IRepository.cs" />
+    <Compile Include="Persistence\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\Queries\IQuery.cs" />
+    <Compile Include="Infrastructure\Queries\IQueryModel.cs" />
+    <Compile Include="Infrastructure\Queries\QueryModel.cs" />
+    <Compile Include="Persistence\Repository.cs" />
+    <Compile Include="Persistence\UnitOfWork.cs" />
+    <Compile Include="Persistence\UnitOfWorkProperties.cs" />
+    <Compile Include="Mapping\IMapToExisting.cs" />
+    <Compile Include="Mapping\IMapToNew.cs" />
+    <Compile Include="Infrastructure\AggregateRebuilder.cs" />
+    <Compile Include="Infrastructure\DomainEventBroker.cs" />
+    <Compile Include="Infrastructure\IAggregateRebuilder.cs" />
+    <Compile Include="Infrastructure\IDomainEventBroker.cs" />
+    <Compile Include="Persistence\IFactStore.cs" />
+    <Compile Include="Infrastructure\IHandleFact.cs" />
+    <Compile Include="Persistence\ITypesProvider.cs" />
+    <Compile Include="Persistence\Memory\MemoryFactStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
