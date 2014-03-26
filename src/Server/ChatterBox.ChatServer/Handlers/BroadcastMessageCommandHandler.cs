@@ -9,19 +9,17 @@ using Serilog.Events;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class BroadcastMessageHandler : IHandleCommand<BroadcastMessageCommand>
+    public class BroadcastMessageCommandHandler : IHandleCommand<BroadcastMessageCommand>
     {
         private readonly IBus _bus;
 
-        public BroadcastMessageHandler(IBus bus)
+        public BroadcastMessageCommandHandler(IBus bus)
         {
             _bus = bus;
         }
 
         public async Task Handle(BroadcastMessageCommand message)
         {
-            Log.Debug("{message}", message);
-
             await _bus.Publish(new MessageReceivedEvent(message.ClientId, message.Message));
         }
     }

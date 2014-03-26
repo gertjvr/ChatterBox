@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Autofac;
 using Autofac.Builder;
+using ChatterBox.Core.Infrastructure;
 
 namespace ChatterBox.ChatServer
 {
@@ -12,9 +13,10 @@ namespace ChatterBox.ChatServer
         {
             var builder = new ContainerBuilder();
 
-            var appServerAssembly = typeof(IoC).Assembly;
-            
-            builder.RegisterAssemblyModules(appServerAssembly);
+            var chatServerAssembly = typeof (IoC).Assembly;
+            var coreAssembly = typeof (SystemClock).Assembly;
+
+            builder.RegisterAssemblyModules(chatServerAssembly, coreAssembly);
 
             if (preHooks != null) preHooks(builder);
 

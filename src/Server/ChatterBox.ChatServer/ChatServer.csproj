@@ -85,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutofacModules\DomainModule.cs" />
     <Compile Include="AutofacModules\LoggerModule.cs" />
     <Compile Include="ChatServer.cs" />
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
@@ -93,11 +94,13 @@
     <Compile Include="Configuration\MinimumLogLevelSetting.cs" />
     <Compile Include="Configuration\NimbusConnectionStringProvider.cs" />
     <Compile Include="Configuration\NimbusConnectionStringSetting.cs" />
-    <Compile Include="Handlers\BroadcastMessageHandler.cs" />
+    <Compile Include="Handlers\BroadcastMessageCommandHandler.cs" />
+    <Compile Include="Handlers\SessionHandler.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
