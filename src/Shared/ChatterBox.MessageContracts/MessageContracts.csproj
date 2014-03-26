@@ -47,6 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BroadcastMessageCommand.cs" />
+    <Compile Include="Commands\ConnectCommand.cs" />
+    <Compile Include="Commands\DisconnectCommand.cs" />
+    <Compile Include="Events\ClientDisconnectedEvent.cs" />
+    <Compile Include="Events\ClientConnectedEvent.cs" />
     <Compile Include="Events\MessageReceivedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

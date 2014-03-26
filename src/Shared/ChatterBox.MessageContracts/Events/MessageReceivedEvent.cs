@@ -5,17 +5,19 @@ namespace ChatterBox.MessageContracts.Events
 {
     public class MessageReceivedEvent : IBusEvent
     {
-        private readonly Guid _fromId;
-        private readonly string _message;
+        public Guid FromId { get; set; }
 
-        public MessageReceivedEvent()
+        public string Message { get; set; }
+
+        protected MessageReceivedEvent()
         {
+
         }
 
         public MessageReceivedEvent(Guid fromId, string message)
         {
-            _fromId = fromId;
-            _message = message;
+            FromId = fromId;
+            Message = message;
         }
     }
 }
