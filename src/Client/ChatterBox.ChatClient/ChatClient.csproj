@@ -98,9 +98,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\ChatterBox.Core\Core.csproj">
+      <Project>{FFA4D2D8-9E2B-46CC-8B63-FA7DA1D99841}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\ChatterBox.MessageContracts\MessageContracts.csproj">
       <Project>{272E3901-C8AD-443C-A870-89C45EB0D0D2}</Project>
       <Name>MessageContracts</Name>

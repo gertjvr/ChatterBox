@@ -25,6 +25,7 @@ namespace ChatterBox.ChatClient
 
             _clientId = clientId ?? Guid.NewGuid();
             _bus = _container.Resolve<IBus>();
+            _bus.Send(new ConnectCommand(_clientId));
 
             Log.Information(@"Hello, world!");
         }
@@ -50,6 +51,8 @@ namespace ChatterBox.ChatClient
 
         public void Stop()
         {
+            _bus.Send(new DisconnectCommand(_clientId));
+
             Log.Information(@"Goodbye, cruel world!");
 
             IContainer container = _container;
