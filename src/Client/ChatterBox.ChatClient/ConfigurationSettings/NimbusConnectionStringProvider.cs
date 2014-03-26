@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ChatterBox.ChatClient.Configuration
+namespace ChatterBox.ChatClient.ConfigurationSettings
 {
     public class NimbusConnectionStringProvider
     {

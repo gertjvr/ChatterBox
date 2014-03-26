@@ -89,11 +89,11 @@
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
     <Compile Include="AutofacModules\LoggerModule.cs" />
     <Compile Include="ChatClient.cs" />
-    <Compile Include="Configuration\ChatClientNameSetting.cs" />
-    <Compile Include="Configuration\EnvironmentTypeSetting.cs" />
-    <Compile Include="Configuration\MinimumLogLevelSetting.cs" />
-    <Compile Include="Configuration\NimbusConnectionStringProvider.cs" />
-    <Compile Include="Configuration\NimbusConnectionStringSetting.cs" />
+    <Compile Include="ConfigurationSettings\ChatClientNameSetting.cs" />
+    <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
+    <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
+    <Compile Include="ConfigurationSettings\NimbusConnectionStringProvider.cs" />
+    <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

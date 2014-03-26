@@ -90,10 +90,10 @@
     <Compile Include="ChatServer.cs" />
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
     <Compile Include="AutofacModules\BusModule.cs" />
-    <Compile Include="Configuration\EnvironmentTypeSetting.cs" />
-    <Compile Include="Configuration\MinimumLogLevelSetting.cs" />
-    <Compile Include="Configuration\NimbusConnectionStringProvider.cs" />
-    <Compile Include="Configuration\NimbusConnectionStringSetting.cs" />
+    <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
+    <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
+    <Compile Include="ConfigurationSettings\NimbusConnectionStringProvider.cs" />
+    <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
     <Compile Include="Handlers\BroadcastMessageCommandHandler.cs" />
     <Compile Include="Handlers\SessionHandler.cs" />
     <Compile Include="IoC.cs" />

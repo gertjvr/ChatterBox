@@ -1,6 +1,6 @@
 ﻿using ConfigInjector;
 
-namespace ChatterBox.ChatServer.Configuration
+namespace ChatterBox.ChatClient.ConfigurationSettings
 {
     public class EnvironmentTypeSetting : ConfigurationSetting<string>
     {

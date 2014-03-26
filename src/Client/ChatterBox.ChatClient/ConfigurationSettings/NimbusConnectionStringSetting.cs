@@ -1,6 +1,6 @@
 ﻿using ConfigInjector;
 
-namespace ChatterBox.ChatClient.Configuration
+namespace ChatterBox.ChatClient.ConfigurationSettings
 {
     public class NimbusConnectionStringSetting : ConfigurationSetting<string>
     {
