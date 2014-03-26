@@ -1,6 +1,6 @@
 ﻿using System;
 using Autofac;
-using ChatterBox.ChatClient.Configuration;
+using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.MessageContracts.Commands;
 using Nimbus;
 using Nimbus.Configuration;

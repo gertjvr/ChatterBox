@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Autofac;
-using ChatterBox.ChatServer.Configuration;
+using ChatterBox.ChatServer.ConfigurationSettings;
 using ConfigInjector.QuickAndDirty;
 using Serilog;
 using Serilog.Events;

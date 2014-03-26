@@ -92,6 +92,10 @@
       <Project>{afcbc106-2080-47d6-a594-04f688b8e7b4}</Project>
       <Name>ChatServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\ChatterBox.Core\Core.csproj">
+      <Project>{FFA4D2D8-9E2B-46CC-8B63-FA7DA1D99841}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\ChatterBox.MessageContracts\MessageContracts.csproj">
       <Project>{272e3901-c8ad-443c-a870-89c45eb0d0d2}</Project>
       <Name>MessageContracts</Name>

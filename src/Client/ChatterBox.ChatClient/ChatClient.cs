@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Autofac;
-using ChatterBox.ChatClient.Configuration;
+using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.MessageContracts.Commands;
 using ConfigInjector.QuickAndDirty;
 using Nimbus;

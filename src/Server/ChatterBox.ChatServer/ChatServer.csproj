@@ -85,7 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacModules\DomainModule.cs" />
+    <Compile Include="AutofacModules\QueryModule.cs" />
     <Compile Include="AutofacModules\LoggerModule.cs" />
     <Compile Include="ChatServer.cs" />
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
@@ -111,6 +111,10 @@
     <ProjectReference Include="..\..\Shared\ChatterBox.MessageContracts\MessageContracts.csproj">
       <Project>{272E3901-C8AD-443C-A870-89C45EB0D0D2}</Project>
       <Name>MessageContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Domain\Domain.csproj">
+      <Project>{d81eb12f-d0e1-44c4-a8a7-2c6d18ae5fa5}</Project>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

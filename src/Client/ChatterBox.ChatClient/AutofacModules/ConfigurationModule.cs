@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ChatterBox.ChatClient.Configuration;
+using ChatterBox.ChatClient.ConfigurationSettings;
 using ConfigInjector.Configuration;
 
 namespace ChatterBox.ChatClient.AutofacModules

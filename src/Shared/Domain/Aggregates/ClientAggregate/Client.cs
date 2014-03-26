@@ -6,7 +6,7 @@ namespace Domain.Aggregates.ClientAggregate
 {
     public class Client : AggregateRoot
     {
-        protected Client()
+        private Client()
         {
         }
 

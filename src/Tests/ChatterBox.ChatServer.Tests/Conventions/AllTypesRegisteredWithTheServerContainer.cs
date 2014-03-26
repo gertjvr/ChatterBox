@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Builder;
 using ChatterBox.ChatServer.Tests.AutofacModules;
+using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Shared.Tests.Conventions;
 using NUnit.Framework;
 
@@ -17,6 +18,8 @@ namespace ChatterBox.ChatServer.Tests.Conventions
 
         protected override bool Filter(Type serviceType)
         {
+            if (serviceType.IsAssignableTo<IAggregateRoot>()) return false;
+
             return true;
         }
 
