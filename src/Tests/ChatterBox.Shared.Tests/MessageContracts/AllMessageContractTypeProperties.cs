@@ -29,18 +29,19 @@ namespace ChatterBox.Shared.Tests.MessageContracts
                 return typeof(BroadcastMessageCommand)
                     .Assembly
                     .GetExportedTypes()
-                    .Where(IsRequestOrResponseOrCommandOrDtoType)
+                    .Where(IsRequestOrResponseOrCommandOrEventType)
                     .SelectMany(t => t.GetProperties())
                     .Select(p => new TestCaseData(p)
                                 .SetName(p.DeclaringType.FullName + "." + p.Name))
                     .GetEnumerator();
             }
 
-            private static bool IsRequestOrResponseOrCommandOrDtoType(Type t)
+            private static bool IsRequestOrResponseOrCommandOrEventType(Type t)
             {
                 if (t.IsClosedTypeOf(typeof(IBusRequest<,>))) return true;
                 if (t.IsAssignableTo<IBusResponse>()) return true;
                 if (t.IsAssignableTo<IBusCommand>()) return true;
+                if (t.IsAssignableTo<IBusEvent>()) return true;
 
                 return false;
             }
