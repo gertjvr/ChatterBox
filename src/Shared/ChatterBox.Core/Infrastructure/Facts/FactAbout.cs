@@ -4,7 +4,6 @@ using ChatterBox.Core.Persistence;
 
 namespace ChatterBox.Core.Infrastructure.Facts
 {
-    [Serializable]
     public abstract class FactAbout<T> : IFact where T : IAggregateRoot
     {
         public Guid AggregateRootId { get; set; }
