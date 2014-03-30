@@ -13,10 +13,10 @@ namespace ChatterBox.ChatClient
         {
             var builder = new ContainerBuilder();
 
-            var chatClientAssembly = typeof(IoC).Assembly;
+            var thisAssembly = typeof(IoC).Assembly;
             var coreAssembly = typeof(SystemClock).Assembly;
 
-            builder.RegisterAssemblyModules(chatClientAssembly, coreAssembly);
+            builder.RegisterAssemblyModules(thisAssembly, coreAssembly);
 
             if (preHooks != null) preHooks(builder);
 

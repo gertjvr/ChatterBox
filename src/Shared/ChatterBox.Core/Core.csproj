@@ -65,6 +65,7 @@
     <Compile Include="Infrastructure\IClock.cs" />
     <Compile Include="Infrastructure\SourcererFactory.cs" />
     <Compile Include="Infrastructure\SystemClock.cs" />
+    <Compile Include="Persistence\Disk\DiskFactStore.cs" />
     <Compile Include="Persistence\IRepository.cs" />
     <Compile Include="Persistence\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\Queries\IQuery.cs" />
@@ -81,7 +82,6 @@
     <Compile Include="Infrastructure\IDomainEventBroker.cs" />
     <Compile Include="Persistence\IFactStore.cs" />
     <Compile Include="Infrastructure\IHandleFact.cs" />
-    <Compile Include="Persistence\ITypesProvider.cs" />
     <Compile Include="Persistence\Memory\MemoryFactStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

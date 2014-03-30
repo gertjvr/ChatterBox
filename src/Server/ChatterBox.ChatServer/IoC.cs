@@ -14,11 +14,11 @@ namespace ChatterBox.ChatServer
         {
             var builder = new ContainerBuilder();
 
-            var chatServerAssembly = typeof (IoC).Assembly;
+            var thisAssembly = typeof(IoC).Assembly;
             var coreAssembly = typeof (SystemClock).Assembly;
             var domainAssembly = typeof(DomainModule).Assembly;
 
-            builder.RegisterAssemblyModules(chatServerAssembly, coreAssembly, domainAssembly);
+            builder.RegisterAssemblyModules(thisAssembly, coreAssembly, domainAssembly);
 
             if (preHooks != null) preHooks(builder);
 

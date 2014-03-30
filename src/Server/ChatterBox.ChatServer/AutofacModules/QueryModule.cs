@@ -9,14 +9,14 @@ namespace ChatterBox.ChatServer.AutofacModules
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterGeneric(typeof(QueryModel<>))
+                .AsImplementedInterfaces()
+                .SingleInstance();
+            
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(IHandleFact<>))
                 .AsImplementedInterfaces()
                 .OwnedByLifetimeScope();
-
-            builder.RegisterGeneric(typeof(QueryModel<>))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(Repository<>))
                 .AsImplementedInterfaces()
