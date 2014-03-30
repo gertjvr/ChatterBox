@@ -39,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClient", "Client\Chatte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Shared\Domain\Domain.csproj", "{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EA31B845-801F-494B-8083-E032B83D4D3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messanger.Console", "Messanger.Console\Messanger.Console.csproj", "{4D4E2D13-8F93-46B3-B23B-B3BD0447D0A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,10 @@ Global
 		{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D4E2D13-8F93-46B3-B23B-B3BD0447D0A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D4E2D13-8F93-46B3-B23B-B3BD0447D0A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D4E2D13-8F93-46B3-B23B-B3BD0447D0A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D4E2D13-8F93-46B3-B23B-B3BD0447D0A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,5 +108,6 @@ Global
 		{1930A70B-F583-4133-9D89-1A4E9D950E7E} = {AADFD2B5-3156-468A-87C7-E09DF22E5B33}
 		{14A1832F-D64B-4AC7-9DD5-737FD20A6189} = {BDF2D8ED-55D3-44CB-A336-8BF69BC3F84D}
 		{750AAAA0-FD8B-424B-915F-7C140CB17FF9} = {BDF2D8ED-55D3-44CB-A336-8BF69BC3F84D}
+		{4D4E2D13-8F93-46B3-B23B-B3BD0447D0A0} = {EA31B845-801F-494B-8083-E032B83D4D3D}
 	EndGlobalSection
 EndGlobal
