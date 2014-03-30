@@ -16,8 +16,9 @@ namespace ChatterBox.Core.Persistence.Disk
         private readonly string _factStoreDirectoryPath;
         private readonly ITypesProvider _typesProvider;
         private readonly DirectoryInfo _factDirectoryBase;
+        private readonly JsonSerializerSettings _jsonSerializeSettings;
 
-        private const string _filenameSuffix = "fact.json";
+        private const string _filenameSuffix = ".json";
 
         public DiskFactStore(string factStoreDirectoryPath, ITypesProvider typesProvider)
         {
@@ -25,6 +26,12 @@ namespace ChatterBox.Core.Persistence.Disk
             _typesProvider = typesProvider;
 
             _factDirectoryBase = CreateFactDirectoryBase();
+
+            _jsonSerializeSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
         }
 
         public void AppendAtomically(IFact[] facts)
@@ -123,7 +130,7 @@ namespace ChatterBox.Core.Persistence.Disk
             {
                 using (var writer = new StreamWriter(stream))
                 {
-                    var serialize = JsonConvert.SerializeObject(fact, new JsonSerializerSettings { Formatting = Formatting.Indented, TypeNameHandling = TypeNameHandling.All});
+                    var serialize = JsonConvert.SerializeObject(fact, _jsonSerializeSettings);
                     writer.Write(serialize);
                 }
             }
@@ -136,7 +143,7 @@ namespace ChatterBox.Core.Persistence.Disk
                 using (var reader = new StreamReader(stream))
                 {
                     var serialze = reader.ReadToEnd();
-                    var instance = JsonConvert.DeserializeObject<IFact>(serialze, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+                    var instance = JsonConvert.DeserializeObject<IFact>(serialze, _jsonSerializeSettings);
                     return instance;
                 }
             }
