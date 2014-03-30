@@ -4,6 +4,7 @@ using System.Reflection;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Facts;
 using ThirdDrawer.Extensions.CollectionExtensionMethods;
+using ThirdDrawer.Extensions.StringExtensionMethods;
 using ThirdDrawer.Extensions.TypeExtensionMethods;
 
 namespace ChatterBox.Core.Infrastructure
@@ -34,8 +35,14 @@ namespace ChatterBox.Core.Infrastructure
                 .SelectMany(a => a.GetExportedTypes())
                 .Where(t => t.IsAssignableTo<IAggregateRoot>())
                 .Where(t => t.IsInstantiable())
+                .Do(AssertIsValidAggregateType)
                 .ToArray();
             return aggregateTypes;
+        }
+
+        private void AssertIsValidAggregateType(Type type)
+        {
+            if (type.GetCustomAttribute<SerializableAttribute>() == null) throw new Exception("Aggregate types must be marked as serializable. {0} is not.".FormatWith(type.FullName));
         }
 
         public Type[] FactTypes

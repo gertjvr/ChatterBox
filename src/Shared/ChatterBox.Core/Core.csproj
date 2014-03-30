@@ -60,12 +60,12 @@
     <Compile Include="AutofacModules\CoreModule.cs" />
     <Compile Include="AutofacModules\PersistenceModule.cs" />
     <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
+    <Compile Include="Extentions\ObjectExtentions.cs" />
     <Compile Include="Infrastructure\Entities\AggregateRoot.cs" />
     <Compile Include="Infrastructure\Entities\ChildEntity.cs" />
     <Compile Include="Infrastructure\Entities\Entity.cs" />
     <Compile Include="Infrastructure\Entities\IAggregateRoot.cs" />
     <Compile Include="Infrastructure\Facts\FactAbout.cs" />
-    <Compile Include="Infrastructure\Facts\FactAttribute.cs" />
     <Compile Include="Infrastructure\Facts\IFact.cs" />
     <Compile Include="Infrastructure\IClock.cs" />
     <Compile Include="Infrastructure\ITypesProvider.cs" />

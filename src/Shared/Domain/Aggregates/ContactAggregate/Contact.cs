@@ -6,6 +6,7 @@ using Domain.Aggregates.ContactAggregate.Facts;
 
 namespace Domain.Aggregates.ContactAggregate
 {
+    [Serializable]
     public class Contact : AggregateRoot
     {
         protected Contact()

@@ -4,9 +4,10 @@ using Domain.Aggregates.ClientAggregate.Facts;
 
 namespace Domain.Aggregates.ClientAggregate
 {
+    [Serializable]
     public class Client : AggregateRoot
     {
-        private Client()
+        protected Client()
         {
         }
 
@@ -30,6 +31,6 @@ namespace Domain.Aggregates.ClientAggregate
             Name = fact.Name;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
     }
 }
