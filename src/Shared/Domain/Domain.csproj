@@ -49,9 +49,13 @@
     <Compile Include="Aggregates\ClientAggregate\Client.cs" />
     <Compile Include="Aggregates\ClientAggregate\Facts\ClientCreatedFact.cs" />
     <Compile Include="Aggregates\ContactAggregate\Contact.cs" />
+    <Compile Include="Aggregates\ConversationAggregate\Conversation.cs" />
     <Compile Include="Aggregates\ContactAggregate\Facts\ContactCreatedFact.cs" />
-    <Compile Include="Aggregates\ContactAggregate\Facts\MessageSendFact.cs" />
-    <Compile Include="Aggregates\ContactAggregate\Message.cs" />
+    <Compile Include="Aggregates\ConversationAggregate\Facts\ContactAddedFact.cs" />
+    <Compile Include="Aggregates\ConversationAggregate\Facts\ConversationCreatedFact.cs" />
+    <Compile Include="Aggregates\ConversationAggregate\Facts\MessageReceivedFact.cs" />
+    <Compile Include="Aggregates\ConversationAggregate\Facts\TopicChangedFact.cs" />
+    <Compile Include="Aggregates\ConversationAggregate\Message.cs" />
     <Compile Include="AutofacModules\DomainModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
