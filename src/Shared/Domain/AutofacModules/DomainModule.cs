@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Facts;
 using ChatterBox.Core.Infrastructure.Queries;
@@ -16,6 +17,11 @@ namespace Domain.AutofacModules
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(t => t.IsAssignableTo<IFact>())
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IHandleFact<>))
+                .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof (Repository<>))

@@ -85,7 +85,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacModules\QueryModule.cs" />
     <Compile Include="AutofacModules\LoggerModule.cs" />
     <Compile Include="ChatServer.cs" />
     <Compile Include="AutofacModules\ConfigurationModule.cs" />

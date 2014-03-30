@@ -24,7 +24,7 @@ namespace ChatterBox.Core.AutofacModules
             
             builder.RegisterType<AggregateRebuilder>()
                 .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<UnitOfWork>()
                 .AsImplementedInterfaces()
