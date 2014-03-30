@@ -40,6 +40,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\ConfigInjector.1.1.0.6\lib\net45\ConfigInjector.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AutofacModules\CoreModule.cs" />
     <Compile Include="AutofacModules\PersistenceModule.cs" />
+    <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
     <Compile Include="Infrastructure\Entities\AggregateRoot.cs" />
     <Compile Include="Infrastructure\Entities\ChildEntity.cs" />
     <Compile Include="Infrastructure\Entities\Entity.cs" />
@@ -63,8 +68,10 @@
     <Compile Include="Infrastructure\Facts\FactAttribute.cs" />
     <Compile Include="Infrastructure\Facts\IFact.cs" />
     <Compile Include="Infrastructure\IClock.cs" />
+    <Compile Include="Infrastructure\ITypesProvider.cs" />
     <Compile Include="Infrastructure\SourcererFactory.cs" />
     <Compile Include="Infrastructure\SystemClock.cs" />
+    <Compile Include="Infrastructure\AssemblyScanningTypesProvider.cs" />
     <Compile Include="Persistence\Disk\DiskFactStore.cs" />
     <Compile Include="Persistence\IRepository.cs" />
     <Compile Include="Persistence\IUnitOfWork.cs" />

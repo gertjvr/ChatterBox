@@ -1,9 +1,8 @@
 ﻿using Autofac;
+using ChatterBox.Core.ConfigurationSettings;
 using ChatterBox.Core.Infrastructure;
-using ChatterBox.Core.Infrastructure.Entities;
-using ChatterBox.Core.Infrastructure.Facts;
 using ChatterBox.Core.Persistence;
-using ChatterBox.Core.Persistence.Memory;
+using ChatterBox.Core.Persistence.Disk;
 
 namespace ChatterBox.Core.AutofacModules
 {
@@ -11,17 +10,21 @@ namespace ChatterBox.Core.AutofacModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MemoryFactStore>()
+            builder.Register(c => new DiskFactStore(c.Resolve<FactStoreDirectoryPath>(), c.Resolve<ITypesProvider>()))
                 .AsImplementedInterfaces()
                 .SingleInstance();
-
-            builder.RegisterType<AggregateRebuilder>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
 
             builder.RegisterType<DomainEventBroker>()
                 .AsImplementedInterfaces()
                 .SingleInstance();
+
+            builder.Register(c => new AssemblyScanningTypesProvider(new [] { ThisAssembly }))
+                .AsImplementedInterfaces()
+                .SingleInstance();
+            
+            builder.RegisterType<AggregateRebuilder>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<UnitOfWork>()
                 .AsImplementedInterfaces()

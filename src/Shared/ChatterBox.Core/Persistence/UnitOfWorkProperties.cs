@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace ChatterBox.Core.Persistence
 {
-    [Serializable]
     public class UnitOfWorkProperties : IComparable<UnitOfWorkProperties>
     {
         public UnitOfWorkProperties()
@@ -22,17 +19,7 @@ namespace ChatterBox.Core.Persistence
 
         public int SequenceNumber { get; set; }
 
-        [XmlIgnore]
         public DateTimeOffset FactTimestamp { get; set; }
-
-        /// <see
-        ///     cref="https://connect.microsoft.com/VisualStudio/feedback/details/288349/datetimeoffset-is-not-serialized-by-a-xmlserializer" />
-        [XmlElement("FactTimestamp")]
-        public string FactTimestampWorkaround
-        {
-            get { return XmlConvert.ToString(FactTimestamp); }
-            set { FactTimestamp = XmlConvert.ToDateTimeOffset(value); }
-        }
 
         public int CompareTo(UnitOfWorkProperties other)
         {
