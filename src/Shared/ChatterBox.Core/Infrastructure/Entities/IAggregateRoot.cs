@@ -9,6 +9,5 @@ namespace ChatterBox.Core.Infrastructure.Entities
         Guid Id { get; }
         IEnumerable<IFact> GetAndClearPendingFacts();
         Guid RevisionId { get; set; }
-        T Clone<T>() where T : class, IAggregateRoot;
     }
 }

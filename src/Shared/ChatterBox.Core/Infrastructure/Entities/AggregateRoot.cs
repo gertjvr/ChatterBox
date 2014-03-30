@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using ChatterBox.Core.Infrastructure.Facts;
-using Newtonsoft.Json;
 
 namespace ChatterBox.Core.Infrastructure.Entities
 {
+    [Serializable]
     public abstract class AggregateRoot : Entity, IAggregateRoot
     {
         private readonly List<IFact> _pendingFacts = new List<IFact>();
@@ -28,12 +28,5 @@ namespace ChatterBox.Core.Infrastructure.Entities
         }
 
         public Guid RevisionId { get; set; }
-
-        public T Clone<T>() where T : class, IAggregateRoot
-        {
-            var serialze = JsonConvert.SerializeObject(this);
-            var clone = JsonConvert.DeserializeObject<T>(serialze);
-            return clone;
-        }
     }
 }
