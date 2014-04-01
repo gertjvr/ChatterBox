@@ -67,8 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aggregates\Users\WhenChangingUserPassword.cs" />
+    <Compile Include="Aggregates\Users\WhenCreatingUser.cs" />
     <Compile Include="AutoSpecFor.cs" />
-    <Compile Include="Aggregates\Users\ChangeUserName.cs" />
+    <Compile Include="Aggregates\Users\WhenChangingUserName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecFor.cs" />
   </ItemGroup>

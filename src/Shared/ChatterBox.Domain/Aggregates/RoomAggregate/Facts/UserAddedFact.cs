@@ -1,7 +1,7 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
 
-namespace Domain.Aggregates.RoomAggregate.Facts
+namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
 {
     [Serializable]
     public class UserAddedFact : FactAbout<Room>

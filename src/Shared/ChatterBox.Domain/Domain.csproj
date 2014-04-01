@@ -7,8 +7,8 @@
     <ProjectGuid>{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Domain</RootNamespace>
-    <AssemblyName>Domain</AssemblyName>
+    <RootNamespace>ChatterBox.Domain</RootNamespace>
+    <AssemblyName>ChatterBox.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -50,8 +50,8 @@
     <Compile Include="Aggregates\ClientAggregate\Facts\ClientCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Facts\MessageCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
-    <Compile Include="Aggregates\UserAggregate\Facts\ChangeUserNameFact.cs" />
-    <Compile Include="Aggregates\UserAggregate\Facts\SetUserPasswordFact.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\UserNameChangedFact.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\UserPasswordChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\User.cs" />
     <Compile Include="Aggregates\RoomAggregate\Room.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserCreatedFact.cs" />

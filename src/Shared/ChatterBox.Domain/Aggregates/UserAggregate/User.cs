@@ -1,9 +1,9 @@
 ﻿using System;
 using ChatterBox.Core.Extentions;
 using ChatterBox.Core.Infrastructure.Entities;
-using Domain.Aggregates.UserAggregate.Facts;
+using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 
-namespace Domain.Aggregates.UserAggregate
+namespace ChatterBox.Domain.Aggregates.UserAggregate
 {
     [Serializable]
     public class User : AggregateRoot
@@ -12,15 +12,15 @@ namespace Domain.Aggregates.UserAggregate
         {
         }
 
-        public string Name { get; set; }
+        public string Name { get; protected set; }
 
         public string Email { get; protected set; }
 
-        public string Hash { get; set; }
+        public string Hash { get; protected set; }
 
-        public string Salt { get; set; }
+        public string Salt { get; protected set; }
 
-        public string HashedPassword { get; set; }
+        public string HashedPassword { get; protected set; }
 
         public User(string name, string email, string hash, string salt, string hashedPassword)
         {
@@ -48,19 +48,19 @@ namespace Domain.Aggregates.UserAggregate
             HashedPassword = fact.HashedPassword;
         }
 
-        public void Apply(ChangeUserNameFact fact)
+        public void Apply(UserNameChangedFact changedFact)
         {
-            Name = fact.NewUserName;
+            Name = changedFact.NewUserName;
         }
 
-        public void Apply(SetUserPasswordFact fact)
+        public void Apply(UserPasswordChangedFact changedFact)
         {
-            HashedPassword = fact.HashedPassword;
+            HashedPassword = changedFact.NewHashedPassword;
         }
 
         public void ChangeUserName(string newUserName)
         {
-            var fact = new ChangeUserNameFact
+            var fact = new UserNameChangedFact
             {
                 AggregateRootId = Id,
                 NewUserName = newUserName
@@ -72,10 +72,10 @@ namespace Domain.Aggregates.UserAggregate
 
         public void SetUserPassword(string password)
         {
-            var fact = new SetUserPasswordFact
+            var fact = new UserPasswordChangedFact
             {
                 AggregateRootId = Id,
-                HashedPassword = password.ToSha256(Salt)
+                NewHashedPassword = password.ToSha256(Salt)
             };
 
             Append(fact);

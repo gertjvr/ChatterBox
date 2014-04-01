@@ -2,34 +2,40 @@
 using System.Threading.Tasks;
 using ChatterBox.Core.Extentions;
 using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Users.Requests;
-using Domain.Aggregates.UserAggregate;
 using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
     public class CreateUserRequestHandler : IHandleRequest<CreateUserRequest, CreateUserResponse>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<User> _userRepository;
+        private readonly Func<IUnitOfWork> _unitOfWorkFactory;
 
-        public CreateUserRequestHandler(
-            IUnitOfWork unitOfWork,
-            IRepository<User> userRepository)
+        public CreateUserRequestHandler(Func<IUnitOfWork> unitOfWorkFactory)
         {
-            _unitOfWork = unitOfWork;
-            _userRepository = userRepository;
+            _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public Task<CreateUserResponse> Handle(CreateUserRequest request)
         {
-            var user = new User(request.UserName, request.Email, request.Email.ToMD5(), request.Salt, request.HashedPassword);
+            using (var unitOfWork = _unitOfWorkFactory())
+            {
+                var repository = unitOfWork.Repository<User>();
 
-            _userRepository.Add(user);
+                var user = new User(
+                    request.UserName,
+                    request.Email,
+                    request.Email.ToMD5(),
+                    request.Salt,
+                    request.HashedPassword);
 
-            _unitOfWork.Complete();
+                repository.Add(user);
 
-            return Task.FromResult(new CreateUserResponse(user.Id));
+                unitOfWork.Complete();
+
+                return Task.FromResult(new CreateUserResponse(user.Id));   
+            }
         }
     }
 }

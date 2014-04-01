@@ -5,7 +5,7 @@ using ChatterBox.Core.Infrastructure.Facts;
 using ChatterBox.Core.Infrastructure.Queries;
 using ChatterBox.Core.Persistence;
 
-namespace Domain.AutofacModules
+namespace ChatterBox.Domain.AutofacModules
 {
     public class DomainModule : Module
     {

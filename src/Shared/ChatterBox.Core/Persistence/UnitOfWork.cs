@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Facts;
@@ -10,6 +11,7 @@ namespace ChatterBox.Core.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private readonly ILifetimeScope _scope;
         private readonly IFactStore _factStore;
         private readonly IDomainEventBroker _domainEventBroker;
         private readonly List<IAggregateRoot> _enlistedItems = new List<IAggregateRoot>();
@@ -17,8 +19,10 @@ namespace ChatterBox.Core.Persistence
         private bool _completed;
         private bool _abandoned;
 
-        public UnitOfWork(IFactStore factStore, IDomainEventBroker domainEventBroker, IClock clock)
+        public UnitOfWork(ILifetimeScope scope, IFactStore factStore, IDomainEventBroker domainEventBroker, IClock clock)
         {
+            _scope = scope.BeginLifetimeScope();
+
             _factStore = factStore;
             _domainEventBroker = domainEventBroker;
             _clock = clock;
@@ -27,6 +31,11 @@ namespace ChatterBox.Core.Persistence
         public void Enlist(IAggregateRoot item)
         {
             _enlistedItems.Add(item);
+        }
+
+        public IRepository<T> Repository<T>() where T : IAggregateRoot
+        {
+            return _scope.Resolve<IRepository<T>>();
         }
 
         public EventHandler<EventArgs> Completed { get; set; }

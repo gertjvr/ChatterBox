@@ -1,8 +1,8 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Entities;
-using Domain.Aggregates.MessageAggregate.Facts;
+using ChatterBox.Domain.Aggregates.MessageAggregate.Facts;
 
-namespace Domain.Aggregates.MessageAggregate
+namespace ChatterBox.Domain.Aggregates.MessageAggregate
 {
     [Serializable]
     public class Message : AggregateRoot

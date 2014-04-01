@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ChatterBox.Core.Infrastructure.Entities;
-using Domain.Aggregates.MessageAggregate;
-using Domain.Aggregates.RoomAggregate.Facts;
+using ChatterBox.Domain.Aggregates.MessageAggregate;
+using ChatterBox.Domain.Aggregates.RoomAggregate.Facts;
 
-namespace Domain.Aggregates.RoomAggregate
+namespace ChatterBox.Domain.Aggregates.RoomAggregate
 {
     [Serializable]
     public class Room : AggregateRoot
@@ -33,6 +33,14 @@ namespace Domain.Aggregates.RoomAggregate
             return conversation;
         }
 
+        public static string Topic { get; protected set; }
+
+        public ICollection<Message> Messages { get; protected set; }
+
+        public ICollection<Guid> Owners { get; protected set; }
+
+        public ICollection<Guid> Contacts { get; protected set; }
+
         public void Apply(RoomCreatedFact fact)
         {
             Id = fact.AggregateRootId;
@@ -43,14 +51,6 @@ namespace Domain.Aggregates.RoomAggregate
             foreach (var c in fact.Users)
                 Contacts.Add(c);
         }
-
-        public static string Topic { get; protected set; }
-
-        public ICollection<Message> Messages { get; protected set; }
-
-        public ICollection<Guid> Owners { get; protected set; }
-
-        public ICollection<Guid> Contacts { get; protected set; }
 
         public void Apply(UserAddedFact fact)
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
 
-namespace Domain.Aggregates.UserIdentityAggregate.Facts
+namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate.Facts
 {
     [Serializable]
     public class UserIdentityCreatedFact : FactAbout<UserIdentity>

@@ -94,6 +94,7 @@
     <Compile Include="AutoSpecFor.cs" />
     <Compile Include="Conventions\AllTypesRegisteredWithTheContainer.cs" />
     <Compile Include="Conventions\AllTypesRegisteredWithTheServerContainer.cs" />
+    <Compile Include="Handlers\Users\WhenChangeUserNameCommandHandler.cs" />
     <Compile Include="Handlers\Users\WhenCreateUserRequestHandler.cs" />
     <Compile Include="MessageContracts\Conventions\AllCommandTypes.cs" />
     <Compile Include="MessageContracts\Conventions\AllMessageContractTypeProperties.cs" />
@@ -119,6 +120,10 @@
     <ProjectReference Include="..\..\Shared\ChatterBox.Core\Core.csproj">
       <Project>{FFA4D2D8-9E2B-46CC-8B63-FA7DA1D99841}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\ChatterBox.Domain\Domain.csproj">
+      <Project>{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}</Project>
+      <Name>Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\ChatterBox.MessageContracts\MessageContracts.csproj">
       <Project>{272e3901-c8ad-443c-a870-89c45eb0d0d2}</Project>

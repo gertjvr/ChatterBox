@@ -1,33 +1,37 @@
-﻿using System.Threading.Tasks;
-using Autofac;
+﻿using System;
+using System.Threading.Tasks;
 using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Users.Commands;
-using Domain.Aggregates.UserAggregate;
 using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
     public class ChangeUserNameCommandHandler : IHandleCommand<ChangeUserNameCommand>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<User> _useRepository;
+        private readonly Func<IUnitOfWork> _unitOfWorkFactory;
 
-        public ChangeUserNameCommandHandler(IUnitOfWork unitOfWork, IRepository<User> useRepository)
+        public ChangeUserNameCommandHandler(Func<IUnitOfWork> unitOfWorkFactory)
         {
-            _unitOfWork = unitOfWork;
-            _useRepository = useRepository;
+            _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public Task Handle(ChangeUserNameCommand message)
         {
-            EnsureUserNameIsAvailable(message.NewUserName);
+            using (var unitOfWork = _unitOfWorkFactory())
+            {
+                var repository = unitOfWork.Repository<User>();
 
-            var user = _useRepository.GetById(message.UserId);
-            user.ChangeUserName(message.NewUserName);
+                EnsureUserNameIsAvailable(message.NewUserName);
 
-            _unitOfWork.Complete();
+                var user = repository.GetById(message.UserId);
+                user.ChangeUserName(message.NewUserName);
 
-            return Task.FromResult(0);
+                unitOfWork.Complete();
+
+                return Task.FromResult(0);
+            }
+
         }
 
         private void EnsureUserNameIsAvailable(string newUserName)

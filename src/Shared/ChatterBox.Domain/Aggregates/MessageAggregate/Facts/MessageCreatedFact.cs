@@ -1,7 +1,7 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
 
-namespace Domain.Aggregates.MessageAggregate.Facts
+namespace ChatterBox.Domain.Aggregates.MessageAggregate.Facts
 {
     [Serializable]
     public class MessageCreatedFact : FactAbout<Message>

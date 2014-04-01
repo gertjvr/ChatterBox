@@ -1,15 +1,14 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Entities;
-using Domain.Aggregates.UserIdentityAggregate.Facts;
+using ChatterBox.Domain.Aggregates.UserIdentityAggregate.Facts;
 
-namespace Domain.Aggregates.UserIdentityAggregate
+namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate
 {
     [Serializable]
     public class UserIdentity : AggregateRoot
     {
         protected UserIdentity()
-        {
-            
+        {   
         }
 
         public static UserIdentity Create(Guid userId, string email, string identity, string providerName)
@@ -29,9 +28,21 @@ namespace Domain.Aggregates.UserIdentityAggregate
             return userIdentity;
         }
 
+        public Guid UserId { get; protected set; }
+
+        public string Email { get; protected set; }
+
+        public string Identity { get; protected set; }
+
+        public string ProviderName { get; protected set; }
+
         public void Apply(UserIdentityCreatedFact fact)
         {
-            throw new NotImplementedException();
+            Id = fact.AggregateRootId;
+            UserId = fact.UserId;
+            Email = fact.Email;
+            Identity = fact.Identity;
+            ProviderName = fact.ProviderName;
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Entities;
-using Domain.Aggregates.ClientAggregate.Facts;
+using ChatterBox.Domain.Aggregates.ClientAggregate.Facts;
 
-namespace Domain.Aggregates.ClientAggregate
+namespace ChatterBox.Domain.Aggregates.ClientAggregate
 {
     [Serializable]
     public class Client : AggregateRoot

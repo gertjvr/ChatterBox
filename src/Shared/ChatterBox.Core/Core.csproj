@@ -72,7 +72,6 @@
     <Compile Include="Infrastructure\Facts\IFact.cs" />
     <Compile Include="Infrastructure\IClock.cs" />
     <Compile Include="Infrastructure\ITypesProvider.cs" />
-    <Compile Include="Infrastructure\SourcererFactory.cs" />
     <Compile Include="Infrastructure\SystemClock.cs" />
     <Compile Include="Infrastructure\AssemblyScanningTypesProvider.cs" />
     <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />

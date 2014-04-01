@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Autofac;
 using Autofac.Builder;
 using ChatterBox.Core.Infrastructure;
-using Domain.AutofacModules;
+using ChatterBox.Domain.AutofacModules;
 
 namespace ChatterBox.ChatServer
 {

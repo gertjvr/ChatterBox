@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Domain.Aggregates.UserAggregate;
-using Domain.Aggregates.UserAggregate.Facts;
+using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 using Ploeh.AutoFixture;
 using Shouldly;
 
@@ -11,14 +11,14 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
         protected string NewUserName;
 
         protected override User Given()
-        {   
+        {
+            NewUserName = Fixture.Create<string>();
+
             return Fixture.Create<User>();
         }
 
         protected override void When()
         {
-            NewUserName = Fixture.Create<string>();
-
             Subject.ChangeUserName(NewUserName);
         }
 
@@ -31,10 +31,14 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
         [Then]
         public void ShouldHavePendingFact()
         {
-            var fact = Subject.GetAndClearPendingFacts().OfType<ChangeUserNameFact>().Single();
-            
-            fact.AggregateRootId.ShouldBe(Subject.Id);
-            fact.NewUserName.ShouldBe(NewUserName);
+            var pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserNameChangedFact>().ToArray();
+
+            pendingFacts.Count().ShouldBe(1);
+
+            var fact = pendingFacts.Single();
+
+            Subject.Id.ShouldBe(fact.AggregateRootId);
+            Subject.Name.ShouldBe(fact.NewUserName);
         }
     }
 }
