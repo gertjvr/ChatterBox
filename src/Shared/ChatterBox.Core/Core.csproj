@@ -59,7 +59,10 @@
   <ItemGroup>
     <Compile Include="AutofacModules\CoreModule.cs" />
     <Compile Include="AutofacModules\PersistenceModule.cs" />
-    <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
+    <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
+    <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
+    <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
+    <Compile Include="Extentions\StringExtensions.cs" />
     <Compile Include="Extentions\ObjectExtentions.cs" />
     <Compile Include="Infrastructure\Entities\AggregateRoot.cs" />
     <Compile Include="Infrastructure\Entities\ChildEntity.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Infrastructure\SourcererFactory.cs" />
     <Compile Include="Infrastructure\SystemClock.cs" />
     <Compile Include="Infrastructure\AssemblyScanningTypesProvider.cs" />
+    <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
     <Compile Include="Persistence\Disk\DiskFactStore.cs" />
     <Compile Include="Persistence\IRepository.cs" />
     <Compile Include="Persistence\IUnitOfWork.cs" />

@@ -64,6 +64,10 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Ploeh.AutoFixture, Version=3.18.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AutoFixture.3.18.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+    </Reference>
     <Reference Include="Shouldly">
       <HintPath>..\..\..\packages\Shouldly.2.1.1\lib\net40\Shouldly.dll</HintPath>
     </Reference>
@@ -78,14 +82,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacModules\SubstituteModule.cs" />
+    <Compile Include="AutoSpecFor.cs" />
     <Compile Include="Conventions\AllTypesRegisteredWithTheClientContainer.cs" />
+    <Compile Include="Conventions\AllTypesRegisteredWithTheContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecFor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Client\ChatterBox.ChatClient.Console\App.config">
-      <Link>App.config</Link>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -96,10 +100,6 @@
     <ProjectReference Include="..\..\Shared\ChatterBox.MessageContracts\MessageContracts.csproj">
       <Project>{272e3901-c8ad-443c-a870-89c45eb0d0d2}</Project>
       <Name>MessageContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ChatterBox.Shared.Tests\Shared.Tests.csproj">
-      <Project>{76A6FA46-F5D2-4E9C-96F9-318CB1DCB8AC}</Project>
-      <Name>Shared.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ChatterBox.ChatClient.ConfigurationSettings;
+using ChatterBox.Core.Infrastructure;
 using ConfigInjector.Configuration;
 
 namespace ChatterBox.ChatClient.AutofacModules
@@ -10,16 +10,14 @@ namespace ChatterBox.ChatClient.AutofacModules
         {
             base.Load(builder);
 
+            var coreAssembley = typeof (IClock).Assembly;
+            
             ConfigurationConfigurator.RegisterConfigurationSettings()
-                .FromAssemblies(ThisAssembly)
+                .FromAssemblies(ThisAssembly, coreAssembley)
                 .RegisterWithContainer(configSetting => builder.RegisterInstance(configSetting)
                     .AsSelf()
                     .SingleInstance())
                 .DoYourThing();
-
-            builder.RegisterType<NimbusConnectionStringProvider>()
-                .AsSelf()
-                .SingleInstance();
         }
     }
 }

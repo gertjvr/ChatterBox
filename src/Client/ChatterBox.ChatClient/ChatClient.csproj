@@ -90,15 +90,10 @@
     <Compile Include="AutofacModules\LoggerModule.cs" />
     <Compile Include="ChatClient.cs" />
     <Compile Include="ConfigurationSettings\ChatClientNameSetting.cs" />
-    <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
-    <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
-    <Compile Include="ConfigurationSettings\NimbusConnectionStringProvider.cs" />
-    <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

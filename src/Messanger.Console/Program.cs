@@ -3,8 +3,9 @@ using System.Linq;
 using Autofac;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Persistence;
-using Domain.Aggregates.ContactAggregate;
-using Domain.Aggregates.ConversationAggregate;
+using Domain.Aggregates.MessageAggregate;
+using Domain.Aggregates.RoomAggregate;
+using Domain.Aggregates.UserAggregate;
 
 namespace Messanger.Console
 {
@@ -19,94 +20,99 @@ namespace Messanger.Console
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Conversation>>();
+                var repo = scope.Resolve<IRepository<Room>>();
                 var convo = repo.GetById(Guid.Parse("1f3ae5d8-d02c-47c9-bb67-761ac0d13e03"));
             }
 
-            var fredId = CreateContact("fred");
-            var wilmaId = CreateContact("wilma");
+            var fredId = CreateUser("fred");
+            var wilmaId = CreateUser("wilma");
 
-            var conversationId = StartConversation("Topic", fredId, wilmaId);
+            var roomId = CreateRoom(string.Empty, fredId, wilmaId);
 
-            ChangeConverstationTopic(conversationId, "New Topic");
+            ChangeRoomTopic(roomId, "New Topic");
 
-            SendMessageToConversation(conversationId, fredId, "Hello Wilma");
+            CreateMessage(roomId, fredId, "Hello Wilma");
 
-            var pebblesId = CreateContact("pebbles");
+            var pebblesId = CreateUser("pebbles");
 
-            AddContactToConversation(conversationId, pebblesId);
+            AddUserToRoom(roomId, pebblesId);
         }
 
-        private static void AddContactToConversation(Guid conversationId, Guid pebblesId)
+        private static void AddUserToRoom(Guid roomId, Guid userId)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Conversation>>();
-                var conversation = repo.GetById(conversationId);
+                var repo = scope.Resolve<IRepository<Room>>();
 
-                conversation.AddContact(pebblesId);
+                var conversation = repo.GetById(roomId);
+
+                conversation.AddUser(userId);
 
                 uow.Complete();
             }
         }
 
-        private static void ChangeConverstationTopic(Guid conversationId, string newTopic)
+        private static void ChangeRoomTopic(Guid userId, string newTopic)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Conversation>>();
-                var conversation = repo.GetById(conversationId);
-
+                var repo = scope.Resolve<IRepository<Room>>();
+                
+                var conversation = repo.GetById(userId);
+                
                 conversation.ChangeTopic(newTopic);
 
                 uow.Complete();
             }
         }
 
-        private static Guid CreateContact(string username)
+        private static Guid CreateUser(string name,string email,string hash, string salt, string hashedPassword)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Contact>>();
-                var contact = Contact.Create(username);
-                repo.Add(contact);
+                var repo = scope.Resolve<IRepository<User>>();
+                
+                var user = User.Create(name, email, hash, salt, hashedPassword);
+                repo.Add(user);
                 uow.Complete();
 
-                return contact.Id;
+                return user.Id;
             }
         }
 
-        private static Guid StartConversation(string topic, Guid ownerId, params Guid[] contacts)
+        private static Guid CreateRoom(string topic, Guid ownerId, params Guid[] users)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Conversation>>();
+                var repo = scope.Resolve<IRepository<Room>>();
 
-                var conversation = Conversation.Create(topic, ownerId, contacts);
+                var room = Room.Create(topic, ownerId, users);
 
-                repo.Add(conversation);
+                repo.Add(room);
                 uow.Complete();
 
-                return conversation.Id;
+                return room.Id;
             }
         }
 
-        private static void SendMessageToConversation(Guid conversationId, Guid contactId, string content)
+        private static Guid CreateMessage(Guid roomId, Guid userId, string content)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Conversation>>();
-                var conversation = repo.GetById(conversationId);
+                var repo = scope.Resolve<IRepository<Message>>();
                 var clock = scope.Resolve<IClock>();
 
-                conversation.AddMessage(contactId, content, clock.UtcNow);
+                var message = Message.Create(roomId, userId, content, clock.UtcNow);
 
+                repo.Add(message);
                 uow.Complete();
+
+                return message.Id;
             }
         }
     }

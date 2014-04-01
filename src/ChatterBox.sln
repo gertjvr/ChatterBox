@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageContracts", "Shared\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Shared\ChatterBox.Core\Core.csproj", "{FFA4D2D8-9E2B-46CC-8B63-FA7DA1D99841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Tests", "Tests\ChatterBox.Shared.Tests\Shared.Tests.csproj", "{76A6FA46-F5D2-4E9C-96F9-318CB1DCB8AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Tests\ChatterBox.Domain.Tests\Domain.Tests.csproj", "{76A6FA46-F5D2-4E9C-96F9-318CB1DCB8AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{5EC7351C-2AFD-440E-BBF3-2D57DA1E07F2}"
 EndProject
@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClient.Tests", "Tests\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClient", "Client\ChatterBox.ChatClient\ChatClient.csproj", "{750AAAA0-FD8B-424B-915F-7C140CB17FF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Shared\Domain\Domain.csproj", "{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Shared\ChatterBox.Domain\Domain.csproj", "{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EA31B845-801F-494B-8083-E032B83D4D3D}"
 EndProject

@@ -3,7 +3,7 @@ using Autofac;
 using Nimbus.Logger.Serilog;
 using Serilog;
 
-namespace ChatterBox.ChatServer.AutofacModules
+namespace ChatterBox.ChatClient.AutofacModules
 {
     public class LoggerModule : Module
     {

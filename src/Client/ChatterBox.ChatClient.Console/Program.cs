@@ -6,7 +6,7 @@
         {
             var client = new ChatClient();
 
-            client.Start();
+            client.Connect();
 
             while (true)
             {
@@ -18,7 +18,7 @@
                 client.Send(message).Wait();
             }
 
-            client.Stop();
+            client.Disconnect();
         }
     }
 }

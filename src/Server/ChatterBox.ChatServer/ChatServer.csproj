@@ -89,17 +89,32 @@
     <Compile Include="ChatServer.cs" />
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
     <Compile Include="AutofacModules\BusModule.cs" />
-    <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
-    <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
-    <Compile Include="ConfigurationSettings\NimbusConnectionStringProvider.cs" />
-    <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
-    <Compile Include="Handlers\BroadcastMessageCommandHandler.cs" />
-    <Compile Include="Handlers\SessionHandler.cs" />
+    <Compile Include="Handlers\Admins\AddAdminCommandHandler.cs" />
+    <Compile Include="Handlers\Admins\BanUserCommandHandler.cs" />
+    <Compile Include="Handlers\Admins\RemoveAdminCommandHandler.cs" />
+    <Compile Include="Handlers\Messages\CreateMessageCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\AddOwnerCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\AllowUserCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\ChangeTopicCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\CloseRoomCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\KickUserCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\LockRoomCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\OpenRoomCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\RemoveOwnerCommandHandler.cs" />
+    <Compile Include="Handlers\Owners\UnallowUserCommandHandler.cs" />
+    <Compile Include="Handlers\Rooms\CreateRoomRequestHandler.cs" />
+    <Compile Include="Handlers\Rooms\JoinRoomCommandHandler.cs" />
+    <Compile Include="Handlers\Rooms\LeaveRoomCommandHandler.cs" />
+    <Compile Include="Handlers\Rooms\SetInviteCodeCommandHandler.cs" />
+    <Compile Include="Handlers\Users\ChangeUserNameCommandHandler.cs" />
+    <Compile Include="Handlers\Users\CreateUserRequestHandler.cs" />
+    <Compile Include="Handlers\Users\ConnectClientRequestHandler.cs" />
+    <Compile Include="Handlers\Users\DisconnectClientCommandHandler.cs" />
+    <Compile Include="Handlers\Users\UpdateActivityCommandHandler.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

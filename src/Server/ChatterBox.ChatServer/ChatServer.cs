@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Autofac;
-using ChatterBox.ChatServer.ConfigurationSettings;
+using ChatterBox.Core.ConfigurationSettings;
 using ConfigInjector.QuickAndDirty;
+using Nimbus;
 using Serilog;
 using Serilog.Events;
 
@@ -18,7 +20,14 @@ namespace ChatterBox.ChatServer
 
             _container = IoC.LetThereBeIoC();
 
+            StartNimbus((Bus) _container.Resolve<IBus>());
+
             Log.Information(@"Hello, world!");
+        }
+
+        private void StartNimbus(Bus bus)
+        {
+            bus.Start();
         }
 
         private static void InitializeLogger()
@@ -38,6 +47,8 @@ namespace ChatterBox.ChatServer
             }
 
             Log.Logger = logConfiguration.CreateLogger();
+
+            TaskScheduler.UnobservedTaskException += (sender, args) => Log.Logger.Error(args.Exception, "An unobserved exception was thrown on a TaskScheduler thread.");
         }
 
         public void Stop()

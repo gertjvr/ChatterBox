@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Autofac;
 using Autofac.Builder;
 using ChatterBox.Core.Infrastructure;
-using Domain.Aggregates.ContactAggregate;
+using Domain.Aggregates.UserAggregate;
 
 namespace Messanger.Console
 {
@@ -16,7 +16,7 @@ namespace Messanger.Console
 
             var thisAssembly = typeof(IoC).Assembly;
             var coreAssembly = typeof(SystemClock).Assembly;
-            var domainAssembly = typeof (Contact).Assembly;
+            var domainAssembly = typeof (User).Assembly;
 
             builder.RegisterAssemblyModules(
                 thisAssembly, 

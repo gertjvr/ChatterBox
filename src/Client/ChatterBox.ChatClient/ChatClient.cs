@@ -3,7 +3,10 @@ using System.IO;
 using System.Threading.Tasks;
 using Autofac;
 using ChatterBox.ChatClient.ConfigurationSettings;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.Core.ConfigurationSettings;
+using ChatterBox.MessageContracts.Messages.Commands;
+using ChatterBox.MessageContracts.Users.Commands;
+using ChatterBox.MessageContracts.Users.Requests;
 using ConfigInjector.QuickAndDirty;
 using Nimbus;
 using Serilog;
@@ -14,20 +17,26 @@ namespace ChatterBox.ChatClient
     public class ChatClient
     {
         private Guid _clientId;
+        private Guid _userId;
         private IContainer _container;
         private IBus _bus;
 
-        public void Start(Guid? clientId = null)
+        public async Task<Guid> Connect(string userAgent = null)
         {
             InitializeLogger();
 
             _container = IoC.LetThereBeIoC();
+           
+            _userId = Guid.NewGuid();
 
-            _clientId = clientId ?? Guid.NewGuid();
             _bus = _container.Resolve<IBus>();
-            _bus.Send(new ConnectCommand(_clientId));
+
+            var response = await _bus.Request(new ConnectClientRequest(_userId, userAgent));
+            _clientId = response.ClientId;
 
             Log.Information(@"Hello, world!");
+
+            return _clientId;
         }
 
         private static void InitializeLogger()
@@ -49,9 +58,9 @@ namespace ChatterBox.ChatClient
             Log.Logger = logConfiguration.CreateLogger();
         }
 
-        public void Stop()
+        public void Disconnect()
         {
-            _bus.Send(new DisconnectCommand(_clientId));
+            _bus.Send(new DisconnectClientCommand(_clientId));
 
             Log.Information(@"Goodbye, cruel world!");
 
@@ -61,9 +70,9 @@ namespace ChatterBox.ChatClient
         }
         
 
-        public async Task Send(string message)
+        public async Task Send(Guid roomId, string content)
         {
-            await _bus.Send(new BroadcastMessageCommand(_clientId, message));
+            await _bus.Send(new CreateMessageCommand(roomId, _userId, content));
         }
     }
 }

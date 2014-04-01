@@ -1,9 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Builder;
-using ChatterBox.ChatServer.Tests.AutofacModules;
 using ChatterBox.Core.Infrastructure.Entities;
-using ChatterBox.Shared.Tests.Conventions;
 using NUnit.Framework;
 
 namespace ChatterBox.ChatServer.Tests.Conventions
@@ -13,7 +11,7 @@ namespace ChatterBox.ChatServer.Tests.Conventions
     {
         protected override IContainer CreateContainer()
         {
-            return IoC.LetThereBeIoC(ContainerBuildOptions.IgnoreStartableComponents, builder => builder.RegisterModule<SubstituteModule>());
+            return IoC.LetThereBeIoC(ContainerBuildOptions.IgnoreStartableComponents);
         }
 
         protected override bool Filter(Type serviceType)
