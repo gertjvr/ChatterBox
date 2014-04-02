@@ -59,20 +59,20 @@
   <ItemGroup>
     <Compile Include="AutofacModules\CoreModule.cs" />
     <Compile Include="AutofacModules\PersistenceModule.cs" />
+    <Compile Include="AutofacModules\ServicesModule.cs" />
     <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
     <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
     <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
     <Compile Include="Extentions\StringExtensions.cs" />
     <Compile Include="Extentions\ObjectExtentions.cs" />
+    <Compile Include="Infrastructure\DateTimeHelper.cs" />
     <Compile Include="Infrastructure\Entities\AggregateRoot.cs" />
     <Compile Include="Infrastructure\Entities\ChildEntity.cs" />
     <Compile Include="Infrastructure\Entities\Entity.cs" />
     <Compile Include="Infrastructure\Entities\IAggregateRoot.cs" />
     <Compile Include="Infrastructure\Facts\FactAbout.cs" />
     <Compile Include="Infrastructure\Facts\IFact.cs" />
-    <Compile Include="Infrastructure\IClock.cs" />
     <Compile Include="Infrastructure\ITypesProvider.cs" />
-    <Compile Include="Infrastructure\SystemClock.cs" />
     <Compile Include="Infrastructure\AssemblyScanningTypesProvider.cs" />
     <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
     <Compile Include="Persistence\Disk\DiskFactStore.cs" />
@@ -94,6 +94,8 @@
     <Compile Include="Infrastructure\IHandleFact.cs" />
     <Compile Include="Persistence\Memory\MemoryFactStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CryptoService.cs" />
+    <Compile Include="Services\ICryptoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -18,19 +18,6 @@ namespace ChatterBox.Domain.AutofacModules
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(t => t.IsAssignableTo<IFact>())
                 .InstancePerLifetimeScope();
-
-            builder.RegisterAssemblyTypes(ThisAssembly)
-                .AsClosedTypesOf(typeof(IHandleFact<>))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterGeneric(typeof (Repository<>))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterGeneric(typeof (QueryModel<>))
-                .AsImplementedInterfaces()
-                .SingleInstance();
         }
     }
 }

@@ -1,20 +1,33 @@
-﻿using Ploeh.AutoFixture;
+﻿using System;
+using NUnit.Framework;
+using Ploeh.AutoFixture;
 
 namespace ChatterBox.ChatServer.Tests
 {
-    public abstract class AutoSpecFor<T> : SpecFor<T>
+    public abstract class AutoSpecFor<T>
     {
-        protected readonly IFixture Fixture;
+        private readonly Func<IFixture> _fixtureFactory;
+        
+        protected IFixture Fixture;
 
-        protected AutoSpecFor()
-            : this(new Fixture())
+        protected AutoSpecFor(Func<IFixture> fixtureFactory)
         {
-   
+            _fixtureFactory = fixtureFactory;
         }
 
-        protected AutoSpecFor(IFixture fixture)
+        protected T Subject;
+
+        protected abstract T Given();
+
+        protected abstract void When();
+
+        [SetUp]
+        public void SetUp()
         {
-            Fixture = fixture;
+            Fixture = _fixtureFactory();
+
+            Subject = Given();
+            When();
         }
     }
 }

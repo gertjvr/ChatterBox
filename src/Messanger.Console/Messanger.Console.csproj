@@ -68,7 +68,7 @@
       <Project>{ffa4d2d8-9e2b-46cc-8b63-fa7da1d99841}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Shared\Domain\Domain.csproj">
+    <ProjectReference Include="..\Shared\ChatterBox.Domain\Domain.csproj">
       <Project>{d81eb12f-d0e1-44c4-a8a7-2c6d18ae5fa5}</Project>
       <Name>Domain</Name>
     </ProjectReference>

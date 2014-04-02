@@ -94,8 +94,8 @@
     <Compile Include="AutoSpecFor.cs" />
     <Compile Include="Conventions\AllTypesRegisteredWithTheContainer.cs" />
     <Compile Include="Conventions\AllTypesRegisteredWithTheServerContainer.cs" />
-    <Compile Include="Handlers\Users\WhenChangeUserNameCommandHandler.cs" />
-    <Compile Include="Handlers\Users\WhenCreateUserRequestHandler.cs" />
+    <Compile Include="Scenarios\WhenChangingUserName.cs" />
+    <Compile Include="Scenarios\WhenCreatingAUser.cs" />
     <Compile Include="MessageContracts\Conventions\AllCommandTypes.cs" />
     <Compile Include="MessageContracts\Conventions\AllMessageContractTypeProperties.cs" />
     <Compile Include="MessageContracts\Conventions\AllMessageContractTypes.cs" />

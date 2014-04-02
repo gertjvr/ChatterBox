@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using ChatterBox.MessageContracts.Messages.Commands;
+using ChatterBox.MessageContracts.Commands;
 using Nimbus.Handlers;
 using Nimbus.MessageContracts;
 using NUnit.Framework;

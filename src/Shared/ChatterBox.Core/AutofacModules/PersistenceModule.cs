@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ChatterBox.Core.ConfigurationSettings;
 using ChatterBox.Core.Infrastructure;
+using ChatterBox.Core.Infrastructure.Queries;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Persistence.Disk;
 
@@ -29,6 +30,20 @@ namespace ChatterBox.Core.AutofacModules
             builder.RegisterType<UnitOfWork>()
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IHandleFact<>))
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(Repository<>))
+                .AsImplementedInterfaces()
+                .InstancePerOwned<IUnitOfWork>();
+
+            builder.RegisterGeneric(typeof(QueryModel<>))
+                .AsImplementedInterfaces()
+                .SingleInstance();
+            
         }
     }
 }

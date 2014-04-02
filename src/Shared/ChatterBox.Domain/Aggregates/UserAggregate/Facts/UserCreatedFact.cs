@@ -1,4 +1,5 @@
-﻿using ChatterBox.Core.Infrastructure.Facts;
+﻿using System;
+using ChatterBox.Core.Infrastructure.Facts;
 
 namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
 {
@@ -13,5 +14,7 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
         public string Salt { get; set; }
 
         public string HashedPassword { get; set; }
+        
+        public DateTimeOffset LastActivity { get; set; }
     }
 }

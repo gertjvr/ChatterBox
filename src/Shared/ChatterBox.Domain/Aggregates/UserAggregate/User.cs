@@ -1,5 +1,6 @@
 ﻿using System;
 using ChatterBox.Core.Extentions;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 
@@ -22,6 +23,10 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public string HashedPassword { get; protected set; }
 
+        public UserRole UserRole { get; protected set; }
+
+        public DateTimeOffset LastActivity { get; protected set; }
+
         public User(string name, string email, string hash, string salt, string hashedPassword)
         {
             var fact = new UserCreatedFact
@@ -32,6 +37,7 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
                 Hash = hash,
                 Salt = salt,
                 HashedPassword = hashedPassword,
+                LastActivity = DateTimeHelper.UtcNow,
             };
 
             Append(fact);
@@ -46,16 +52,7 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Hash = fact.Hash;
             Salt = fact.Salt;
             HashedPassword = fact.HashedPassword;
-        }
-
-        public void Apply(UserNameChangedFact changedFact)
-        {
-            Name = changedFact.NewUserName;
-        }
-
-        public void Apply(UserPasswordChangedFact changedFact)
-        {
-            HashedPassword = changedFact.NewHashedPassword;
+            LastActivity = fact.LastActivity;
         }
 
         public void ChangeUserName(string newUserName)
@@ -70,6 +67,28 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Apply(fact);
         }
 
+        public void Apply(UserNameChangedFact fact)
+        {
+            Name = fact.NewUserName;
+        }
+
+        public void ChangeUserRole(UserRole userRole)
+        {
+            var fact = new UserRoleChangedFact
+            {
+                AggregateRootId = Id,
+                UserRole = userRole
+            };
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(UserRoleChangedFact fact)
+        {
+            UserRole = fact.UserRole;
+        }
+
         public void SetUserPassword(string password)
         {
             var fact = new UserPasswordChangedFact
@@ -80,6 +99,11 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
             Append(fact);
             Apply(fact);
+        }
+
+        public void Apply(UserPasswordChangedFact changedFact)
+        {
+            HashedPassword = changedFact.NewHashedPassword;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Autofac;
 using Autofac.Builder;
 using ChatterBox.Core.Infrastructure;
+using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.AutofacModules;
 
 namespace ChatterBox.ChatServer
@@ -15,7 +16,7 @@ namespace ChatterBox.ChatServer
             var builder = new ContainerBuilder();
 
             var thisAssembly = typeof(IoC).Assembly;
-            var coreAssembly = typeof (SystemClock).Assembly;
+            var coreAssembly = typeof(IAggregateRoot).Assembly;
             var domainAssembly = typeof(DomainModule).Assembly;
 
             builder.RegisterAssemblyModules(thisAssembly, coreAssembly, domainAssembly);

@@ -11,21 +11,19 @@ namespace ChatterBox.Core.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ILifetimeScope _scope;
         private readonly IFactStore _factStore;
         private readonly IDomainEventBroker _domainEventBroker;
         private readonly List<IAggregateRoot> _enlistedItems = new List<IAggregateRoot>();
-        private readonly IClock _clock;
+        private readonly ILifetimeScope _scope;
+
         private bool _completed;
         private bool _abandoned;
 
-        public UnitOfWork(ILifetimeScope scope, IFactStore factStore, IDomainEventBroker domainEventBroker, IClock clock)
+        public UnitOfWork(IFactStore factStore, IDomainEventBroker domainEventBroker, ILifetimeScope scope)
         {
-            _scope = scope.BeginLifetimeScope();
-
             _factStore = factStore;
             _domainEventBroker = domainEventBroker;
-            _clock = clock;
+            _scope = scope;
         }
 
         public void Enlist(IAggregateRoot item)
@@ -33,9 +31,9 @@ namespace ChatterBox.Core.Persistence
             _enlistedItems.Add(item);
         }
 
-        public IRepository<T> Repository<T>() where T : IAggregateRoot
+        public IRepository<TAggregateRoot> Repository<TAggregateRoot>() where TAggregateRoot : IAggregateRoot
         {
-            return _scope.Resolve<IRepository<T>>();
+            return _scope.Resolve<IRepository<TAggregateRoot>>();
         }
 
         public EventHandler<EventArgs> Completed { get; set; }
@@ -59,7 +57,7 @@ namespace ChatterBox.Core.Persistence
                 facts.AddRange(factsFromThisPass);
                 foreach (var fact in factsFromThisPass)
                 {
-                    fact.SetUnitOfWorkProperties(new UnitOfWorkProperties(unitOfWorkId, sequenceNumber, _clock.UtcNow));
+                    fact.SetUnitOfWorkProperties(new UnitOfWorkProperties(unitOfWorkId, sequenceNumber, DateTimeHelper.UtcNow));
                     _domainEventBroker.Raise((dynamic) fact);
 
                     sequenceNumber++;

@@ -7,7 +7,7 @@ namespace ChatterBox.Core.Persistence
     {
         void Enlist(IAggregateRoot item);
 
-        IRepository<T> Repository<T>() where T : IAggregateRoot;
+        IRepository<TAggregateRoot> Repository<TAggregateRoot>() where TAggregateRoot : IAggregateRoot; 
         
         EventHandler<EventArgs> Completed { get; set; }
         void Complete();

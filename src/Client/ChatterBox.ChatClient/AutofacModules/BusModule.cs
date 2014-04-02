@@ -3,7 +3,7 @@ using System.Reflection;
 using Autofac;
 using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.Core.ConfigurationSettings;
-using ChatterBox.MessageContracts.Messages.Commands;
+using ChatterBox.MessageContracts.Commands;
 using Nimbus;
 using Nimbus.Configuration;
 using Nimbus.Infrastructure;

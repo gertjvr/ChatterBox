@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ChatterBox.Core.Infrastructure;
+using ChatterBox.Core.Infrastructure.Entities;
 using ConfigInjector.Configuration;
 
 namespace ChatterBox.ChatServer.AutofacModules
@@ -10,7 +10,7 @@ namespace ChatterBox.ChatServer.AutofacModules
         {
             base.Load(builder);
 
-            var coreAssembly = typeof(IClock).Assembly;
+            var coreAssembly = typeof(IAggregateRoot).Assembly;
             ConfigurationConfigurator.RegisterConfigurationSettings()
                 .FromAssemblies(ThisAssembly, coreAssembly)
                 .RegisterWithContainer(configSetting => builder.RegisterInstance(configSetting)

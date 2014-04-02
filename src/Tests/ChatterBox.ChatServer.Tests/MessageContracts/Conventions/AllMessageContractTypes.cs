@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Autofac;
-using ChatterBox.MessageContracts.Messages.Commands;
+using ChatterBox.MessageContracts.Commands;
 using Nimbus.MessageContracts;
 using NUnit.Framework;
 using Shouldly;

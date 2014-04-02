@@ -44,12 +44,18 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="ThirdDrawer, Version=1.0.1.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\ThirdDrawer.1.0.1.4\lib\net40\ThirdDrawer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregates\ClientAggregate\Client.cs" />
     <Compile Include="Aggregates\ClientAggregate\Facts\ClientCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Facts\MessageCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
+    <Compile Include="Aggregates\UserAggregate\UserRole.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\UserRoleChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserNameChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserPasswordChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\User.cs" />
@@ -62,6 +68,7 @@
     <Compile Include="Aggregates\UserIdentityAggregate\UserIdentity.cs" />
     <Compile Include="AutofacModules\DomainModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\EnsureUserNameIsAvailibleQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatterBox.Core\Core.csproj">

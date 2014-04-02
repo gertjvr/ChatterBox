@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using ChatterBox.Core.Infrastructure;
 
 namespace ChatterBox.Core.AutofacModules
 {
@@ -7,9 +6,7 @@ namespace ChatterBox.Core.AutofacModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<SystemClock>()
-                   .AsImplementedInterfaces()
-                   .SingleInstance();
+           base.Load(builder);
         }
     }
 }

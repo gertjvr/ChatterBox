@@ -11,7 +11,7 @@ namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate
         {   
         }
 
-        public static UserIdentity Create(Guid userId, string email, string identity, string providerName)
+        public UserIdentity(Guid userId, string email, string identity, string providerName)
         {
             var fact = new UserIdentityCreatedFact
             {
@@ -22,10 +22,8 @@ namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate
                 ProviderName = providerName,
             };
 
-            var userIdentity = new UserIdentity();
-            userIdentity.Append(fact);
-            userIdentity.Apply(fact);
-            return userIdentity;
+            Append(fact);
+            Apply(fact);
         }
 
         public Guid UserId { get; protected set; }
