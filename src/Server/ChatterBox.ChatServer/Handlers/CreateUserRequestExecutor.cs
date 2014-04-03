@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Autofac.Features.OwnedInstances;
-using ChatterBox.Core.Extentions;
+using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Services;
 using ChatterBox.Domain.Aggregates.UserAggregate;

@@ -59,6 +59,8 @@
     <Compile Include="Commands\OpenRoomCommand.cs" />
     <Compile Include="Commands\RemoveOwnerCommand.cs" />
     <Compile Include="Commands\UnallowUserCommand.cs" />
+    <Compile Include="Requests\AuthenticateUserResponse.cs" />
+    <Compile Include="Requests\AuthenticateUserRequest.cs" />
     <Compile Include="Requests\CreateRoomResponse.cs" />
     <Compile Include="Requests\CreateRoomRequest.cs" />
     <Compile Include="Commands\JoinRoomCommand.cs" />

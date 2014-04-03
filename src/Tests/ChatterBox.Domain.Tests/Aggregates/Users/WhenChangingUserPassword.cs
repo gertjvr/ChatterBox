@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using ChatterBox.Core.Extentions;
+using ChatterBox.Core.Extensions;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 using Ploeh.AutoFixture;
@@ -22,7 +22,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
 
         protected override void When()
         {
-            Subject.SetUserPassword(NewPassword);
+            Subject.ChangePassword(NewPassword);
         }
 
         [Then]

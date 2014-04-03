@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Autofac.Features.OwnedInstances;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Requests;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class ConnectClientRequestHandler : IHandleRequest<ConnectClientRequest, ConnectClientResponse>
+    public class ConnectClientRequestHandler
+        : ScopedRequestHandler<ConnectClientRequest, ConnectClientResponse>
     {
-        public Task<ConnectClientResponse> Handle(ConnectClientRequest request)
+        public ConnectClientRequestHandler(Func<Owned<IUnitOfWork>> unitOfWork)
+            : base(unitOfWork)
         {
-            throw new NotImplementedException();
+        }
+
+        public override async Task<ConnectClientResponse> Execute(IUnitOfWork context, ConnectClientRequest request)
+        {
+            return new ConnectClientResponse(Guid.NewGuid());
         }
     }
 }

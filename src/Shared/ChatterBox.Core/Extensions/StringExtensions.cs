@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ChatterBox.Core.Extentions
+namespace ChatterBox.Core.Extensions
 {
     public static class StringExtensions
     {

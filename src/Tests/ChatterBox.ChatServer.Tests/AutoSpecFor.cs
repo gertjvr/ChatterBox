@@ -1,21 +1,27 @@
 ﻿using System;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.AutoNSubstitute;
 
 namespace ChatterBox.ChatServer.Tests
 {
     public abstract class AutoSpecFor<T>
     {
-        private readonly Func<IFixture> _fixtureFactory;
-        
+        private readonly Func<IFixture> _fixture;
+
         protected IFixture Fixture;
 
-        protected AutoSpecFor(Func<IFixture> fixtureFactory)
+        protected T Subject;
+
+        protected AutoSpecFor()
+            : this(() => new Fixture().Customize(new AutoNSubstituteCustomization()))
         {
-            _fixtureFactory = fixtureFactory;
         }
 
-        protected T Subject;
+        protected AutoSpecFor(Func<IFixture> fixture)
+        {
+            _fixture = fixture;
+        }
 
         protected abstract T Given();
 
@@ -24,8 +30,7 @@ namespace ChatterBox.ChatServer.Tests
         [SetUp]
         public void SetUp()
         {
-            Fixture = _fixtureFactory();
-
+            Fixture = _fixture();
             Subject = Given();
             When();
         }

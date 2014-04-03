@@ -1,5 +1,4 @@
 ﻿using System;
-using ChatterBox.Core.Extentions;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
@@ -89,21 +88,38 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             UserRole = fact.UserRole;
         }
 
-        public void SetUserPassword(string password)
+        public void ChangePassword(string newHashedPassword)
         {
             var fact = new UserPasswordChangedFact
             {
                 AggregateRootId = Id,
-                NewHashedPassword = password.ToSha256(Salt)
+                NewHashedPassword = newHashedPassword
             };
 
             Append(fact);
             Apply(fact);
         }
 
-        public void Apply(UserPasswordChangedFact changedFact)
+        public void Apply(UserPasswordChangedFact fact)
         {
-            HashedPassword = changedFact.NewHashedPassword;
+            HashedPassword = fact.NewHashedPassword;
+        }
+
+        public void ChangeSalt(string newSalt)
+        {
+            var fact = new UserSaltChangedFact
+            {
+                AggregateRootId = Id,
+                NewSalt = newSalt
+            };
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(UserSaltChangedFact fact)
+        {
+            Salt = fact.NewSalt;
         }
     }
 }

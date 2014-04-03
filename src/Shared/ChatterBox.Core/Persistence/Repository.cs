@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using ChatterBox.Core.Extentions;
+using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Queries;
 using ThirdDrawer.Extensions.CollectionExtensionMethods;

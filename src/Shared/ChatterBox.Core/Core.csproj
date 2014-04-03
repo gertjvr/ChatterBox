@@ -63,8 +63,8 @@
     <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
     <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
     <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
-    <Compile Include="Extentions\StringExtensions.cs" />
-    <Compile Include="Extentions\ObjectExtentions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\DateTimeHelper.cs" />
     <Compile Include="Infrastructure\Entities\AggregateRoot.cs" />
     <Compile Include="Infrastructure\Entities\ChildEntity.cs" />

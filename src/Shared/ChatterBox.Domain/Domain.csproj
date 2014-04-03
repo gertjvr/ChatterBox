@@ -54,6 +54,7 @@
     <Compile Include="Aggregates\ClientAggregate\Facts\ClientCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Facts\MessageCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\UserSaltChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\UserRole.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserRoleChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserNameChangedFact.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="AutofacModules\DomainModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\EnsureUserNameIsAvailibleQuery.cs" />
+    <Compile Include="Queries\GetUserByNameQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatterBox.Core\Core.csproj">

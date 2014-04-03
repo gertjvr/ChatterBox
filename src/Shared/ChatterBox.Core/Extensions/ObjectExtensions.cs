@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace ChatterBox.Core.Extentions
+namespace ChatterBox.Core.Extensions
 {
-    public static class ObjectExtentions
+    public static class ObjectExtensions
     {
         public static T Clone<T>(this T source)
         {

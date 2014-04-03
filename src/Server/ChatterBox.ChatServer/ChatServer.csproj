@@ -90,6 +90,7 @@
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
     <Compile Include="AutofacModules\BusModule.cs" />
     <Compile Include="Handlers\AddAdminScopedCommandHandler.cs" />
+    <Compile Include="Handlers\AuthenticateUserRequestHandler.cs" />
     <Compile Include="Handlers\BanUserCommandHandler.cs" />
     <Compile Include="Handlers\RemoveAdminCommandHandler.cs" />
     <Compile Include="Handlers\CreateMessageCommandHandler.cs" />

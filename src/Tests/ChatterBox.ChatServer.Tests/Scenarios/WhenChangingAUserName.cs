@@ -5,12 +5,11 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Commands;
 using NSubstitute;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoNSubstitute;
 using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenChangingUserName : AutoSpecFor<ChangeUserNameCommandHandler>
+    public class WhenChangingAUserName : AutoSpecFor<ChangeUserNameCommandHandler>
     {
         protected ChangeUserNameCommand Command;
         protected User User;
@@ -18,39 +17,36 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         protected IUnitOfWork UnitOfWork;
         protected IRepository<User> Repository;
 
-        public WhenChangingUserName()
-            : base(() => new Fixture().Customize(new AutoNSubstituteCustomization()))
-        {   
-        }
-
         protected override ChangeUserNameCommandHandler Given()
         {
+            Command = Fixture.Create<ChangeUserNameCommand>();
+
             User = Fixture.Freeze<User>();
 
             Repository = Fixture.Freeze<IRepository<User>>();
-            Repository.GetById(Arg.Any<Guid>()).Returns(User);
+            Repository.GetById(Arg.Any<Guid>())
+                .Returns(User);
 
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();
-            UnitOfWork.Repository<User>().Returns(Repository);
+            UnitOfWork.Repository<User>()
+                .Returns(Repository);
 
             return Fixture.Create<ChangeUserNameCommandHandler>();
         }
 
         protected override async void When()
         {
-            Command = Fixture.Create<ChangeUserNameCommand>();
-
             await Subject.Handle(Command);
         }
 
         [Then]
-        public void UserNameChangedCorrectly()
+        public void ShouldHaveChangedUserName()
         {
             User.Name.ShouldBe(Command.NewUserName);
         }
 
         [Then]
-        public void UnitOfWorkCompletedSuccesful()
+        public void ShouldHaveCompletedUnitOfWork()
         {
             UnitOfWork.Received(1).Complete();
         } 
