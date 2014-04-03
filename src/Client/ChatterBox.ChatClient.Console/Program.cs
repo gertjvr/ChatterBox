@@ -1,4 +1,6 @@
-﻿namespace ChatterBox.ChatClient.Console
+﻿using System;
+
+namespace ChatterBox.ChatClient.Console
 {
     internal class Program
     {
@@ -15,7 +17,7 @@
                 if (message == "quit")
                     break;
 
-                client.Send(message).Wait();
+                client.Send(Guid.NewGuid(), message).Wait();
             }
 
             client.Disconnect();

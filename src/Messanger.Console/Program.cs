@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Linq;
 using Autofac;
+using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Persistence;
-using Domain.Aggregates.MessageAggregate;
-using Domain.Aggregates.RoomAggregate;
-using Domain.Aggregates.UserAggregate;
+using ChatterBox.Core.Services;
+using ChatterBox.Domain.Aggregates.MessageAggregate;
+using ChatterBox.Domain.Aggregates.RoomAggregate;
+using ChatterBox.Domain.Aggregates.UserAggregate;
 
 namespace Messanger.Console
 {
@@ -24,8 +25,8 @@ namespace Messanger.Console
                 var convo = repo.GetById(Guid.Parse("1f3ae5d8-d02c-47c9-bb67-761ac0d13e03"));
             }
 
-            var fredId = CreateUser("fred");
-            var wilmaId = CreateUser("wilma");
+            var fredId = CreateUser("fred", "fred@rocks.com", "test@password");
+            var wilmaId = CreateUser("wilma", "wilma@rocks.com", "test@password");
 
             var roomId = CreateRoom(string.Empty, fredId, wilmaId);
 
@@ -33,7 +34,7 @@ namespace Messanger.Console
 
             CreateMessage(roomId, fredId, "Hello Wilma");
 
-            var pebblesId = CreateUser("pebbles");
+            var pebblesId = CreateUser("pebbles", "pebbles@rocks.com", "test@password");
 
             AddUserToRoom(roomId, pebblesId);
         }
@@ -68,14 +69,16 @@ namespace Messanger.Console
             }
         }
 
-        private static Guid CreateUser(string name,string email,string hash, string salt, string hashedPassword)
+        private static Guid CreateUser(string name,string email, string password)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = scope.Resolve<IRepository<User>>();
-                
-                var user = User.Create(name, email, hash, salt, hashedPassword);
+                var crypto = scope.Resolve<ICryptoService>();
+
+                var salt = crypto.CreateSalt();
+                var user = new User(name, email, email.ToMD5(), salt, password.ToSha256(salt));
                 repo.Add(user);
                 uow.Complete();
 
@@ -105,9 +108,8 @@ namespace Messanger.Console
             {
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = scope.Resolve<IRepository<Message>>();
-                var clock = scope.Resolve<IClock>();
-
-                var message = Message.Create(roomId, userId, content, clock.UtcNow);
+                
+                var message = Message.Create(roomId, userId, content, DateTimeHelper.UtcNow);
 
                 repo.Add(message);
                 uow.Complete();

@@ -2,8 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Autofac;
 using Autofac.Builder;
-using ChatterBox.Core.Infrastructure;
-using Domain.Aggregates.UserAggregate;
+using ChatterBox.Core.Infrastructure.Entities;
+using ChatterBox.Domain.Aggregates.UserAggregate;
 
 namespace Messanger.Console
 {
@@ -15,7 +15,7 @@ namespace Messanger.Console
             var builder = new ContainerBuilder();
 
             var thisAssembly = typeof(IoC).Assembly;
-            var coreAssembly = typeof(SystemClock).Assembly;
+            var coreAssembly = typeof(IAggregateRoot).Assembly;
             var domainAssembly = typeof (User).Assembly;
 
             builder.RegisterAssemblyModules(
