@@ -14,15 +14,17 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
 
         protected override User Given()
         {
-            NewPassword = Fixture.Create<string>();
-            NewHashedPassword = NewPassword.ToSha256(Subject.Salt);
+            var user = Fixture.Create<User>();
 
-            return Fixture.Create<User>();
+            NewPassword = Fixture.Create<string>();
+            NewHashedPassword = NewPassword.ToSha256(user.Salt);
+
+            return user;
         }
 
         protected override void When()
         {
-            Subject.ChangePassword(NewPassword);
+            Subject.ChangePassword(NewHashedPassword);
         }
 
         [Then]

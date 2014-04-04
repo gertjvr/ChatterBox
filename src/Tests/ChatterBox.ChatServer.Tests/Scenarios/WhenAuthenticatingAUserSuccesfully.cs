@@ -14,6 +14,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
 {
     public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoSpecFor<AuthenticateUserRequestHandler>
     {
+        protected User User;
         protected User[] Users;
 
         protected IRepository<User> Repository;
@@ -32,11 +33,12 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                 .With(p => p.Password, password)
                 .Create();
 
-            Users = Fixture.Build<User>()
+            User = Fixture.Build<User>()
                 .Do(u => u.ChangeSalt(salt))
                 .Do(u => u.ChangePassword(hashedPassword))
-                .CreateMany(1)
-                .ToArray();
+                .Create();
+
+            Users = new []{ User };
 
             Repository = Fixture.Freeze<IRepository<User>>();
             Repository.Query(Arg.Any<GetUserByNameQuery>())
@@ -55,15 +57,15 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         }
 
         [Then]
-        public void ShouldHaveAuthenticatedTheUser()
+        public void ShouldReturnCorrectUserId()
         {
-            Response.IsAutenticated.ShouldBe(true);
+            Response.UserId.ShouldBe(User.Id);
         }
 
         [Then]
-        public void ShouldReturnCorrectUserId()
+        public void ShouldReturnClientId()
         {
-            Response.UserId.ShouldNotBe(Guid.Empty);
+            Response.ClientId.ShouldNotBe(Guid.Empty);
         }
     }
 }

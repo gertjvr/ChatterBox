@@ -25,6 +25,22 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         public UserRole UserRole { get; protected set; }
 
         public DateTimeOffset LastActivity { get; protected set; }
+        
+        public bool Active { get; protected set; }
+
+        public UserStatus Status { get; protected set; }
+        
+        public string Note { get; protected set; }
+        
+        public string AfkNote { get; protected set; }
+        
+        public bool IsAfk { get; protected set; }
+        
+        public string Flag { get; protected set; }
+        
+        public string Country { get; protected set; }
+        
+        public bool IsAdmin { get; protected set; }
 
         public User(string name, string email, string hash, string salt, string hashedPassword)
         {

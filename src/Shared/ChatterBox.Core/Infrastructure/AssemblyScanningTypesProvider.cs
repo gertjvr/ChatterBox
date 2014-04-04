@@ -9,7 +9,7 @@ using ThirdDrawer.Extensions.TypeExtensionMethods;
 
 namespace ChatterBox.Core.Infrastructure
 {
-    internal class AssemblyScanningTypesProvider : ITypesProvider
+    public class AssemblyScanningTypesProvider : ITypesProvider
     {
         private readonly Assembly[] _assembliesToScan;
         private readonly Lazy<Type[]> _factTypes;

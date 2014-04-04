@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ChatterBox.ChatClient.Models;
+
+namespace ChatterBox.ChatClient
+{
+    public interface IChatClient
+    {
+        Task<LogOnInfo> Connect(string name, string password);
+        Task<User> GetUserInfo();
+        Task LogOut();
+        Task Send(string message, Guid roomId);
+        Task CreateRoom(string roomName);
+        Task JoinRoom(Guid roomId);
+        Task LeaveRoom(Guid roomId);
+        Task SetFlag(string countryCode);
+        Task SetNote(string noteText);
+        Task SendPrivateMessage(Guid userId, string message);
+        Task Kick(Guid userId, Guid roomId);
+        Task<bool> CheckStatus();
+        Task SetTyping(Guid roomId);
+        Task<IEnumerable<Message>> GetPreviousMessages(string fromId);
+        Task<Room> GetRoomInfo(Guid roomId);
+        Task<IEnumerable<Room>> GetRooms();
+        void Disconnect();
+    }
+}

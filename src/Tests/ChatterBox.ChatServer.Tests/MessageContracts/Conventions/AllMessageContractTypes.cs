@@ -38,7 +38,7 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
         {
             public IEnumerator<TestCaseData> GetEnumerator()
             {
-                return typeof (CreateMessageCommand)
+                return typeof (SendMessageCommand)
                     .Assembly
                     .GetExportedTypes()
                     .Where(IsRequestOrResponseOrCommandOrEventType)

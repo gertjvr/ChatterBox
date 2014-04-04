@@ -39,8 +39,9 @@
     <Reference Include="ConfigInjector">
       <HintPath>..\..\..\packages\ConfigInjector.1.1.0.6\lib\net45\ConfigInjector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceBus, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.2.2.7.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+    <Reference Include="Microsoft.ServiceBus, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.2.1.4.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -88,9 +89,24 @@
     <Compile Include="AutofacModules\BusModule.cs" />
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
     <Compile Include="AutofacModules\LoggerModule.cs" />
+    <Compile Include="AutofacModules\MappingModule.cs" />
     <Compile Include="ChatClient.cs" />
     <Compile Include="ConfigurationSettings\ChatClientNameSetting.cs" />
+    <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
+    <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
+    <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
+    <Compile Include="IChatClient.cs" />
+    <Compile Include="Infrastructure\Mappers\AuthenticateUserResponseToLogOnInfoMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\RoomDtoToRoomMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\UserDtoToUserMapper.cs" />
+    <Compile Include="Models\ClientContext.cs" />
+    <Compile Include="Models\UserContext.cs" />
     <Compile Include="IoC.cs" />
+    <Compile Include="Models\LogOnInfo.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +122,7 @@
       <Name>MessageContracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

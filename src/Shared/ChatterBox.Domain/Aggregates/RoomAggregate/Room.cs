@@ -13,7 +13,6 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         protected Room()
         {
             Owners = new Collection<Guid>();
-            Messages = new Collection<Message>();
             Contacts = new Collection<Guid>();
         }
 
@@ -33,9 +32,15 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
             return conversation;
         }
 
-        public static string Topic { get; protected set; }
+        public string Name { get; protected set; }
 
-        public ICollection<Message> Messages { get; protected set; }
+        public string Topic { get; protected set; }
+
+        public bool Private { get; protected set; }
+        
+        public bool Closed { get; protected set; }
+        
+        public string Welcome { get; protected set; }
 
         public ICollection<Guid> Owners { get; protected set; }
 
@@ -52,16 +57,6 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
                 Contacts.Add(c);
         }
 
-        public void Apply(UserAddedFact fact)
-        {
-            Contacts.Add(fact.UserId);
-        }
-
-        public void Apply(RoomTopicChangedFact fact)
-        {
-            Topic = fact.Topic;
-        }
-
         public void ChangeTopic(string topic)
         {
             var fact = new RoomTopicChangedFact
@@ -74,6 +69,11 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
             Apply(fact);
         }
 
+        public void Apply(RoomTopicChangedFact fact)
+        {
+            Topic = fact.Topic;
+        }
+
         public void AddUser(Guid userId)
         {
             var fact = new UserAddedFact
@@ -84,6 +84,11 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
             Append(fact);
             Apply(fact);
+        }
+
+        public void Apply(UserAddedFact fact)
+        {
+            Contacts.Add(fact.UserId);
         }
     }
 }

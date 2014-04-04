@@ -39,8 +39,9 @@
     <Reference Include="ConfigInjector">
       <HintPath>..\..\..\packages\ConfigInjector.1.1.0.6\lib\net45\ConfigInjector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceBus, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.2.2.7.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+    <Reference Include="Microsoft.ServiceBus, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.2.1.4.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -86,14 +87,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacModules\LoggerModule.cs" />
+    <Compile Include="AutofacModules\MappingModule.cs" />
+    <Compile Include="AutofacModules\PersistenceModule.cs" />
     <Compile Include="ChatServer.cs" />
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
     <Compile Include="AutofacModules\BusModule.cs" />
+    <Compile Include="ConfigurationSettings\EnvironmentTypeSetting.cs" />
+    <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
+    <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
+    <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
     <Compile Include="Handlers\AddAdminScopedCommandHandler.cs" />
     <Compile Include="Handlers\AuthenticateUserRequestHandler.cs" />
     <Compile Include="Handlers\BanUserCommandHandler.cs" />
     <Compile Include="Handlers\RemoveAdminCommandHandler.cs" />
-    <Compile Include="Handlers\CreateMessageCommandHandler.cs" />
+    <Compile Include="Handlers\SendMessageCommandHandler.cs" />
     <Compile Include="Handlers\AddOwnerCommandHandler.cs" />
     <Compile Include="Handlers\AllowUserCommandHandler.cs" />
     <Compile Include="Handlers\ChangeTopicCommandHandler.cs" />
@@ -102,6 +109,9 @@
     <Compile Include="Handlers\LockRoomCommandHandler.cs" />
     <Compile Include="Handlers\OpenRoomCommandHandler.cs" />
     <Compile Include="Handlers\RemoveOwnerCommandHandler.cs" />
+    <Compile Include="Infrastructure\Mappers\MessageToMessageDtoMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\RoomToRoomDtoMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\UserToUserDtoMapper.cs" />
     <Compile Include="ScopedRequestHandler.cs" />
     <Compile Include="Handlers\UnallowUserCommandHandler.cs" />
     <Compile Include="Handlers\CreateRoomRequestHandler.cs" />
@@ -118,7 +128,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ using ThirdDrawer.Extensions.CollectionExtensionMethods;
 
 namespace ChatterBox.Core.Infrastructure
 {
-    internal class DomainEventBroker : IDomainEventBroker
+    public class DomainEventBroker : IDomainEventBroker
     {
         private readonly ILifetimeScope _lifetimeScope;
 

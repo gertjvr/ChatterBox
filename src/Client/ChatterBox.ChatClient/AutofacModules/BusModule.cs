@@ -2,7 +2,6 @@
 using System.Reflection;
 using Autofac;
 using ChatterBox.ChatClient.ConfigurationSettings;
-using ChatterBox.Core.ConfigurationSettings;
 using ChatterBox.MessageContracts.Commands;
 using Nimbus;
 using Nimbus.Configuration;
@@ -20,7 +19,7 @@ namespace ChatterBox.ChatClient.AutofacModules
             base.Load(builder);
 
             Assembly appServerAssembly = ThisAssembly;
-            Assembly messageContractsAssembly = typeof (CreateMessageCommand).Assembly;
+            Assembly messageContractsAssembly = typeof (SendMessageCommand).Assembly;
 
             var handlerTypesProvider = new AssemblyScanningTypeProvider(appServerAssembly, messageContractsAssembly);
 

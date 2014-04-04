@@ -24,7 +24,7 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
         {
             public IEnumerator<TestCaseData> GetEnumerator()
             {
-                return typeof (CreateMessageCommand).Assembly
+                return typeof (SendMessageCommand).Assembly
                     .GetExportedTypes()
                     .Where(t => t.Name.EndsWith("Request"))
                     .Where(t => !t.IsAbstract)

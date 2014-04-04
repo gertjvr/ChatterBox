@@ -49,7 +49,7 @@
     <Compile Include="Commands\BanUserCommand.cs" />
     <Compile Include="Commands\AddAdminCommand.cs" />
     <Compile Include="Commands\RemoveAdminCommand.cs" />
-    <Compile Include="Commands\CreateMessageCommand.cs" />
+    <Compile Include="Commands\SendMessageCommand.cs" />
     <Compile Include="Commands\AllowUserCommand.cs" />
     <Compile Include="Commands\ChangeTopicCommand.cs" />
     <Compile Include="Commands\AddOwnerCommand.cs" />
@@ -58,7 +58,12 @@
     <Compile Include="Commands\LockRoomCommand.cs" />
     <Compile Include="Commands\OpenRoomCommand.cs" />
     <Compile Include="Commands\RemoveOwnerCommand.cs" />
+    <Compile Include="Commands\SendPrivateMessageCommand.cs" />
     <Compile Include="Commands\UnallowUserCommand.cs" />
+    <Compile Include="Dtos\IDto.cs" />
+    <Compile Include="Dtos\MessageDto.cs" />
+    <Compile Include="Dtos\RoomDto.cs" />
+    <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Requests\AuthenticateUserResponse.cs" />
     <Compile Include="Requests\AuthenticateUserRequest.cs" />
     <Compile Include="Requests\CreateRoomResponse.cs" />

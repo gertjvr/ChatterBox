@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Autofac.Core;
+using ChatterBox.Core.Mapping;
+using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.MessageContracts.Dtos;
 using NUnit.Framework;
 
 namespace ChatterBox.ChatServer.Tests.Conventions
@@ -106,6 +109,8 @@ namespace ChatterBox.ChatServer.Tests.Conventions
         public void TestFixtureSetUp()
         {
             if (_container == null) _container = CreateContainer();
+
+            var x = _container.IsRegistered<IMapToNew<User, UserDto>>();
         }
 
         [TestFixtureTearDown]

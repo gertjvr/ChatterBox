@@ -15,7 +15,7 @@ namespace ChatterBox.Domain.Queries
 
         public IQueryable<User> Execute(IQueryable<User> source)
         {
-            return source.Where(x => x.Name == _name);
+            return source.Where(user => user.Name == _name);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ChatterBox.ChatClient.Console
         {
             var client = new ChatClient();
 
-            client.Connect();
+            var logOnInfo = client.Connect("fred@rockwell.com", "yabadabado").Result;
 
             while (true)
             {
@@ -17,7 +17,7 @@ namespace ChatterBox.ChatClient.Console
                 if (message == "quit")
                     break;
 
-                client.Send(Guid.NewGuid(), message).Wait();
+                client.Send(message, Guid.NewGuid()).Wait();
             }
 
             client.Disconnect();

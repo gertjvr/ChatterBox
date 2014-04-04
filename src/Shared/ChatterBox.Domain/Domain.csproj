@@ -54,6 +54,7 @@
     <Compile Include="Aggregates\ClientAggregate\Facts\ClientCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Facts\MessageCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
+    <Compile Include="Aggregates\UserAggregate\UserStatus.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserSaltChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\UserRole.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserRoleChangedFact.cs" />
@@ -67,9 +68,11 @@
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomTopicChangedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\Facts\UserIdentityCreatedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\UserIdentity.cs" />
-    <Compile Include="AutofacModules\DomainModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\EnsureUsersExistsQuery.cs" />
+    <Compile Include="Queries\GetRecentMessagesQuery.cs" />
     <Compile Include="Queries\EnsureUserNameIsAvailibleQuery.cs" />
+    <Compile Include="Queries\GetRoomsForUserIdQuery.cs" />
     <Compile Include="Queries\GetUserByNameQuery.cs" />
   </ItemGroup>
   <ItemGroup>

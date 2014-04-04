@@ -9,14 +9,14 @@ namespace ChatterBox.MessageContracts.Requests
         {
         }
 
-        public CreateRoomRequest(Guid userId, string roomName)
+        public CreateRoomRequest(string roomName, Guid userId)
         {
-            UserId = userId;
             RoomName = roomName;
+            UserId = userId;
         }
 
-        public Guid UserId { get; set; }
-
         public string RoomName { get; set; }
+
+        public Guid UserId { get; set; }
     };
 }
