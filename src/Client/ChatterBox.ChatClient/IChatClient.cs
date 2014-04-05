@@ -14,13 +14,9 @@ namespace ChatterBox.ChatClient
         Task CreateRoom(string roomName);
         Task JoinRoom(Guid roomId);
         Task LeaveRoom(Guid roomId);
-        Task SetFlag(string countryCode);
-        Task SetNote(string noteText);
         Task SendPrivateMessage(Guid userId, string message);
         Task Kick(Guid userId, Guid roomId);
-        Task<bool> CheckStatus();
-        Task SetTyping(Guid roomId);
-        Task<IEnumerable<Message>> GetPreviousMessages(string fromId);
+        Task<IEnumerable<Message>> GetPreviousMessages(Guid fromId);
         Task<Room> GetRoomInfo(Guid roomId);
         Task<IEnumerable<Room>> GetRooms();
         void Disconnect();

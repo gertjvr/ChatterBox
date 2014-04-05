@@ -99,6 +99,10 @@
     <Compile Include="Handlers\AddAdminScopedCommandHandler.cs" />
     <Compile Include="Handlers\AuthenticateUserRequestHandler.cs" />
     <Compile Include="Handlers\BanUserCommandHandler.cs" />
+    <Compile Include="Handlers\GetAllowedRoomsRequestHandler.cs" />
+    <Compile Include="Handlers\GetPreviousMessagesRequestHandler.cs" />
+    <Compile Include="Handlers\GetRoomInfoReuestHandler.cs" />
+    <Compile Include="Handlers\GetUserInfoRequestHandler.cs" />
     <Compile Include="Handlers\RemoveAdminCommandHandler.cs" />
     <Compile Include="Handlers\SendMessageCommandHandler.cs" />
     <Compile Include="Handlers\AddOwnerCommandHandler.cs" />

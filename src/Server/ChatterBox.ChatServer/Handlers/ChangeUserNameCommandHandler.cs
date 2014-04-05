@@ -12,8 +12,8 @@ namespace ChatterBox.ChatServer.Handlers
 {
     public class ChangeUserNameCommandHandler : ScopedCommandHandler<ChangeUserNameCommand>
     {
-        public ChangeUserNameCommandHandler(Func<Owned<IUnitOfWork>> unitOfWorkFactory) 
-            : base(unitOfWorkFactory)
+        public ChangeUserNameCommandHandler(Func<IUnitOfWork> unitOfWork)
+            : base(unitOfWork)
         {
         }
 

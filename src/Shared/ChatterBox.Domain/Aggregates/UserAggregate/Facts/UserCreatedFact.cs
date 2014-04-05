@@ -14,7 +14,11 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
         public string Salt { get; set; }
 
         public string HashedPassword { get; set; }
-        
+
+        public UserRole UserRole { get; set; }
+   
         public DateTimeOffset LastActivity { get; set; }
+        
+        public UserStatus Status { get; set; }
     }
 }

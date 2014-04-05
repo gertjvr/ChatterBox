@@ -15,15 +15,10 @@ namespace ChatterBox.ChatClient.Infrastructure.Mappers
             {
                 Name = source.Name,
                 Hash = source.Hash,
-                Active = source.Active,
                 Status = (UserStatus)source.Status,
                 Note = source.Note,
-                AfkNote = source.AfkNote,
-                IsAfk = source.IsAfk,
-                Flag = source.Flag,
-                Country = source.Country,
                 LastActivity = source.LastActivity,
-                IsAdmin = source.IsAdmin
+                UserRole = (UserRole)source.UserRole
             };
         }
     }

@@ -66,6 +66,9 @@
     <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Requests\AuthenticateUserResponse.cs" />
     <Compile Include="Requests\AuthenticateUserRequest.cs" />
+    <Compile Include="Requests\GetAllowedRoomsRequest.cs" />
+    <Compile Include="Requests\GetAllowedRoomsResponse.cs" />
+    <Compile Include="Requests\GetPreviousMessagesRequest.cs" />
     <Compile Include="Requests\CreateRoomResponse.cs" />
     <Compile Include="Requests\CreateRoomRequest.cs" />
     <Compile Include="Commands\JoinRoomCommand.cs" />
@@ -79,6 +82,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\CreateUserRequest.cs" />
     <Compile Include="Requests\CreateUserResponse.cs" />
+    <Compile Include="Requests\GetPreviousMessagesResponse.cs" />
+    <Compile Include="Requests\GetRoomInfoRequest.cs" />
+    <Compile Include="Requests\GetRoomInfoResponse.cs" />
+    <Compile Include="Requests\GetUserInfoRequest.cs" />
+    <Compile Include="Requests\GetUserInfoResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

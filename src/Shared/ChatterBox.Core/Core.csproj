@@ -57,7 +57,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacModules\CoreModule.cs" />
     <Compile Include="AutofacModules\ServicesModule.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />

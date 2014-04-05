@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac.Features.OwnedInstances;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Commands;
@@ -9,7 +8,7 @@ namespace ChatterBox.ChatServer.Handlers
 {
     public class AddAdminScopedCommandHandler : ScopedCommandHandler<AddAdminCommand>
     {
-        public AddAdminScopedCommandHandler(Func<Owned<IUnitOfWork>> unitOfWork)
+        public AddAdminScopedCommandHandler(Func<IUnitOfWork> unitOfWork)
             : base(unitOfWork)
         {
         }

@@ -11,7 +11,6 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Queries;
 using ChatterBox.MessageContracts.Dtos;
 using ChatterBox.MessageContracts.Requests;
-using Nimbus;
 
 namespace ChatterBox.ChatServer.Handlers
 {
@@ -19,20 +18,17 @@ namespace ChatterBox.ChatServer.Handlers
         : ScopedRequestHandler<AuthenticateUserRequest, AuthenticateUserResponse>
     {
         private readonly ICryptoService _cryptoService;
-        private readonly IBus _bus;
         private readonly IMapToNew<User, UserDto> _userMapper;
         private readonly IMapToNew<Room, RoomDto> _roomMapper;
 
         public AuthenticateUserRequestHandler(
             Func<Owned<IUnitOfWork>> unitOfWork,
             ICryptoService cryptoService,
-            IBus bus,
             IMapToNew<Room, RoomDto> roomMapper,
             IMapToNew<User, UserDto> userMapper)
             : base(unitOfWork)
         {
             _cryptoService = cryptoService;
-            _bus = bus;
             _userMapper = userMapper;
             _roomMapper = roomMapper;
         }
@@ -53,7 +49,8 @@ namespace ChatterBox.ChatServer.Handlers
                     string.Empty,
                     string.Empty.ToMD5(),
                     salt,
-                    hashedPassword);
+                    hashedPassword, 
+                    UserRole.Admin);
 
                 userRepository.Add(user);
             }
@@ -78,8 +75,6 @@ namespace ChatterBox.ChatServer.Handlers
                 return AuthenticateUserResponse.Failed();
             }
 
-            EnsureSaltedPassword(user, request.Password);
-
             context.Complete();
 
             return new AuthenticateUserResponse(
@@ -87,16 +82,6 @@ namespace ChatterBox.ChatServer.Handlers
                 rooms.Select(room => _roomMapper.Map(room)).ToArray(), 
                 Guid.NewGuid(),
                 user.Id);
-        }
-
-        private void EnsureSaltedPassword(User user, string password)
-        {
-            if (String.IsNullOrEmpty(user.Salt))
-            {
-                user.ChangeSalt(_cryptoService.CreateSalt());
-            }
-
-            user.ChangePassword(password.ToSha256(user.Salt));
         }
     }
 }

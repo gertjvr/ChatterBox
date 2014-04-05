@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using ChatterBox.ChatClient.ConfigurationSettings;
@@ -50,7 +51,11 @@ namespace ChatterBox.ChatClient
 
         public async Task<User> GetUserInfo()
         {
-            return _userContext.User;
+            var userMapper = _container.Resolve<IMapToNew<UserDto, User>>();
+
+            var response = await _bus.Request(new GetUserInfoRequest(_userContext.UserId));
+
+            return userMapper.Map(response.User);
         }
 
         public async Task LogOut()
@@ -78,16 +83,6 @@ namespace ChatterBox.ChatClient
             await _bus.Send(new LeaveRoomCommand(roomId, _userContext.UserId));
         }
 
-        public Task SetFlag(string countryCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetNote(string noteText)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task SendPrivateMessage(Guid userId, string message)
         {
             await _bus.Send(new SendPrivateMessageCommand(userId, message, _userContext.UserId));
@@ -98,29 +93,31 @@ namespace ChatterBox.ChatClient
             await _bus.Send(new KickUserCommand(userId, roomId, _userContext.UserId));
         }
 
-        public Task<bool> CheckStatus()
+        public async Task<IEnumerable<Message>> GetPreviousMessages(Guid fromId)
         {
-            throw new NotImplementedException();
+            var messageMapper = _container.Resolve<IMapToNew<MessageDto, Message>>();
+
+            var response = await _bus.Request(new GetPreviousMessagesRequest(fromId));
+
+            return response.Messages.Select(messageMapper.Map).ToArray();
         }
 
-        public Task SetTyping(Guid roomId)
+        public async Task<Room> GetRoomInfo(Guid roomId)
         {
-            throw new NotImplementedException();
+            var roomMapper = _container.Resolve<IMapToNew<RoomDto, Room>>();
+
+            var response = await _bus.Request(new GetRoomInfoRequest(_userContext.UserId));
+
+            return roomMapper.Map(response.Room);
         }
 
-        public Task<IEnumerable<Message>> GetPreviousMessages(string fromId)
+        public async Task<IEnumerable<Room>> GetRooms()
         {
-            throw new NotImplementedException();
-        }
+            var roomMapper = _container.Resolve<IMapToNew<RoomDto, Room>>();
 
-        public Task<Room> GetRoomInfo(Guid roomId)
-        {
-            throw new NotImplementedException();
-        }
+            var response = await _bus.Request(new GetAllowedRoomsRequest(_userContext.UserId));
 
-        public Task<IEnumerable<Room>> GetRooms()
-        {
-            throw new NotImplementedException();
+            return response.Rooms.Select(roomMapper.Map);
         }
 
         public void Disconnect()
