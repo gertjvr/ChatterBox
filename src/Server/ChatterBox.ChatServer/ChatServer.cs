@@ -2,9 +2,11 @@
 using System.IO;
 using System.Threading.Tasks;
 using Autofac;
+using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.ChatServer.ConfigurationSettings;
 using ConfigInjector.QuickAndDirty;
 using Nimbus;
+using Seq;
 using Serilog;
 using Serilog.Events;
 
@@ -35,6 +37,7 @@ namespace ChatterBox.ChatServer
             var minimumLogLevel = DefaultSettingsReader.Get<MinimumLogLevelSetting>();
 
             LoggerConfiguration logConfiguration = new LoggerConfiguration()
+                .WriteTo.Seq(DefaultSettingsReader.Get<SeqServerUriSetting>())
                 .WriteTo.Trace()
                 .WriteTo.RollingFile(
                     Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),

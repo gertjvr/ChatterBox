@@ -67,6 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.2.0.12\lib\net45\Nimbus.MessageContracts.dll</HintPath>
     </Reference>
+    <Reference Include="Seq.Client.Serilog">
+      <HintPath>..\..\..\packages\Seq.Client.Serilog.2.0.11\lib\net45\Seq.Client.Serilog.dll</HintPath>
+    </Reference>
     <Reference Include="Serilog, Version=1.2.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Serilog.1.2.39\lib\net45\Serilog.dll</HintPath>
@@ -99,6 +102,7 @@
     <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
     <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
     <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
+    <Compile Include="ConfigurationSettings\SeqServerUriSetting.cs" />
     <Compile Include="Handlers\AddAdminScopedCommandHandler.cs" />
     <Compile Include="Handlers\AuthenticateUserRequestHandler.cs" />
     <Compile Include="Handlers\BanUserCommandHandler.cs" />
@@ -135,7 +139,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
