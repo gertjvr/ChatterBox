@@ -58,6 +58,23 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             LastActivity = fact.LastActivity;
         }
 
+        public void UpdateLastActivity(DateTimeOffset lastActivity)
+        {
+            var fact = new UserLastActivityUpdatedFact
+            {
+                AggregateRootId = Guid.NewGuid(),
+                LastActivity = lastActivity,
+            };
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(UserLastActivityUpdatedFact fact)
+        {
+            LastActivity = fact.LastActivity;
+        }
+
         public void ChangeUserName(string newUserName)
         {
             var fact = new UserNameChangedFact

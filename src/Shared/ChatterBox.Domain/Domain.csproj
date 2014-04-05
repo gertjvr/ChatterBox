@@ -54,6 +54,7 @@
     <Compile Include="Aggregates\ClientAggregate\Facts\ClientCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Facts\MessageCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\UserLastActivityUpdatedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserStatusChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\UserStatus.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserSaltChangedFact.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Queries\GetRecentMessagesQuery.cs" />
     <Compile Include="Queries\EnsureUserNameIsAvailibleQuery.cs" />
     <Compile Include="Queries\GetRoomsForUserIdQuery.cs" />
-    <Compile Include="Queries\GetUserByNameQuery.cs" />
+    <Compile Include="Queries\GetUserIdByNameQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatterBox.Core\Core.csproj">

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Features.OwnedInstances;
 using ChatterBox.Core.Extensions;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Services;
@@ -39,6 +41,7 @@ namespace ChatterBox.ChatServer.Handlers
             var roomRepository = context.Repository<Room>();
 
             User user;
+            IEnumerable<Room> rooms; 
             if (userRepository.Query(new EnsureUsersExistsQuery()))
             {
                 var salt = _cryptoService.CreateSalt();
@@ -52,27 +55,31 @@ namespace ChatterBox.ChatServer.Handlers
                     hashedPassword, 
                     UserRole.Admin);
 
+                rooms = Enumerable.Empty<Room>();
+
                 userRepository.Add(user);
             }
             else
             {
-                user = userRepository
-                    .Query(new GetUserByNameQuery(request.UserName))
-                    .SingleOrDefault();
-            }
+                var userId = userRepository.Query(new GetUserIdByNameQuery(request.UserName));
 
-            if (user == null)
-            {
-                return AuthenticateUserResponse.Failed();
-            }
+                user = userRepository.GetById(userId);
 
-            var rooms = roomRepository
-                .Query(new GetRoomsForUserIdQuery(user.Id))
-                .ToList();
+                if (user == null)
+                {
+                    return AuthenticateUserResponse.Failed();
+                }
 
-            if (user.HashedPassword != request.Password.ToSha256(user.Salt))
-            {
-                return AuthenticateUserResponse.Failed();
+                rooms = roomRepository
+                    .Query(new GetRoomsForUserIdQuery(user.Id))
+                    .ToList();
+
+                if (user.HashedPassword != request.Password.ToSha256(user.Salt))
+                {
+                    return AuthenticateUserResponse.Failed();
+                }
+
+                user.UpdateLastActivity(DateTimeHelper.UtcNow);
             }
 
             context.Complete();

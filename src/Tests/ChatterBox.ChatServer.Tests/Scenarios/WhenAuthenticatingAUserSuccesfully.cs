@@ -15,7 +15,6 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
     public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoSpecFor<AuthenticateUserRequestHandler>
     {
         protected User User;
-        protected User[] Users;
 
         protected IRepository<User> Repository;
         protected IUnitOfWork UnitOfWork;
@@ -38,11 +37,12 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                 .Do(u => u.ChangePassword(hashedPassword))
                 .Create();
 
-            Users = new []{ User };
-
             Repository = Fixture.Freeze<IRepository<User>>();
-            Repository.Query(Arg.Any<GetUserByNameQuery>())
-                .Returns(Users);
+            Repository.Query(Arg.Any<GetUserIdByNameQuery>())
+                .Returns(User.Id);
+            
+            Repository.GetById(Arg.Any<Guid>())
+                .Returns(User);
 
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();
             UnitOfWork.Repository<User>()
