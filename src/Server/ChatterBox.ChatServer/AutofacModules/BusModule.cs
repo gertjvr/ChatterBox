@@ -10,8 +10,8 @@ namespace ChatterBox.ChatServer.AutofacModules
 {
     public class BusModule : Module
     {
-        internal static Func<string> MachineName = () => Environment.MachineName;
-        internal static Func<string, string> ConnectionString = cs => cs.Replace("{MachineName}", MachineName());
+        private static readonly Func<string> MachineName = () => Environment.MachineName;
+        private static readonly Func<string, string> ConnectionString = cs => cs.Replace("{MachineName}", MachineName());
 
         protected override void Load(ContainerBuilder builder)
         {
