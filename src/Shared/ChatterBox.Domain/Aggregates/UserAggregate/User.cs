@@ -55,6 +55,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Hash = fact.Hash;
             Salt = fact.Salt;
             HashedPassword = fact.HashedPassword;
+            UserRole = fact.UserRole;
+            Status = fact.Status;
             LastActivity = fact.LastActivity;
         }
 

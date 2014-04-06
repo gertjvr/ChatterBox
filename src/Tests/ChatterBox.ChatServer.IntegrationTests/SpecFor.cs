@@ -1,25 +1,19 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
 
-namespace ChatterBox.ChatServer.Tests
+namespace ChatterBox.ChatServer.IntegrationTests
 {
-    [TestFixture]
-    public abstract class SpecFor<T>
+    public abstract class SpecFor<T> : ISpecFor
     {
         protected T Subject;
 
-        protected abstract T Given();
+        protected abstract Task<T> Given();
 
-        protected abstract void When();
+        protected abstract Task When();
 
-        [SetUp]
-        public void SetUp()
+        public async Task SetUp()
         {
-            Subject = Given();
-            When();
+            Subject = await Given();
+            await When();
         }
-    }
-
-    public class ThenAttribute : TestAttribute
-    {   
     }
 }
