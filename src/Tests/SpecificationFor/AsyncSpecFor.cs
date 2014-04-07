@@ -19,7 +19,7 @@ namespace SpecificationFor
             {
                 Subject = await Given();
                 await When();
-            });
+            }).Wait();
         }
     }
 }

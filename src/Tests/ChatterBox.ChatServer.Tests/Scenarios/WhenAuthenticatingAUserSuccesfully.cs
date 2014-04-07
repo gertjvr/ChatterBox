@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers;
 using ChatterBox.Core.Extensions;
@@ -8,14 +7,12 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Queries;
 using ChatterBox.MessageContracts.Requests;
 using NSubstitute;
-using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Shouldly;
 using SpecificationFor;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    [TestFixture]
     public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoAsyncSpecFor<AuthenticateUserRequestHandler>
     {
         protected User User;

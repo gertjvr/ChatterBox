@@ -30,7 +30,7 @@ namespace SpecificationFor
                 Fixture = _fixture();
                 Subject = await Given();
                 await When(); 
-            });
+            }).Wait();
         }
     }
 }

@@ -5,14 +5,12 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Commands;
 using NSubstitute;
-using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Shouldly;
 using SpecificationFor;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    [TestFixture]
     public class WhenChangingAUserName : AutoAsyncSpecFor<ChangeUserNameCommandHandler>
     {
         protected ChangeUserNameCommand Command;
