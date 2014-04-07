@@ -83,8 +83,8 @@
     <Compile Include="Requests\CreateUserRequest.cs" />
     <Compile Include="Requests\CreateUserResponse.cs" />
     <Compile Include="Requests\GetPreviousMessagesResponse.cs" />
-    <Compile Include="Requests\GetRoomInfoRequest.cs" />
-    <Compile Include="Requests\GetRoomInfoResponse.cs" />
+    <Compile Include="Requests\RoomInfoRequest.cs" />
+    <Compile Include="Requests\RoomInfoResponse.cs" />
     <Compile Include="Requests\GetUserInfoRequest.cs" />
     <Compile Include="Requests\GetUserInfoResponse.cs" />
   </ItemGroup>

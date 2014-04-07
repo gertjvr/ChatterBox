@@ -1,14 +1,30 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Autofac.Features.OwnedInstances;
+using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.MessageContracts.Requests;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class CreateRoomRequestHandler : IHandleRequest<CreateRoomRequest, CreateRoomResponse>
+    public class CreateRoomRequestHandler : ScopedRequestHandler<CreateRoomRequest, CreateRoomResponse>
     {
-        public Task<CreateRoomResponse> Handle(CreateRoomRequest request)
+        public CreateRoomRequestHandler(Func<Owned<IUnitOfWork>> unitOfWork) 
+            : base(unitOfWork)
         {
-            throw new System.NotImplementedException();
+        }
+
+        public override async Task<CreateRoomResponse> Execute(IUnitOfWork context, CreateRoomRequest request)
+        {
+            var roomRepository = context.Repository<Room>();
+
+            var room = new Room(request.RoomName, request.UserId);
+
+            roomRepository.Add(room);
+
+            context.Complete();
+
+            return new CreateRoomResponse(room.Id);
         }
     }
 }

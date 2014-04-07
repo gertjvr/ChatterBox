@@ -16,12 +16,10 @@ namespace Messanger.Console
 
             var thisAssembly = typeof(IoC).Assembly;
             var coreAssembly = typeof(IAggregateRoot).Assembly;
-            var domainAssembly = typeof (User).Assembly;
-
+            
             builder.RegisterAssemblyModules(
                 thisAssembly, 
-                coreAssembly, 
-                domainAssembly);
+                coreAssembly);
 
             if (preHooks != null) preHooks(builder);
 

@@ -5,7 +5,7 @@ using ChatterBox.Core.Infrastructure.Queries;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Persistence.Disk;
 
-namespace ChatterBox.ChatServer.AutofacModules
+namespace Messanger.Console.AutofacModules
 {
     public class PersistenceModule : Module
     {
@@ -42,7 +42,7 @@ namespace ChatterBox.ChatServer.AutofacModules
 
             builder.RegisterGeneric(typeof(QueryModel<>))
                 .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
             
         }
     }

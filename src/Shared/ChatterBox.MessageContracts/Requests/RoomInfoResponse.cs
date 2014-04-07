@@ -3,13 +3,13 @@ using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Requests
 {
-    public class GetRoomInfoResponse : IBusResponse
+    public class RoomInfoResponse : IBusResponse
     {
-        protected GetRoomInfoResponse()
+        protected RoomInfoResponse()
         {
         }
 
-        public GetRoomInfoResponse(RoomDto room)
+        public RoomInfoResponse(RoomDto room)
         {
             Room = room;
         }

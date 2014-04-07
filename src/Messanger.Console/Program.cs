@@ -18,17 +18,17 @@ namespace Messanger.Console
         {
             _container = IoC.LetThereBeIoC();
 
-            using (var scope = _container.BeginLifetimeScope())
-            {
-                var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Room>>();
-                var convo = repo.GetById(Guid.Parse("1f3ae5d8-d02c-47c9-bb67-761ac0d13e03"));
-            }
+            //using (var scope = _container.BeginLifetimeScope())
+            //{
+            //    var uow = scope.Resolve<IUnitOfWork>();
+            //    var repo = scope.Resolve<IRepository<Room>>();
+            //    var convo = repo.GetById(Guid.Parse("1f3ae5d8-d02c-47c9-bb67-761ac0d13e03"));
+            //}
 
             var fredId = CreateUser("fred", "fred@rocks.com", "test@password");
             var wilmaId = CreateUser("wilma", "wilma@rocks.com", "test@password");
 
-            var roomId = CreateRoom(string.Empty, fredId, wilmaId);
+            var roomId = CreateRoom(string.Empty, fredId);
 
             ChangeRoomTopic(roomId, "New Topic");
 
@@ -59,7 +59,7 @@ namespace Messanger.Console
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Room>>();
+                var repo = uow.Repository<Room>();
                 
                 var conversation = repo.GetById(userId);
                 
@@ -74,7 +74,7 @@ namespace Messanger.Console
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<User>>();
+                var repo = uow.Repository<User>();
                 var crypto = scope.Resolve<ICryptoService>();
 
                 var salt = crypto.CreateSalt();
@@ -86,14 +86,14 @@ namespace Messanger.Console
             }
         }
 
-        private static Guid CreateRoom(string topic, Guid ownerId, params Guid[] users)
+        private static Guid CreateRoom(string name, Guid ownerId)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = scope.Resolve<IRepository<Room>>();
+                var repo = uow.Repository<Room>();
 
-                var room = Room.Create(topic, ownerId, users);
+                var room = new Room(name, ownerId);
 
                 repo.Add(room);
                 uow.Complete();

@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacModules\ConfigurationModule.cs" />
+    <Compile Include="AutofacModules\PersistenceModule.cs" />
+    <Compile Include="ConfigurationSettings\FactStoreDirectoryPath.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

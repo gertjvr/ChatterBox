@@ -107,7 +107,7 @@ namespace ChatterBox.ChatClient
         {
             var roomMapper = _container.Resolve<IMapToNew<RoomDto, Room>>();
 
-            var response = await _bus.Request(new GetRoomInfoRequest(_userContext.UserId));
+            var response = await _bus.Request(new RoomInfoRequest(_userContext.UserId));
 
             return roomMapper.Map(response.Room);
         }

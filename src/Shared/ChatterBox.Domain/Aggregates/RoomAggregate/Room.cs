@@ -12,24 +12,19 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
     {
         protected Room()
         {
-            Owners = new Collection<Guid>();
-            Contacts = new Collection<Guid>();
         }
 
-        public static Room Create(string topic, Guid ownerId, params Guid[] contacts)
+        public Room(string name, Guid ownerId)
         {
             var fact = new RoomCreatedFact
             {
                 AggregateRootId = Guid.NewGuid(),
-                Topic = topic,
+                Name = name,
                 OwnerId = ownerId,
-                Users = contacts,
             };
 
-            var conversation = new Room();
-            conversation.Append(fact);
-            conversation.Apply(fact);
-            return conversation;
+            Append(fact);
+            Apply(fact);
         }
 
         public string Name { get; protected set; }
@@ -49,12 +44,10 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         public void Apply(RoomCreatedFact fact)
         {
             Id = fact.AggregateRootId;
-            Topic = fact.Topic;
-            Owners.Add(fact.OwnerId);
-            Contacts.Add(fact.OwnerId);
+            Name = fact.Name;
 
-            foreach (var c in fact.Users)
-                Contacts.Add(c);
+            Owners = new Collection<Guid> { fact.OwnerId };
+            Contacts = new Collection<Guid> { fact.OwnerId };
         }
 
         public void ChangeTopic(string topic)
