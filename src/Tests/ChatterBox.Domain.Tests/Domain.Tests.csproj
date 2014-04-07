@@ -37,11 +37,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.InfrastructureContracts">
-      <HintPath>..\..\..\packages\Nimbus.InfrastructureContracts.1.2.0.12\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
+    <Reference Include="Nimbus.InfrastructureContracts, Version=1.2.0.19, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.InfrastructureContracts.1.2.0.19\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.MessageContracts">
-      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.2.0.12\lib\net45\Nimbus.MessageContracts.dll</HintPath>
+    <Reference Include="Nimbus.MessageContracts, Version=1.2.0.19, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.2.0.19\lib\net45\Nimbus.MessageContracts.dll</HintPath>
     </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
