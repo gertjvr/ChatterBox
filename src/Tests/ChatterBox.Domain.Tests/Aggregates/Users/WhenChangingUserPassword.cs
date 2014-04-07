@@ -4,6 +4,7 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 using Ploeh.AutoFixture;
 using Shouldly;
+using SpecificationFor;
 
 namespace ChatterBox.Domain.Tests.Aggregates.Users
 {

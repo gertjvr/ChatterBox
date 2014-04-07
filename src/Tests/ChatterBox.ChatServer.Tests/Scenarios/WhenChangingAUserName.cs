@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Commands;
 using NSubstitute;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Shouldly;
+using SpecificationFor;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenChangingAUserName : AutoSpecFor<ChangeUserNameCommandHandler>
+    [TestFixture]
+    public class WhenChangingAUserName : AutoAsyncSpecFor<ChangeUserNameCommandHandler>
     {
         protected ChangeUserNameCommand Command;
         protected User User;
@@ -17,7 +21,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         protected IUnitOfWork UnitOfWork;
         protected IRepository<User> Repository;
 
-        protected override ChangeUserNameCommandHandler Given()
+        protected override async Task<ChangeUserNameCommandHandler> Given()
         {
             Command = Fixture.Create<ChangeUserNameCommand>();
 
@@ -34,7 +38,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             return Fixture.Create<ChangeUserNameCommandHandler>();
         }
 
-        protected override async void When()
+        protected override async Task When()
         {
             await Subject.Handle(Command);
         }

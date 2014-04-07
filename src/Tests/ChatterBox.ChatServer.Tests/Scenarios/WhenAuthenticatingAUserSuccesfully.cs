@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers;
 using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Persistence;
@@ -7,12 +8,15 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Queries;
 using ChatterBox.MessageContracts.Requests;
 using NSubstitute;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Shouldly;
+using SpecificationFor;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoSpecFor<AuthenticateUserRequestHandler>
+    [TestFixture]
+    public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoAsyncSpecFor<AuthenticateUserRequestHandler>
     {
         protected User User;
 
@@ -22,7 +26,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         protected AuthenticateUserRequest Request;
         protected AuthenticateUserResponse Response;
 
-        protected override AuthenticateUserRequestHandler Given()
+        protected override async Task<AuthenticateUserRequestHandler> Given()
         {
             var salt = Fixture.Create<string>();
             var password = Fixture.Create<string>();
@@ -40,7 +44,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             Repository = Fixture.Freeze<IRepository<User>>();
             Repository.Query(Arg.Any<GetUserIdByNameQuery>())
                 .Returns(User.Id);
-            
+
             Repository.GetById(Arg.Any<Guid>())
                 .Returns(User);
 
@@ -51,7 +55,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             return Fixture.Create<AuthenticateUserRequestHandler>();
         }
 
-        protected override async void When()
+        protected override async Task When()
         {
             Response = await Subject.Handle(Request);
         }

@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Requests;
 using NSubstitute;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Shouldly;
+using SpecificationFor;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenCreatingAUser : AutoSpecFor<CreateUserRequestHandler>
+    [TestFixture]
+    public class WhenCreatingAUser : AutoAsyncSpecFor<CreateUserRequestHandler>
     {
         protected CreateUserRequest Request;
         protected CreateUserResponse Response;
@@ -17,7 +21,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         protected IUnitOfWork UnitOfWork;
         protected IRepository<User> Repository;
 
-        protected override CreateUserRequestHandler Given()
+        protected override async Task<CreateUserRequestHandler> Given()
         {
             Request = Fixture.Create<CreateUserRequest>();
 
@@ -30,7 +34,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             return Fixture.Create<CreateUserRequestHandler>();
         }
 
-        protected override async void When()
+        protected override async Task When()
         {
             Response = await Subject.Handle(Request);
         }

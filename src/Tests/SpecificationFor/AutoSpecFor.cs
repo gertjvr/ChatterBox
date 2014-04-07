@@ -3,15 +3,13 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
-namespace ChatterBox.ChatServer.Tests
+namespace SpecificationFor
 {
-    public abstract class AutoSpecFor<T>
+    public abstract class AutoSpecFor<T> : SpecFor<T>
     {
         private readonly Func<IFixture> _fixture;
 
         protected IFixture Fixture;
-
-        protected T Subject;
 
         protected AutoSpecFor()
             : this(() => new Fixture().Customize(new AutoNSubstituteCustomization()))
@@ -23,12 +21,8 @@ namespace ChatterBox.ChatServer.Tests
             _fixture = fixture;
         }
 
-        protected abstract T Given();
-
-        protected abstract void When();
-
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             Fixture = _fixture();
             Subject = Given();

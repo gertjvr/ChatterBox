@@ -84,11 +84,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoSpecFor.cs" />
     <Compile Include="Conventions\AllTypesRegisteredWithTheClientContainer.cs" />
     <Compile Include="Conventions\AllTypesRegisteredWithTheContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecFor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

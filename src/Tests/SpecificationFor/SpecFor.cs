@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 
-namespace ChatterBox.ChatClient.Tests
+namespace SpecificationFor
 {
     [TestFixture]
-    public abstract class SpecFor<T>
+    public abstract class SpecFor<T> : ISpecFor
     {
         protected T Subject;
 
@@ -12,14 +12,10 @@ namespace ChatterBox.ChatClient.Tests
         protected abstract void When();
 
         [SetUp]
-        public void SetUp()
+        public virtual void SetUp()
         {
             Subject = Given();
             When();
         }
-    }
-
-    public class ThenAttribute : TestAttribute
-    {   
     }
 }

@@ -1,24 +1,28 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers;
 using ChatterBox.MessageContracts.Requests;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Shouldly;
+using SpecificationFor;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenConnectingAClient : AutoSpecFor<ConnectClientRequestHandler>
+    [TestFixture]
+    public class WhenConnectingAClient : AutoAsyncSpecFor<ConnectClientRequestHandler>
     {
         protected ConnectClientRequest Request;
         protected ConnectClientResponse Response;
 
-        protected override ConnectClientRequestHandler Given()
+        protected override async Task<ConnectClientRequestHandler> Given()
         {
             Request = Fixture.Create<ConnectClientRequest>();
 
             return Fixture.Create<ConnectClientRequestHandler>();
         }
 
-        protected override async void When()
+        protected override async Task When()
         {
             Response = await Subject.Handle(Request);
         }
