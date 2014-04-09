@@ -35,14 +35,14 @@ namespace ChatterBox.ChatServer
         private static void InitializeLogger()
         {
             var minimumLogLevel = DefaultSettingsReader.Get<MinimumLogLevelSetting>();
+            var serverUrl = DefaultSettingsReader.Get<SeqServerUriSetting>();
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"ClientConsoleLog-{Date}.txt");
 
             LoggerConfiguration logConfiguration = new LoggerConfiguration()
-                .WriteTo.Seq(DefaultSettingsReader.Get<SeqServerUriSetting>())
+                .MinimumLevel.Is((LogEventLevel)Enum.Parse(typeof(LogEventLevel), minimumLogLevel))
                 .WriteTo.Trace()
-                .WriteTo.RollingFile(
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-                        @"ApplicationServerLog-{Date}.txt"))
-                .MinimumLevel.Is((LogEventLevel) Enum.Parse(typeof (LogEventLevel), minimumLogLevel));
+                .WriteTo.RollingFile(logPath)
+                .WriteTo.Seq(serverUrl);
 
             if (Environment.UserInteractive)
             {
