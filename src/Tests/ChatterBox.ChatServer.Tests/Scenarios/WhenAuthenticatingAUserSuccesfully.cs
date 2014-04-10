@@ -43,7 +43,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             Repository.Query(Arg.Any<GetUserIdByNameQuery>())
                 .Returns(User.Id);
 
-            Repository.GetById(Arg.Any<Guid>())
+            Repository.GetById(Arg.Is(User.Id))
                 .Returns(User);
 
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();

@@ -22,12 +22,15 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
 
         protected override async Task<ChangeUserNameCommandHandler> Given()
         {
-            Command = Fixture.Create<ChangeUserNameCommand>();
-
             User = Fixture.Freeze<User>();
+            
+            Command = Fixture.Build<ChangeUserNameCommand>()
+                .With(p => p.UserId, User.Id)
+                .Create();
 
             Repository = Fixture.Freeze<IRepository<User>>();
-            Repository.GetById(Arg.Any<Guid>())
+            
+            Repository.GetById(Arg.Is(User.Id))
                 .Returns(User);
 
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();
