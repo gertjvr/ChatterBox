@@ -105,6 +105,7 @@
     <None Include="..\..\Server\ChatterBox.ChatServer\App.config">
       <Link>App.config</Link>
     </None>
+    <None Include="App.Override.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

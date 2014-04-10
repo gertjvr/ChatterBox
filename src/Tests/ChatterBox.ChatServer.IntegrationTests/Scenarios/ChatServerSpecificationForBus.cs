@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Builder;
@@ -44,8 +45,12 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
             ((Bus)Subject).Start();
         }
 
-        public async Task TearDown()
+        [TearDown]
+        public override void TearDown()
         {
+            var disposable = Subject as IDisposable;
+            if (disposable != null) disposable.Dispose();
+
             ((Bus)Subject).Stop();
             Subject = null;
         }

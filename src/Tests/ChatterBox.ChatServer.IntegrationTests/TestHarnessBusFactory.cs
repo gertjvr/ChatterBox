@@ -12,13 +12,13 @@ namespace ChatterBox.ChatServer.IntegrationTests
         private static readonly Func<string> MachineName = () => Environment.MachineName;
         private static readonly Func<string, string> ConnectionString = cs => cs.Replace("{MachineName}", MachineName());
 
-        public static Bus CreateAndStart(ITypeProvider typeProvider, DefaultMessageHandlerFactory messageHandlerFactory, ILogger logger)
+        public static Bus Create(ITypeProvider typeProvider, DefaultMessageHandlerFactory messageHandlerFactory, ILogger logger)
         {
             var connectionString = DefaultSettingsReader.Get<NimbusConnectionStringSetting>();
 
             var bus = new BusBuilder()
                 .Configure()
-                .WithNames("MyTestSuite", Environment.MachineName)
+                .WithNames("ChatterBox.MyTestSuite", Environment.MachineName)
                 .WithConnectionString(ConnectionString(connectionString))
                 .WithTypesFrom(typeProvider)
                 .WithDefaultHandlerFactory(messageHandlerFactory)
