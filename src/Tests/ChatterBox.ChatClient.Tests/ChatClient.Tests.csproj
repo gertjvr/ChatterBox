@@ -97,6 +97,9 @@
     <Compile Include="ThenAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Client\ChatterBox.ChatClient\App.config">
+      <Link>App.config</Link>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

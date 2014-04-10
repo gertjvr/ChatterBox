@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Builder;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Facts;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Persistence.Memory;
@@ -12,7 +13,6 @@ using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 using ChatterBox.MessageContracts.Commands;
 using ChatterBox.MessageContracts.Requests;
 using Shouldly;
-using SpecificationFor;
 
 namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
 {
@@ -30,7 +30,7 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
     {
         protected override IContainer CreateContainer()
         {
-            var userFact = new UserCreatedFact
+            var userCreatedFact = new UserCreatedFact
             {
                 AggregateRootId = Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b"),
                 Name = "fred@rockwell.com",
@@ -39,22 +39,21 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
                 Salt = "LTkGikACIlLJptwW6Wmrnw==",
                 HashedPassword = "f1c7764c8b6293e2a626689f7d460eb344cd5242ee5e507c877e2b4a17049627",
                 UserRole = UserRole.Admin,
-                LastActivity = DateTimeOffset.Parse("2014-04-06T08:37:56.000631+00:00"),
+                LastActivity = DateTimeHelper.UtcNow,
                 Status = UserStatus.Active,
             };
-            userFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("9e5bf6b9-d545-40f5-bfc2-ab27722bb190"), 0, DateTimeOffset.Parse("2014-04-06T08:37:56.0106608+00:00")));
+            userCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("9e5bf6b9-d545-40f5-bfc2-ab27722bb190"), 0, DateTimeHelper.UtcNow));
 
-            var roomFact = new RoomCreatedFact
+            var roomCreatedFact = new RoomCreatedFact
             {
                 AggregateRootId = Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad"),
                 Name = "Home",
                 OwnerId = Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b")
             };
-
-            roomFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("63113645-ac0a-4dcd-a206-f939219d2dcc"), 0, DateTimeOffset.Parse("2014-04-06T13:10:37.0671512+00:00")));
+            roomCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("63113645-ac0a-4dcd-a206-f939219d2dcc"), 0, DateTimeHelper.UtcNow));
 
             var factStore = new MemoryFactStore();
-            factStore.ImportFrom(new List<IFact> { userFact, roomFact });
+            factStore.ImportFrom(new List<IFact> { userCreatedFact, roomCreatedFact });
 
             return IoC.LetThereBeIoC(ContainerBuildOptions.None, builder =>
             {
