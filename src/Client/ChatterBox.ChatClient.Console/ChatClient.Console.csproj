@@ -47,11 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ChatterBox.ChatClient\ChatClient.csproj">
       <Project>{750aaaa0-fd8b-424b-915f-7c140cb17ff9}</Project>
       <Name>ChatClient</Name>
