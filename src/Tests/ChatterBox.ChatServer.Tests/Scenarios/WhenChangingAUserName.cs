@@ -7,12 +7,10 @@ using ChatterBox.MessageContracts.Commands;
 using NSubstitute;
 using Ploeh.AutoFixture;
 using Shouldly;
-using SpecificationFor;
-using SpecificationFor.AutoFixture;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenChangingAUserName : AutoAsyncSpecFor<ChangeUserNameCommandHandler>
+    public class WhenChangingAUserName : AutoSpecificationForAsync<ChangeUserNameCommandHandler>
     {
         protected ChangeUserNameCommand Command;
         protected User User;

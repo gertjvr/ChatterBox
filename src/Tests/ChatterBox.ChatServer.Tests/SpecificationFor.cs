@@ -1,9 +1,10 @@
 ﻿using NUnit.Framework;
 
-namespace SpecificationFor
+namespace ChatterBox.ChatServer.Tests
 {
     [TestFixture]
-    public abstract class SpecFor<T> : ISpecFor
+    public abstract class SpecificationFor<T>
+        where T : class
     {
         protected T Subject;
 
@@ -16,6 +17,12 @@ namespace SpecificationFor
         {
             Subject = Given();
             When();
+        }
+
+        [TearDown]
+        public virtual void TearDown()
+        {
+            Subject = null;
         }
     }
 }

@@ -4,12 +4,10 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 using Ploeh.AutoFixture;
 using Shouldly;
-using SpecificationFor;
-using SpecificationFor.AutoFixture;
 
 namespace ChatterBox.Domain.Tests.Aggregates.Users
 {
-    public class WhenCreatingUser : AutoSpecFor<User>
+    public class WhenCreatingUser : AutoSpecificationFor<User>
     {
         protected override User Given()
         {

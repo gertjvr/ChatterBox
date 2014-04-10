@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace SpecificationFor
+namespace ChatterBox.Domain.Tests
 {
     [TestFixture]
-    public abstract class AsyncSpecFor<T> : ISpecFor
+    public abstract class SpecificationForAsync<T>
+        where T : class
     {
         protected T Subject;
 
@@ -22,6 +24,14 @@ namespace SpecificationFor
             });
             
             setup.Wait();
+        }
+
+        [TearDown]
+        public virtual void TearDown()
+        {
+            var disposable = Subject as IDisposable;
+            if (disposable != null) disposable.Dispose();
+            Subject = null;
         }
     }
 }

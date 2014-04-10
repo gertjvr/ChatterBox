@@ -4,24 +4,25 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
-namespace SpecificationFor.AutoFixture
+namespace ChatterBox.ChatServer.Tests
 {
     [TestFixture]
-    public abstract class AutoAsyncSpecFor<T> : AsyncSpecFor<T>
+    public abstract class AutoSpecificationForAsync<T> : SpecificationForAsync<T>
+        where T : class
     {
         private readonly Func<IFixture> _fixture;
 
-        protected AutoAsyncSpecFor()
+        protected AutoSpecificationForAsync()
             : this(() => new Fixture().Customize(new AutoNSubstituteCustomization()))
         {
         }
 
-        protected AutoAsyncSpecFor(Func<IFixture> fixture)
+        protected AutoSpecificationForAsync(Func<IFixture> fixture)
         {
             _fixture = fixture;
         }
 
-        protected IFixture Fixture { get; private set; }
+        protected IFixture Fixture;
 
         [SetUp]
         public override void SetUp()
@@ -34,6 +35,15 @@ namespace SpecificationFor.AutoFixture
             });
 
             setup.Wait();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            var disposable = Subject as IDisposable;
+            if (disposable != null) disposable.Dispose();
+            Subject = null;
+            Fixture = null;
         }
     }
 }

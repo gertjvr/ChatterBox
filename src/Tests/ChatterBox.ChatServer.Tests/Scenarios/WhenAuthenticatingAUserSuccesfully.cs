@@ -9,12 +9,10 @@ using ChatterBox.MessageContracts.Requests;
 using NSubstitute;
 using Ploeh.AutoFixture;
 using Shouldly;
-using SpecificationFor;
-using SpecificationFor.AutoFixture;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoAsyncSpecFor<AuthenticateUserRequestHandler>
+    public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
     {
         protected User User;
 

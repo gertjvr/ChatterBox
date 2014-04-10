@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace SpecificationFor
+namespace ChatterBox.ChatServer.Tests
 {
     public class ThenAttribute : TestAttribute
     {    

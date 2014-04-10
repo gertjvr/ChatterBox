@@ -3,12 +3,10 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 using Ploeh.AutoFixture;
 using Shouldly;
-using SpecificationFor;
-using SpecificationFor.AutoFixture;
 
 namespace ChatterBox.Domain.Tests.Aggregates.Users
 {
-    public class WhenChangingUserName : AutoSpecFor<User>
+    public class WhenChangingUserName : AutoSpecificationFor<User>
     {
         protected string NewUserName;
 

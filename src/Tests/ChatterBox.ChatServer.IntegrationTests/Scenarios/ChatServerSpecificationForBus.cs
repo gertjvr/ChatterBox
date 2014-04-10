@@ -3,13 +3,14 @@ using Autofac;
 using Autofac.Builder;
 using ChatterBox.Core.Persistence.Memory;
 using Nimbus;
+using NUnit.Framework;
 using Serilog;
 using Serilog.Events;
-using SpecificationFor;
 
 namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
 {
-    public abstract class ChatServerSpecificationForBus : AsyncSpecFor<IBus>
+    [Category("IntergrationTests")]
+    public abstract class ChatServerSpecificationForBus : SpecificationForAsync<IBus>
     {
         private IContainer _container;
 
