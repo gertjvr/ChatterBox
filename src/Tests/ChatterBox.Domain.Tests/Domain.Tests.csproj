@@ -96,6 +96,10 @@
       <Project>{D81EB12F-D0E1-44C4-A8A7-2C6D18AE5FA5}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SpecificationFor.AutoFixture\SpecificationFor.AutoFixture.csproj">
+      <Project>{DFA17042-FCB6-4003-B89E-E3AE6563C516}</Project>
+      <Name>SpecificationFor.AutoFixture</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpecificationFor\SpecificationFor.csproj">
       <Project>{248BBAE0-6238-48DD-9786-66794EB6CFC1}</Project>
       <Name>SpecificationFor</Name>

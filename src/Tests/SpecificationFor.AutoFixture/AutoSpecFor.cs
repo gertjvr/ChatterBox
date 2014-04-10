@@ -3,8 +3,9 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
-namespace SpecificationFor
+namespace SpecificationFor.AutoFixture
 {
+    [TestFixture]
     public abstract class AutoSpecFor<T> : SpecFor<T>
     {
         private readonly Func<IFixture> _fixture;

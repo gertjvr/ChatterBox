@@ -15,11 +15,13 @@ namespace SpecificationFor
         [SetUp]
         public virtual void SetUp()
         {
-            Task.Run(async () =>
+            var setup = Task.Run(async () =>
             {
                 Subject = await Given();
                 await When();
-            }).Wait();
+            });
+            
+            setup.Wait();
         }
     }
 }

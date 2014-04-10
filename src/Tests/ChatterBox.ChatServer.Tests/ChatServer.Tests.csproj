@@ -131,6 +131,10 @@
       <Project>{272e3901-c8ad-443c-a870-89c45eb0d0d2}</Project>
       <Name>MessageContracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SpecificationFor.AutoFixture\SpecificationFor.AutoFixture.csproj">
+      <Project>{DFA17042-FCB6-4003-B89E-E3AE6563C516}</Project>
+      <Name>SpecificationFor.AutoFixture</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpecificationFor\SpecificationFor.csproj">
       <Project>{248BBAE0-6238-48DD-9786-66794EB6CFC1}</Project>
       <Name>SpecificationFor</Name>

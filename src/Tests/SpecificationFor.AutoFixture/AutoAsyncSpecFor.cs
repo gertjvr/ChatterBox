@@ -4,8 +4,9 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
-namespace SpecificationFor
+namespace SpecificationFor.AutoFixture
 {
+    [TestFixture]
     public abstract class AutoAsyncSpecFor<T> : AsyncSpecFor<T>
     {
         private readonly Func<IFixture> _fixture;
@@ -20,17 +21,19 @@ namespace SpecificationFor
             _fixture = fixture;
         }
 
-        protected IFixture Fixture { get; set; }
+        protected IFixture Fixture { get; private set; }
 
         [SetUp]
         public override void SetUp()
         {
-            Task.Run(async () =>
+            var setup = Task.Run(async () =>
             {
                 Fixture = _fixture();
                 Subject = await Given();
-                await When(); 
-            }).Wait();
+                await When();
+            });
+
+            setup.Wait();
         }
     }
 }
