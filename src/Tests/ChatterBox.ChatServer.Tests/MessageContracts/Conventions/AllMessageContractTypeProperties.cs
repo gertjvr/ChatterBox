@@ -38,9 +38,9 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 
             private static bool IsRequestOrResponseOrCommandOrEventType(Type t)
             {
-                if (TypeExtensions.IsClosedTypeOf(t, typeof (IBusRequest<,>))) return true;
-                if (t.IsAssignableTo<IBusResponse>()) return true;
-                if (t.IsAssignableTo<IBusCommand>()) return true;
+                if (t.IsClosedTypeOf(typeof (IBusRequest<,>))) return true;
+                if (t.IsAssignableTo<IBusResponse>() && !t.IsInterface) return true;
+                if (t.IsAssignableTo<IBusCommand>() && !t.IsInterface) return true;
                 if (t.IsAssignableTo<IBusEvent>() && !t.IsInterface) return true;
 
                 return false;
