@@ -31,6 +31,7 @@ namespace ChatterBox.ChatClient.AutofacModules
                 .WithNames(componentContext.Resolve<ChatClientNameSetting>(), MachineName())
                 .WithTypesFrom(handlerTypesProvider)
                 .WithAutofacDefaults(componentContext)
+                .WithJsonSerializer()
                 .Build())
                 .As<IBus>()
                 .SingleInstance();

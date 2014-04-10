@@ -29,6 +29,7 @@ namespace ChatterBox.ChatServer.AutofacModules
                 .WithNames("ChatterBox.ChatServer", MachineName())
                 .WithTypesFrom(handlerTypesProvider)
                 .WithAutofacDefaults(componentContext)
+                .WithJsonSerializer()
                 .Build())
                 .As<IBus>()
                 .SingleInstance();
