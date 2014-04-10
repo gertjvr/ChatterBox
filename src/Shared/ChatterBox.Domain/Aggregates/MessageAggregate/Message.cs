@@ -13,14 +13,12 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate
 
         public static Message Create(Guid roomId, Guid userId, string content, DateTimeOffset createdAt)
         {
-            var fact = new MessageCreatedFact
-            {
-                AggregateRootId = Guid.NewGuid(),
-                RoomId = roomId,
-                UserId = userId,
-                Content = content,
-                CreatedAt = createdAt,
-            };
+            var fact = new MessageCreatedFact(
+                Guid.NewGuid(),
+                roomId,
+                userId,
+                content,
+                createdAt);
 
             var message = new Message();
             message.Append(fact);

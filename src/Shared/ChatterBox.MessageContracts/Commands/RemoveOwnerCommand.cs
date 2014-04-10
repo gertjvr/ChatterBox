@@ -5,8 +5,18 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class RemoveOwnerCommand : IBusCommand
     {
-        public Guid RoomId { get; set; }
+        protected RemoveOwnerCommand()
+        {   
+        }
 
-        public Guid OwnerId { get; set; }
+        public RemoveOwnerCommand(Guid roomId, Guid ownerId)
+        {
+            RoomId = roomId;
+            OwnerId = ownerId;
+        }
+
+        public Guid RoomId { get; protected set; }
+
+        public Guid OwnerId { get; protected set; }
     }
 }

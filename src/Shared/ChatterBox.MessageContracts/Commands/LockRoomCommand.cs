@@ -5,6 +5,15 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class LockRoomCommand : IBusCommand
     {
-        public Guid RoomId { get; set; }
+        protected LockRoomCommand()
+        {   
+        }
+
+        public LockRoomCommand(Guid roomId)
+        {
+            RoomId = roomId;
+        }
+
+        public Guid RoomId { get; protected set; }
     }
 }

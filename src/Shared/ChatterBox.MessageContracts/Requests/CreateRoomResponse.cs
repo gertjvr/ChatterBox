@@ -6,7 +6,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class CreateRoomResponse : IBusResponse
     {
         protected CreateRoomResponse()
-        {
+        {   
         }
 
         public CreateRoomResponse(Guid roomId)
@@ -14,6 +14,6 @@ namespace ChatterBox.MessageContracts.Requests
             RoomId = roomId;
         }
 
-        public Guid RoomId { get; set; }
+        public Guid RoomId { get; protected set; }
     }
 }

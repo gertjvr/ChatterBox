@@ -6,8 +6,7 @@ namespace ChatterBox.MessageContracts.Commands
     public class JoinRoomCommand : IBusCommand
     {
         protected JoinRoomCommand()
-        {
-            
+        {   
         }
 
         public JoinRoomCommand(Guid roomId, Guid userId)
@@ -16,10 +15,8 @@ namespace ChatterBox.MessageContracts.Commands
             UserId = userId;
         }
 
-        public string InviteCode { get; set; }
+        public Guid RoomId { get; protected set; }
 
-        public Guid RoomId { get; set; }
-
-        public Guid UserId { get; set; }
+        public Guid UserId { get; protected set; }
     };
 }

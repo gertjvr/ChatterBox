@@ -6,12 +6,26 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate.Facts
     [Serializable]
     public class MessageCreatedFact : FactAbout<Message>
     {
-        public Guid UserId { get; set; }
-        
-        public Guid RoomId { get; set; }
-        
-        public string Content { get; set; }
+        public MessageCreatedFact(
+            Guid aggregateRootId,
+            Guid userId,
+            Guid roomId,
+            string content,
+            DateTimeOffset createdAt)
+            : base(aggregateRootId)
+        {
+            UserId = userId;
+            RoomId = roomId;
+            Content = content;
+            CreatedAt = createdAt;
+        }
 
-        public DateTimeOffset CreatedAt { get; set; }
+        public Guid UserId { get; protected set; }
+
+        public Guid RoomId { get; protected set; }
+
+        public string Content { get; protected set; }
+
+        public DateTimeOffset CreatedAt { get; protected set; }
     }
 }

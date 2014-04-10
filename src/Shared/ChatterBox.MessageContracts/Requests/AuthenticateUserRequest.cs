@@ -5,7 +5,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class AuthenticateUserRequest : IBusRequest<AuthenticateUserRequest, AuthenticateUserResponse>
     {
         protected AuthenticateUserRequest()
-        {
+        {   
         }
 
         public AuthenticateUserRequest(string userName, string password)
@@ -14,8 +14,8 @@ namespace ChatterBox.MessageContracts.Requests
             Password = password;
         }
 
-        public string UserName { get; set; }
+        public string UserName { get; protected set; }
 
-        public string Password { get; set; }
+        public string Password { get; protected set; }
     }
 }

@@ -24,13 +24,12 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
 
         protected override async Task<AuthenticateUserRequestHandler> Given()
         {
+            var userName = Fixture.Create<string>();
             var salt = Fixture.Create<string>();
             var password = Fixture.Create<string>();
             var hashedPassword = password.ToSha256(salt);
 
-            Request = Fixture.Build<AuthenticateUserRequest>()
-                .With(p => p.Password, password)
-                .Create();
+            Request = new AuthenticateUserRequest(userName, password);
 
             User = Fixture.Build<User>()
                 .Do(u => u.ChangeSalt(salt))

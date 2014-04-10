@@ -6,7 +6,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class GetUserInfoRequest : IBusRequest<GetUserInfoRequest, GetUserInfoResponse>
     {
         protected GetUserInfoRequest()
-        {
+        {   
         }
 
         public GetUserInfoRequest(Guid userId)
@@ -14,6 +14,6 @@ namespace ChatterBox.MessageContracts.Requests
             UserId = userId;
         }
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; protected set; }
     }
 }

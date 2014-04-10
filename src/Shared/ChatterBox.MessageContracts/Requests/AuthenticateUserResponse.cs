@@ -7,7 +7,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class AuthenticateUserResponse : IBusResponse
     {
         protected AuthenticateUserResponse()
-        {
+        {   
         }
 
         public AuthenticateUserResponse(
@@ -22,23 +22,21 @@ namespace ChatterBox.MessageContracts.Requests
             UserId = userId;
         }
 
-        public UserDto User { get; set; }
+        public UserDto User { get; protected set; }
 
-        public RoomDto[] Rooms { get; set; }
+        public RoomDto[] Rooms { get; protected set; }
 
-        public Guid ClientId { get; set; }
+        public Guid ClientId { get; protected set; }
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; protected set; }
 
         public static AuthenticateUserResponse Failed()
         {
-            return new AuthenticateUserResponse
-            {
-                User = null,
-                Rooms = new RoomDto[0],
-                ClientId = Guid.Empty,
-                UserId = Guid.Empty,
-            };
+            return new AuthenticateUserResponse(
+                null, 
+                new RoomDto[0], 
+                Guid.Empty, 
+                Guid.Empty);
         }
     }
 }

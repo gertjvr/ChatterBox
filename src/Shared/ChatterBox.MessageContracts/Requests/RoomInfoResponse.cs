@@ -6,7 +6,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class RoomInfoResponse : IBusResponse
     {
         protected RoomInfoResponse()
-        {
+        {   
         }
 
         public RoomInfoResponse(RoomDto room)
@@ -14,6 +14,6 @@ namespace ChatterBox.MessageContracts.Requests
             Room = room;
         }
 
-        public RoomDto Room { get; set; }
+        public RoomDto Room { get; protected set; }
     }
 }

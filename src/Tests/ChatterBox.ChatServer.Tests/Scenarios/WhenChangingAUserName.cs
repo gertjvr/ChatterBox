@@ -21,10 +21,10 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         protected override async Task<ChangeUserNameCommandHandler> Given()
         {
             User = Fixture.Freeze<User>();
-            
-            Command = Fixture.Build<ChangeUserNameCommand>()
-                .With(p => p.UserId, User.Id)
-                .Create();
+
+            var newUserName = Fixture.Create<string>();
+
+            Command = new ChangeUserNameCommand(User.Id, newUserName);
 
             Repository = Fixture.Freeze<IRepository<User>>();
             

@@ -6,7 +6,7 @@ namespace ChatterBox.MessageContracts.Commands
     public class SendMessageCommand : IBusCommand
     {
         protected SendMessageCommand()
-        {
+        {   
         }
 
         public SendMessageCommand(string content, Guid roomId, Guid userId)
@@ -16,11 +16,11 @@ namespace ChatterBox.MessageContracts.Commands
             UserId = userId;
         }
 
-        public string Content { get; set; }
+        public string Content { get; protected set; }
 
-        public Guid RoomId { get; set; }
+        public Guid RoomId { get; protected set; }
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; protected set; }
 
     }
 }

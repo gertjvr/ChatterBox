@@ -16,12 +16,10 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public Room(string name, Guid ownerId)
         {
-            var fact = new RoomCreatedFact
-            {
-                AggregateRootId = Guid.NewGuid(),
-                Name = name,
-                OwnerId = ownerId,
-            };
+            var fact = new RoomCreatedFact(
+                Guid.NewGuid(),
+                name,
+                ownerId);
 
             Append(fact);
             Apply(fact);
@@ -52,11 +50,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void ChangeTopic(string topic)
         {
-            var fact = new RoomTopicChangedFact
-            {
-                AggregateRootId = Id,
-                Topic = topic,
-            };
+            var fact = new RoomTopicChangedFact(
+                Id,
+                topic);
 
             Append(fact);
             Apply(fact);
@@ -69,11 +65,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void AddUser(Guid userId)
         {
-            var fact = new UserAddedFact
-            {
-                AggregateRootId = Id,
-                UserId = userId
-            };
+            var fact = new UserAddedFact(
+                Id,
+                userId);
 
             Append(fact);
             Apply(fact);

@@ -13,14 +13,12 @@ namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate
 
         public UserIdentity(Guid userId, string email, string identity, string providerName)
         {
-            var fact = new UserIdentityCreatedFact
-            {
-                AggregateRootId = Guid.NewGuid(),
-                UserId = userId,
-                Email = email,
-                Identity = identity,
-                ProviderName = providerName,
-            };
+            var fact = new UserIdentityCreatedFact(
+                Guid.NewGuid(),
+                userId,
+                email,
+                identity,
+                providerName);
 
             Append(fact);
             Apply(fact);

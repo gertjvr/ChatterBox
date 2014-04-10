@@ -6,8 +6,7 @@ namespace ChatterBox.MessageContracts.Commands
     public class KickUserCommand : IBusCommand
     {
         protected KickUserCommand()
-        {
-            
+        {   
         }
 
         public KickUserCommand(Guid targetUserId, Guid roomId, Guid userId)
@@ -17,10 +16,10 @@ namespace ChatterBox.MessageContracts.Commands
             UserId = userId;
         }
 
-        public Guid TargetUserId { get; set; }
+        public Guid TargetUserId { get; protected set; }
 
-        public Guid RoomId { get; set; }
+        public Guid RoomId { get; protected set; }
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; protected set; }
     }
 }

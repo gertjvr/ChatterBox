@@ -5,8 +5,18 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class AllowUserCommand : IBusCommand
     {
-        public Guid RoomId { get; set; }
+        protected AllowUserCommand()
+        {   
+        }
 
-        public Guid UserId { get; set; }
+        public AllowUserCommand(Guid roomId, Guid userId)
+        {
+            RoomId = roomId;
+            UserId = userId;
+        }
+
+        public Guid RoomId { get; protected set; }
+
+        public Guid UserId { get; protected set; }
     }
 }

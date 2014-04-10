@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using Autofac;
 using ChatterBox.MessageContracts.Commands;
 using Nimbus.MessageContracts;
+using Nimbus.Serializers.Json;
 using NUnit.Framework;
 using Shouldly;
-using ThirdDrawer.Extensions.CollectionExtensionMethods;
 
 namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 {
@@ -23,15 +21,10 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
         {
             Should.NotThrow(() =>
             {
-                using (var mem = new MemoryStream())
-                {
-                    var serializer = new DataContractSerializer(messageType);
-                    object instance = Activator.CreateInstance(messageType, true);
-                    serializer.WriteObject(mem, instance);
-                }
+                var serializer = new JsonSerializer();
+                object instance = Activator.CreateInstance(messageType, true);
+                serializer.Serialize(instance);
             });
-
-            //ShouldNotThrow("The message type {0} is not serializable.".FormatWith(messageType.FullName));
         }
 
         internal class TestCases : IEnumerable<TestCaseData>

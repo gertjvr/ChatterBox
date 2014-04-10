@@ -30,18 +30,16 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         
         public User(string name, string email, string hash, string salt, string hashedPassword, UserRole role = UserRole.User)
         {
-            var fact = new UserCreatedFact
-            {
-                AggregateRootId = Guid.NewGuid(),
-                Name = name,
-                Email = email,
-                Hash = hash,
-                Salt = salt,
-                HashedPassword = hashedPassword,
-                UserRole = role,
-                Status = UserStatus.Active,
-                LastActivity = DateTimeHelper.UtcNow,
-            };
+            var fact = new UserCreatedFact(
+                Guid.NewGuid(),
+                name,
+                email,
+                hash,
+                salt,
+                hashedPassword,
+                role,
+                DateTimeHelper.UtcNow,
+                UserStatus.Active);
 
             Append(fact);
             Apply(fact);
@@ -62,11 +60,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public void UpdateLastActivity(DateTimeOffset lastActivity)
         {
-            var fact = new UserLastActivityUpdatedFact
-            {
-                AggregateRootId = Guid.NewGuid(),
-                LastActivity = lastActivity,
-            };
+            var fact = new UserLastActivityUpdatedFact(
+                Guid.NewGuid(),
+                lastActivity);
 
             Append(fact);
             Apply(fact);
@@ -79,11 +75,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public void ChangeUserName(string newUserName)
         {
-            var fact = new UserNameChangedFact
-            {
-                AggregateRootId = Id,
-                NewUserName = newUserName,
-            };
+            var fact = new UserNameChangedFact(
+                Id,
+                newUserName);
 
             Append(fact);
             Apply(fact);
@@ -96,11 +90,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public void ChangeUserRole(UserRole userRole)
         {
-            var fact = new UserRoleChangedFact
-            {
-                AggregateRootId = Id,
-                UserRole = userRole,
-            };
+            var fact = new UserRoleChangedFact(
+                Id,
+                userRole);
 
             Append(fact);
             Apply(fact);
@@ -113,11 +105,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public void ChangePassword(string newHashedPassword)
         {
-            var fact = new UserPasswordChangedFact
-            {
-                AggregateRootId = Id,
-                NewHashedPassword = newHashedPassword,
-            };
+            var fact = new UserPasswordChangedFact(
+                Id,
+                newHashedPassword);
 
             Append(fact);
             Apply(fact);
@@ -130,11 +120,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public void ChangeSalt(string newSalt)
         {
-            var fact = new UserSaltChangedFact
-            {
-                AggregateRootId = Id,
-                NewSalt = newSalt,
-            };
+            var fact = new UserSaltChangedFact(
+                Id,
+                newSalt);
 
             Append(fact);
             Apply(fact);
@@ -147,11 +135,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public void ChangeStatus(UserStatus status)
         {
-            var fact = new UserStatusChangedFact
-            {
-                AggregateRootId = Id,
-                Status = Status,
-            };
+            var fact = new UserStatusChangedFact(
+                Id,
+                Status);
 
             Append(fact);
             Apply(fact);

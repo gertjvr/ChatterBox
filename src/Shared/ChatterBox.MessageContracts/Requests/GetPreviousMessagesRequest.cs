@@ -6,7 +6,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class GetPreviousMessagesRequest : IBusRequest<GetPreviousMessagesRequest, GetPreviousMessagesResponse>
     {
         protected GetPreviousMessagesRequest()
-        {
+        {   
         }
 
         public GetPreviousMessagesRequest(Guid fromId)
@@ -14,6 +14,6 @@ namespace ChatterBox.MessageContracts.Requests
             FromId = fromId;
         }
 
-        public Guid FromId { get; set; }
+        public Guid FromId { get; protected set; }
     }
 }

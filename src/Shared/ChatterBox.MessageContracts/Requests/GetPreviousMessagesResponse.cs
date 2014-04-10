@@ -7,7 +7,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class GetPreviousMessagesResponse : IBusResponse
     {
         protected GetPreviousMessagesResponse()
-        {
+        {   
         }
 
         public GetPreviousMessagesResponse(IEnumerable<MessageDto> messages)
@@ -15,6 +15,6 @@ namespace ChatterBox.MessageContracts.Requests
             Messages = messages;
         }
 
-        public IEnumerable<MessageDto> Messages { get; set; }
+        public IEnumerable<MessageDto> Messages { get; protected set; }
     }
 }

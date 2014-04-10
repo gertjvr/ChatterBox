@@ -6,7 +6,7 @@ namespace ChatterBox.MessageContracts.Commands
     public class ChangeUserNameCommand : IBusCommand
     {
         protected ChangeUserNameCommand()
-        {
+        {   
         }
 
         public ChangeUserNameCommand(Guid userId, string newUserName)
@@ -15,8 +15,8 @@ namespace ChatterBox.MessageContracts.Commands
             NewUserName = newUserName;
         }
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; protected set; }
 
-        public string NewUserName { get; set; }
+        public string NewUserName { get; protected set; }
     }
 }

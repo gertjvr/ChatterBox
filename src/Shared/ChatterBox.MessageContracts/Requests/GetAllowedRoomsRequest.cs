@@ -5,16 +5,15 @@ namespace ChatterBox.MessageContracts.Requests
 {
     public class GetAllowedRoomsRequest : IBusRequest<GetAllowedRoomsRequest, GetAllowedRoomsResponse>
     {
-        public Guid UserId { get; set; }
-
         protected GetAllowedRoomsRequest()
-        {
-            
+        {   
         }
 
         public GetAllowedRoomsRequest(Guid userId)
         {
             UserId = userId;
         }
+
+        public Guid UserId { get; protected set; }
     }
 }

@@ -6,7 +6,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class GetUserInfoResponse : IBusResponse
     {
         protected GetUserInfoResponse()
-        {
+        {   
         }
 
         public GetUserInfoResponse(UserDto user)
@@ -14,6 +14,6 @@ namespace ChatterBox.MessageContracts.Requests
             User = user;
         }
 
-        public UserDto User { get; set; }
+        public UserDto User { get; protected set; }
     }
 }

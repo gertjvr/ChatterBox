@@ -5,6 +5,15 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class RemoveAdminCommand : IBusCommand
     {
-        private Guid UserId { get; set; }
+        protected RemoveAdminCommand()
+        {   
+        }
+
+        public RemoveAdminCommand(Guid userId)
+        {
+            UserId = userId;
+        }
+
+        public Guid UserId { get; protected set; }
     }
 }

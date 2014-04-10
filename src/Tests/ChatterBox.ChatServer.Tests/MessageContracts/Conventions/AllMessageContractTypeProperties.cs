@@ -15,11 +15,11 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
     public class AllMessageContractTypeProperties
     {
         [Test]
-        [TestCaseSource(typeof (TestCases))]
-        public void ShouldBePublic(PropertyInfo propertyInfo)
+        [TestCaseSource(typeof(TestCases))]
+        public void ShouldBeImmutable(PropertyInfo propertyInfo)
         {
             propertyInfo.GetMethod.IsPublic.ShouldBe(true);
-            propertyInfo.SetMethod.IsPublic.ShouldBe(true);
+            propertyInfo.SetMethod.IsPublic.ShouldBe(false);
         }
 
         internal class TestCases : IEnumerable<TestCaseData>

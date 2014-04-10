@@ -5,10 +5,21 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class SetInviteCodeCommand : IBusCommand
     {
-        public Guid UserId { get; set; }
-        
-        public Guid RoomId { get; set; }
+        protected SetInviteCodeCommand()
+        {   
+        }
 
-        public string InviteCode { get; set; }
+        public SetInviteCodeCommand(Guid userId, Guid roomId, string inviteCode)
+        {
+            UserId = userId;
+            RoomId = roomId;
+            InviteCode = inviteCode;
+        }
+
+        public Guid UserId { get; protected set; }
+        
+        public Guid RoomId { get; protected set; }
+
+        public string InviteCode { get; protected set; }
     }
 }

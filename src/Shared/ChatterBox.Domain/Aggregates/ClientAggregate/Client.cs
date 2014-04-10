@@ -13,12 +13,10 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate
 
         public static Client Create(Guid userId, string name)
         {
-            var fact = new ClientCreatedFact
-            {
-                AggregateRootId = Guid.NewGuid(),
-                UserId = userId,
-                Name = name,
-            };
+            var fact = new ClientCreatedFact(
+                Guid.NewGuid(),
+                userId,
+                name);
 
             var customer = new Client();
             customer.Append(fact);

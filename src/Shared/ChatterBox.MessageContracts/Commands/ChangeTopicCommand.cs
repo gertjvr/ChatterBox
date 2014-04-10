@@ -5,10 +5,21 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class ChangeTopicCommand : IBusCommand
     {
-        public Guid RoomId { get; set; }
+        protected ChangeTopicCommand()
+        {   
+        }
 
-        public Guid UserId { get; set; }
+        public ChangeTopicCommand(Guid roomId, Guid userId, string newTopic)
+        {
+            RoomId = roomId;
+            UserId = userId;
+            NewTopic = newTopic;
+        }
 
-        public string NewTopic { get; set; }
+        public Guid RoomId { get; protected set; }
+
+        public Guid UserId { get; protected set; }
+
+        public string NewTopic { get; protected set; }
     }
 }

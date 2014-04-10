@@ -5,6 +5,15 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class BanUserCommand : IBusCommand
     {
-        private Guid BanUserId { get; set; }
+        protected BanUserCommand()
+        {
+        }
+
+        public BanUserCommand(Guid banUserId)
+        {
+            BanUserId = banUserId;
+        }
+
+        public Guid BanUserId { get; protected set; }
     }
 }

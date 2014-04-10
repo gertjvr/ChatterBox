@@ -6,6 +6,14 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
     [Serializable]
     public class RoomTopicChangedFact : FactAbout<Room>
     {
-        public string Topic { get; set; }
+        public RoomTopicChangedFact(
+            Guid aggregateRootId, 
+            string topic) 
+            : base(aggregateRootId)
+        {
+            Topic = topic;
+        }
+
+        public string Topic { get; protected set; }
     }
 }

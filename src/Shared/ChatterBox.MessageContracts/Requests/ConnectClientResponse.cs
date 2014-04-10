@@ -6,8 +6,7 @@ namespace ChatterBox.MessageContracts.Requests
     public class ConnectClientResponse : IBusResponse
     {
         protected ConnectClientResponse()
-        {
-            
+        {   
         }
 
         public ConnectClientResponse(Guid clientId)
@@ -15,6 +14,6 @@ namespace ChatterBox.MessageContracts.Requests
             ClientId = clientId;
         }
 
-        public Guid ClientId { get; set; }
+        public Guid ClientId { get; protected set; }
     }
 }

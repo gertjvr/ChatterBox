@@ -1,9 +1,18 @@
-﻿using ChatterBox.Core.Infrastructure.Facts;
+﻿using System;
+using ChatterBox.Core.Infrastructure.Facts;
 
 namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
 {
     public class UserNameChangedFact : FactAbout<User>
     {
-        public string NewUserName { get; set; }
+        public UserNameChangedFact(
+            Guid aggregateRootId, 
+            string newUserName) 
+            : base(aggregateRootId)
+        {
+            NewUserName = newUserName;
+        }
+
+        public string NewUserName { get; protected set; }
     }
 }

@@ -5,6 +5,15 @@ namespace ChatterBox.MessageContracts.Commands
 {
     public class AddAdminCommand : IBusCommand
     {
-        public Guid UserId { get; set; }
+        protected AddAdminCommand()
+        {   
+        }
+
+        public AddAdminCommand(Guid userId)
+        {
+            UserId = userId;
+        }
+
+        public Guid UserId { get; protected set; }
     }
 }
