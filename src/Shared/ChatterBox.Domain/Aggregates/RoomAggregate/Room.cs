@@ -47,11 +47,13 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
             Contacts = new Collection<Guid> { fact.OwnerId };
         }
 
-        public void ChangeTopic(string topic)
+        public void ChangeTopic(string topic, Guid userId, DateTimeOffset changedAt)
         {
             var fact = new RoomTopicChangedFact(
                 Id,
-                topic);
+                topic,
+                userId,
+                changedAt);
 
             Append(fact);
             Apply(fact);
@@ -59,7 +61,7 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(RoomTopicChangedFact fact)
         {
-            Topic = fact.Topic;
+            Topic = fact.NewTopic;
         }
 
         public void Join(Guid userId)

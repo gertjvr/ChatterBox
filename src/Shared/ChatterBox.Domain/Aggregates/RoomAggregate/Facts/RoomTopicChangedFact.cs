@@ -8,12 +8,20 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
     {
         public RoomTopicChangedFact(
             Guid aggregateRootId, 
-            string topic) 
+            string newTopic, 
+            Guid userId, 
+            DateTimeOffset changedAt) 
             : base(aggregateRootId)
         {
-            Topic = topic;
+            NewTopic = newTopic;
+            UserId = userId;
+            ChangedAt = changedAt;
         }
 
-        public string Topic { get; protected set; }
+        public string NewTopic { get; protected set; }
+
+        public Guid UserId { get; protected set; }
+
+        public DateTimeOffset ChangedAt { get; protected set; }
     }
 }

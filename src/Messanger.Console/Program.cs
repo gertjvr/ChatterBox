@@ -18,19 +18,12 @@ namespace Messanger.Console
         {
             _container = IoC.LetThereBeIoC();
 
-            //using (var scope = _container.BeginLifetimeScope())
-            //{
-            //    var uow = scope.Resolve<IUnitOfWork>();
-            //    var repo = scope.Resolve<IRepository<Room>>();
-            //    var convo = repo.GetById(Guid.Parse("1f3ae5d8-d02c-47c9-bb67-761ac0d13e03"));
-            //}
-
             var fredId = CreateUser("fred", "fred@rocks.com", "test@password");
             var wilmaId = CreateUser("wilma", "wilma@rocks.com", "test@password");
 
             var roomId = CreateRoom(string.Empty, fredId);
 
-            ChangeRoomTopic(roomId, "New Topic");
+            ChangeRoomTopic(roomId, "New Topic", fredId);
 
             CreateMessage(roomId, fredId, "Hello Wilma");
 
@@ -54,16 +47,17 @@ namespace Messanger.Console
             }
         }
 
-        private static void ChangeRoomTopic(Guid userId, string newTopic)
+        private static void ChangeRoomTopic(Guid roomId, string newTopic, Guid userId)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = uow.Repository<Room>();
+                var clock = scope.Resolve<IClock>();
                 
-                var conversation = repo.GetById(userId);
-                
-                conversation.ChangeTopic(newTopic);
+                var room = repo.GetById(roomId);
+
+                room.ChangeTopic(newTopic, userId, clock.UtcNow);
 
                 uow.Complete();
             }
