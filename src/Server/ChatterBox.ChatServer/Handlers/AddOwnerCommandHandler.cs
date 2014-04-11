@@ -12,7 +12,7 @@ namespace ChatterBox.ChatServer.Handlers
         {
         }
 
-        public override Task Execute(IUnitOfWork context, AddOwnerCommand command)
+        public override async Task Execute(IUnitOfWork context, AddOwnerCommand command)
         {
             var repository = context.Repository<Room>();
 
