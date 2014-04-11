@@ -76,9 +76,10 @@ namespace Messanger.Console
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = uow.Repository<User>();
                 var crypto = scope.Resolve<ICryptoService>();
+                var clock = scope.Resolve<IClock>();
 
                 var salt = crypto.CreateSalt();
-                var user = new User(name, email, email.ToMD5(), salt, password.ToSha256(salt));
+                var user = new User(name, email, email.ToMD5(), salt, password.ToSha256(salt), clock.UtcNow);
                 repo.Add(user);
                 uow.Complete();
 
@@ -108,8 +109,9 @@ namespace Messanger.Console
             {
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = scope.Resolve<IRepository<Message>>();
-                
-                var message = new Message(roomId, userId, content, DateTimeHelper.UtcNow);
+                var clock = scope.Resolve<IClock>();
+
+                var message = new Message(roomId, userId, content, clock.UtcNow);
 
                 repo.Add(message);
                 uow.Complete();

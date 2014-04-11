@@ -9,15 +9,12 @@ namespace ChatterBox.MessageContracts.Commands
         {   
         }
 
-        public SendMessageCommand(DateTimeOffset createdAt, string content, Guid roomId, Guid userId)
+        public SendMessageCommand(string content, Guid roomId, Guid userId)
         {
-            CreatedAt = createdAt;
             Content = content;
             RoomId = roomId;
             UserId = userId;
         }
-
-        public DateTimeOffset CreatedAt { get; protected set; }
 
         public string Content { get; protected set; }
 

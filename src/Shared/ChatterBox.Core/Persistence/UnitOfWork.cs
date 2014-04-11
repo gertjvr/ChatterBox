@@ -15,17 +15,19 @@ namespace ChatterBox.Core.Persistence
         private readonly Guid _Id;
         private readonly IFactStore _factStore;
         private readonly IDomainEventBroker _domainEventBroker;
+        private readonly IClock _clock;
         private readonly ILifetimeScope _scope;
         private readonly List<IAggregateRoot> _enlistedItems = new List<IAggregateRoot>();
 
         private bool _completed;
         private bool _abandoned;
 
-        public UnitOfWork(IFactStore factStore, IDomainEventBroker domainEventBroker, ILifetimeScope rootScope)
+        public UnitOfWork(IFactStore factStore, IDomainEventBroker domainEventBroker, IClock clock, ILifetimeScope rootScope)
         {
             _Id = Guid.NewGuid();
             _factStore = factStore;
             _domainEventBroker = domainEventBroker;
+            _clock = clock;
             _scope = rootScope;
         }
 
@@ -62,7 +64,7 @@ namespace ChatterBox.Core.Persistence
                 facts.AddRange(factsFromThisPass);
                 foreach (var fact in factsFromThisPass)
                 {
-                    fact.SetUnitOfWorkProperties(new UnitOfWorkProperties(unitOfWorkId, sequenceNumber, DateTimeHelper.UtcNow));
+                    fact.SetUnitOfWorkProperties(new UnitOfWorkProperties(unitOfWorkId, sequenceNumber, _clock.UtcNow));
                     _domainEventBroker.Raise((dynamic) fact);
 
                     sequenceNumber++;

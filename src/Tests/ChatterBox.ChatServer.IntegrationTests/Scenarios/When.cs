@@ -7,9 +7,11 @@ using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Facts;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Persistence.Memory;
+using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.Domain.Aggregates.RoomAggregate.Facts;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
+using ChatterBox.Domain.Queries;
 using ChatterBox.MessageContracts.Commands;
 using ChatterBox.MessageContracts.Requests;
 using Shouldly;
@@ -30,6 +32,8 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
     {
         protected override IContainer CreateContainer()
         {
+            var clock = new SystemClock();
+
             var userCreatedFact = new UserCreatedFact(
                 Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b"),
                 "fred@rockwell.com",
@@ -38,17 +42,17 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
                 "LTkGikACIlLJptwW6Wmrnw==",
                 "f1c7764c8b6293e2a626689f7d460eb344cd5242ee5e507c877e2b4a17049627",
                 UserRole.Admin,
-                DateTimeHelper.UtcNow,
-                UserStatus.Active);
+                UserStatus.Active,
+                clock.UtcNow);
 
-            userCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("9e5bf6b9-d545-40f5-bfc2-ab27722bb190"), 0, DateTimeHelper.UtcNow));
+            userCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("9e5bf6b9-d545-40f5-bfc2-ab27722bb190"), 0, clock.UtcNow));
 
             var roomCreatedFact = new RoomCreatedFact(
                 Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad"),
                 "Home",
                 Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b"));
 
-            roomCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("63113645-ac0a-4dcd-a206-f939219d2dcc"), 0, DateTimeHelper.UtcNow));
+            roomCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("63113645-ac0a-4dcd-a206-f939219d2dcc"), 0, clock.UtcNow));
 
             var factStore = new MemoryFactStore();
             factStore.ImportFrom(new List<IFact> { userCreatedFact, roomCreatedFact });
@@ -61,12 +65,12 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
             });
         }
 
-        [Then]
-        public async Task Monkey()
-        {
-            var response = await Subject.Request(new AuthenticateUserRequest("fred@rockwell.com", "yabadabado"));
-            response.User.LastActivity.ShouldNotBe(DateTimeOffset.Parse("2014-04-06T08:37:56.000631+00:00"));
-        }
+        //[Then]
+        //public async Task Monkey()
+        //{
+        //    var response = await Subject.Request(new AuthenticateUserRequest("fred@rockwell.com", "yabadabado"));
+        //    response.User.LastActivity.ShouldNotBe(DateTimeOffset.Parse("2014-04-06T08:37:56.000631+00:00"));
+        //}
 
         //public async Task CorrectlyCreateRoom()
         //{
@@ -77,7 +81,18 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
         [Then]
         public async Task SendMessage()
         {
-            await Subject.Send(new SendMessageCommand("Hello World!", Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad"), Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b")));
+            var roomId = Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad");
+            var userId = Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b");
+
+            await Subject.Send(new SendMessageCommand("Hello World!", roomId, userId));
+        }
+
+        [Then]
+        public async Task ShouldHaveReceivedMessage()
+        {
+            var roomId = Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad");
+
+            var response = await Subject.Request(new PreviousMessagesRequest(Guid.Empty));
         }
     }
 }

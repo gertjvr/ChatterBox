@@ -23,6 +23,7 @@ namespace ChatterBox.ChatClient
     {
         private readonly UserContext _userContext = new UserContext();
         private readonly ClientContext _clientContext = new ClientContext();
+        
         private IContainer _container;
         private IBus _bus;
 
@@ -32,7 +33,9 @@ namespace ChatterBox.ChatClient
 
             _container = IoC.LetThereBeIoC();
 
-            StartNimbus((Bus) _container.Resolve<IBus>());
+            _bus = _container.Resolve<IBus>();
+
+            StartNimbus((Bus) _bus);
         }
 
         public async Task<LogOnInfo> Connect(string name, string password)
@@ -67,7 +70,7 @@ namespace ChatterBox.ChatClient
 
         public async Task Send(string message, Guid roomId)
         {
-            await _bus.Send(new SendMessageCommand(DateTimeHelper.UtcNow, message, roomId, _userContext.UserId));
+            await _bus.Send(new SendMessageCommand(message, roomId, _userContext.UserId));
         }
 
         public async Task CreateRoom(string roomName)
@@ -134,8 +137,6 @@ namespace ChatterBox.ChatClient
         private void StartNimbus(Bus bus)
         {
             bus.Start();
-
-            _bus = bus;
         }
 
         private static void InitializeLogger()

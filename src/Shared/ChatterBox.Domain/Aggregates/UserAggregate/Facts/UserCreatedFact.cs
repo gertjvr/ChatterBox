@@ -13,8 +13,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             string salt, 
             string hashedPassword, 
             UserRole userRole, 
-            DateTimeOffset lastActivity, 
-            UserStatus status) 
+            UserStatus status, 
+            DateTimeOffset lastActivity) 
             : base(aggregateRootId)
         {
             Name = name;

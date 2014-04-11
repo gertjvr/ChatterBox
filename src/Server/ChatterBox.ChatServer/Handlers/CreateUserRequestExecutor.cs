@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Autofac.Features.OwnedInstances;
 using ChatterBox.Core.Extensions;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Services;
 using ChatterBox.Domain.Aggregates.UserAggregate;
@@ -12,13 +13,16 @@ namespace ChatterBox.ChatServer.Handlers
     public class CreateUserRequestHandler : ScopedRequestHandler<CreateUserRequest, CreateUserResponse>
     {
         private readonly ICryptoService _cryptoService;
+        private readonly IClock _clock;
 
         public CreateUserRequestHandler(
+            Func<Owned<IUnitOfWork>> unitOfWork,
             ICryptoService cryptoService,
-            Func<Owned<IUnitOfWork>> unitOfWork)
+            IClock clock)
             : base(unitOfWork)
         {
             _cryptoService = cryptoService;
+            _clock = clock;
         }
 
         public override async Task<CreateUserResponse> Execute(IUnitOfWork context, CreateUserRequest request)
@@ -33,7 +37,8 @@ namespace ChatterBox.ChatServer.Handlers
                 request.Email,
                 request.Email.ToMD5(),
                 salt,
-                hashedPassword);
+                hashedPassword,
+                _clock.UtcNow);
 
             repository.Add(user);
 

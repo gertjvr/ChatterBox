@@ -1,5 +1,4 @@
 ﻿using System;
-using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 
@@ -27,8 +26,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         public DateTimeOffset LastActivity { get; protected set; }
         
         public UserStatus Status { get; protected set; }
-        
-        public User(string name, string email, string hash, string salt, string hashedPassword, UserRole role = UserRole.User)
+
+        public User(string name, string email, string hash, string salt, string hashedPassword, DateTimeOffset lastActivity, UserRole role = UserRole.User, UserStatus status = UserStatus.Active)
         {
             var fact = new UserCreatedFact(
                 Guid.NewGuid(),
@@ -38,8 +37,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
                 salt,
                 hashedPassword,
                 role,
-                DateTimeHelper.UtcNow,
-                UserStatus.Active);
+                status,
+                lastActivity);
 
             Append(fact);
             Apply(fact);

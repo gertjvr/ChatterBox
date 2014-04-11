@@ -19,17 +19,20 @@ namespace ChatterBox.ChatServer.Handlers
     public class AuthenticateUserRequestHandler : ScopedRequestHandler<AuthenticateUserRequest, AuthenticateUserResponse>
     {
         private readonly ICryptoService _cryptoService;
+        private readonly IClock _clock;
         private readonly IMapToNew<User, UserDto> _userMapper;
         private readonly IMapToNew<Room, RoomDto> _roomMapper;
 
         public AuthenticateUserRequestHandler(
             Func<Owned<IUnitOfWork>> unitOfWork,
             ICryptoService cryptoService,
+            IClock clock,
             IMapToNew<Room, RoomDto> roomMapper,
             IMapToNew<User, UserDto> userMapper)
             : base(unitOfWork)
         {
             _cryptoService = cryptoService;
+            _clock = clock;
             _userMapper = userMapper;
             _roomMapper = roomMapper;
         }
@@ -51,7 +54,8 @@ namespace ChatterBox.ChatServer.Handlers
                     string.Empty,
                     string.Empty.ToMD5(),
                     salt,
-                    hashedPassword, 
+                    hashedPassword,
+                    _clock.UtcNow,
                     UserRole.Admin);
 
                 rooms = Enumerable.Empty<Room>();
@@ -78,7 +82,7 @@ namespace ChatterBox.ChatServer.Handlers
                     return AuthenticateUserResponse.Failed();
                 }
 
-                user.UpdateLastActivity(DateTimeHelper.UtcNow);
+                user.UpdateLastActivity(_clock.UtcNow);
             }
 
             context.Complete();
