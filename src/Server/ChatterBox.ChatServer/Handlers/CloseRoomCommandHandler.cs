@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.MessageContracts.Commands;
 
 namespace ChatterBox.ChatServer.Handlers
@@ -11,9 +12,15 @@ namespace ChatterBox.ChatServer.Handlers
         {
         }
 
-        public override Task Execute(IUnitOfWork context, CloseRoomCommand command)
+        public override async Task Execute(IUnitOfWork context, CloseRoomCommand command)
         {
-            throw new NotImplementedException();
+            var repository = context.Repository<Room>();
+
+            var room = repository.GetById(command.RoomId);
+
+            room.Close(command.UserId);
+
+            context.Complete();
         }
     }
 }

@@ -104,5 +104,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         {
             Owners.Add(fact.OwnerId);
         }
+
+        public void Close(Guid userId)
+        {
+            var fact = new RoomClosedFact(userId);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(RoomClosedFact fact)
+        {
+            Closed = true;
+        }
     }
 }
