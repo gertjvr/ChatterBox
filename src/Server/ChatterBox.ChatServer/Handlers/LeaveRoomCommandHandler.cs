@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class LeaveRoomCommandHandler : IHandleCommand<LeaveRoomCommand>
+    public class LeaveRoomCommandHandler : ScopedCommandHandler<LeaveRoomCommand>
     {
-        public Task Handle(LeaveRoomCommand busCommand)
+        public LeaveRoomCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, LeaveRoomCommand command)
         {
             throw new NotImplementedException();
         }

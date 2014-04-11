@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.ChatClient.Models;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
 using ChatterBox.MessageContracts.Commands;
 using ChatterBox.MessageContracts.Dtos;
@@ -54,7 +55,7 @@ namespace ChatterBox.ChatClient
         {
             var userMapper = _container.Resolve<IMapToNew<UserDto, User>>();
 
-            var response = await _bus.Request(new GetUserInfoRequest(_userContext.UserId));
+            var response = await _bus.Request(new UserInfoRequest(_userContext.UserId));
 
             return userMapper.Map(response.User);
         }
@@ -66,7 +67,7 @@ namespace ChatterBox.ChatClient
 
         public async Task Send(string message, Guid roomId)
         {
-            await _bus.Send(new SendMessageCommand(message, roomId, _userContext.UserId));
+            await _bus.Send(new SendMessageCommand(DateTimeHelper.UtcNow, message, roomId, _userContext.UserId));
         }
 
         public async Task CreateRoom(string roomName)
@@ -98,7 +99,7 @@ namespace ChatterBox.ChatClient
         {
             var messageMapper = _container.Resolve<IMapToNew<MessageDto, Message>>();
 
-            var response = await _bus.Request(new GetPreviousMessagesRequest(fromId));
+            var response = await _bus.Request(new PreviousMessagesRequest(fromId));
 
             return response.Messages.Select(messageMapper.Map).ToArray();
         }
@@ -116,7 +117,7 @@ namespace ChatterBox.ChatClient
         {
             var roomMapper = _container.Resolve<IMapToNew<RoomDto, Room>>();
 
-            var response = await _bus.Request(new GetAllowedRoomsRequest(_userContext.UserId));
+            var response = await _bus.Request(new AllowedRoomsRequest(_userContext.UserId));
 
             return response.Rooms.Select(roomMapper.Map);
         }

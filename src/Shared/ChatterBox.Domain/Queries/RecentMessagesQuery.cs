@@ -4,11 +4,11 @@ using ChatterBox.Domain.Aggregates.MessageAggregate;
 
 namespace ChatterBox.Domain.Queries
 {
-    public class GetRecentMessagesQuery : IQuery<Message>
+    public class RecentMessagesQuery : IQuery<Message>
     {
         private readonly int _numberOfMessages;
 
-        public GetRecentMessagesQuery(int numberOfMessages)
+        public RecentMessagesQuery(int numberOfMessages)
         {
             _numberOfMessages = numberOfMessages;
         }

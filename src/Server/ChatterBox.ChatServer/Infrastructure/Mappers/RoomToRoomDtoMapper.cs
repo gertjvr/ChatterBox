@@ -43,7 +43,7 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
                 Welcome = source.Welcome,
                 Contacts = source.Contacts.Select(contactId => _userMapper.Map(_userRepository.GetById(contactId))).ToArray(),
                 Owners = source.Owners.Select(ownerId => _userMapper.Map(_userRepository.GetById(ownerId))).ToArray(),
-                RecentMessages = _messageRepository.Query(new GetRecentMessagesQuery(15)).Select(message => _messageMapper.Map(message)),
+                RecentMessages = _messageRepository.Query(new RecentMessagesQuery(15)).Select(message => _messageMapper.Map(message)),
             };
         }
     }

@@ -37,7 +37,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                 .Create();
 
             Repository = Fixture.Freeze<IRepository<User>>();
-            Repository.Query(Arg.Any<GetUserIdByNameQuery>())
+            Repository.Query(Arg.Any<UserIdByNameQuery>())
                 .Returns(User.Id);
 
             Repository.GetById(Arg.Is(User.Id))

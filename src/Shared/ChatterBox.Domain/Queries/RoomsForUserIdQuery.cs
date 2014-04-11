@@ -5,11 +5,11 @@ using ChatterBox.Domain.Aggregates.RoomAggregate;
 
 namespace ChatterBox.Domain.Queries
 {
-    public class GetRoomsForUserIdQuery : IQuery<Room>
+    public class RoomsForUserIdQuery : IQuery<Room>
     {
         private readonly Guid _userId;
 
-        public GetRoomsForUserIdQuery(Guid userId)
+        public RoomsForUserIdQuery(Guid userId)
         {
             _userId = userId;
         }

@@ -4,13 +4,13 @@ using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Requests
 {
-    public class GetAllowedRoomsResponse : IBusResponse
+    public class AllowedRoomsResponse : IBusResponse
     {
-        protected GetAllowedRoomsResponse()
+        protected AllowedRoomsResponse()
         {   
         }
 
-        public GetAllowedRoomsResponse(IEnumerable<RoomDto> rooms)
+        public AllowedRoomsResponse(IEnumerable<RoomDto> rooms)
         {
             Rooms = rooms;
         }

@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class SetInviteCodeCommandHandler : IHandleCommand<SetInviteCodeCommand>
+    public class SetInviteCodeCommandHandler : ScopedCommandHandler<SetInviteCodeCommand>
     {
-        public Task Handle(SetInviteCodeCommand busCommand)
+        public SetInviteCodeCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, SetInviteCodeCommand command)
         {
             throw new NotImplementedException();
         }

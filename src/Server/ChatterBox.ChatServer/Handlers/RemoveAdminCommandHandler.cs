@@ -1,14 +1,19 @@
+using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class RemoveAdminCommandHandler : IHandleCommand<RemoveAdminCommand>
+    public class RemoveAdminCommandHandler : ScopedCommandHandler<RemoveAdminCommand>
     {
-        public Task Handle(RemoveAdminCommand busCommand)
+        public RemoveAdminCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
         {
-            throw new System.NotImplementedException();
+        }
+
+        public override Task Execute(IUnitOfWork context, RemoveAdminCommand command)
+        {
+            throw new NotImplementedException();
         }
     }
 }

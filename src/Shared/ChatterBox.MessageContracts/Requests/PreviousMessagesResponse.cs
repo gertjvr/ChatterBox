@@ -4,13 +4,13 @@ using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Requests
 {
-    public class GetPreviousMessagesResponse : IBusResponse
+    public class PreviousMessagesResponse : IBusResponse
     {
-        protected GetPreviousMessagesResponse()
+        protected PreviousMessagesResponse()
         {   
         }
 
-        public GetPreviousMessagesResponse(IEnumerable<MessageDto> messages)
+        public PreviousMessagesResponse(IEnumerable<MessageDto> messages)
         {
             Messages = messages;
         }

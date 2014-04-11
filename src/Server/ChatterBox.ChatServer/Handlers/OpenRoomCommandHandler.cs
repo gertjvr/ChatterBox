@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class OpenRoomCommandHandler : IHandleCommand<OpenRoomCommand>
+    public class OpenRoomCommandHandler : ScopedCommandHandler<OpenRoomCommand>
     {
-        public Task Handle(OpenRoomCommand busCommand)
+        public OpenRoomCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, OpenRoomCommand command)
         {
             throw new NotImplementedException();
         }

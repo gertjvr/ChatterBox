@@ -109,7 +109,7 @@ namespace Messanger.Console
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = scope.Resolve<IRepository<Message>>();
                 
-                var message = Message.Create(roomId, userId, content, DateTimeHelper.UtcNow);
+                var message = new Message(roomId, userId, content, DateTimeHelper.UtcNow);
 
                 repo.Add(message);
                 uow.Complete();

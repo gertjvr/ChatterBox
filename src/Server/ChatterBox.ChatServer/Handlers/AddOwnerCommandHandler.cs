@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class AddOwnerCommandHandler : IHandleCommand<AddOwnerCommand>
+    public class AddOwnerCommandHandler : ScopedCommandHandler<AddOwnerCommand>
     {
-        public Task Handle(AddOwnerCommand busCommand)
+        public AddOwnerCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, AddOwnerCommand command)
         {
             throw new NotImplementedException();
         }

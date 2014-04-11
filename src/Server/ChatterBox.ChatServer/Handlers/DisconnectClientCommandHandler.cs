@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class DisconnectClientCommandHandler : IHandleCommand<DisconnectClientCommand>
+    public class DisconnectClientCommandHandler : ScopedCommandHandler<DisconnectClientCommand>
     {
-        public Task Handle(DisconnectClientCommand busCommand)
+        public DisconnectClientCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, DisconnectClientCommand command)
         {
             throw new NotImplementedException();
         }

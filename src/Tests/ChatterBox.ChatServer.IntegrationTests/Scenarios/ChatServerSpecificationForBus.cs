@@ -13,7 +13,7 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
     [Category("IntergrationTests")]
     public abstract class ChatServerSpecificationForBus : SpecificationForAsync<IBus>
     {
-        private IContainer _container;
+        protected IContainer _container;
 
         protected ChatServerSpecificationForBus()
         {

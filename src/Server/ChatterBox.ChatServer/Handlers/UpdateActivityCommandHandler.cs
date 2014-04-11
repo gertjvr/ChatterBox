@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class UpdateActivityCommandHandler : IHandleCommand<UpdateActivityCommand>
+    public class UpdateActivityCommandHandler : ScopedCommandHandler<UpdateActivityCommand>
     {
-        public Task Handle(UpdateActivityCommand busCommand)
+        public UpdateActivityCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, UpdateActivityCommand command)
         {
             throw new NotImplementedException();
         }

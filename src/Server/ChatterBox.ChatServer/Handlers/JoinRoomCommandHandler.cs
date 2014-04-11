@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class JoinRoomCommandHandler : IHandleCommand<JoinRoomCommand>
+    public class JoinRoomCommandHandler : ScopedCommandHandler<JoinRoomCommand>
     {
-        public Task Handle(JoinRoomCommand busCommand)
+        public JoinRoomCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, JoinRoomCommand command)
         {
             throw new NotImplementedException();
         }

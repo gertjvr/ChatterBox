@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class CloseRoomCommandHandler : IHandleCommand<CloseRoomCommand>
+    public class CloseRoomCommandHandler : ScopedCommandHandler<CloseRoomCommand>
     {
-        public Task Handle(CloseRoomCommand busCommand)
+        public CloseRoomCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, CloseRoomCommand command)
         {
             throw new NotImplementedException();
         }

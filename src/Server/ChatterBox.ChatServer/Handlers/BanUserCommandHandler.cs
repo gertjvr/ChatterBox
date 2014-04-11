@@ -1,14 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class BanUserCommandHandler : IHandleCommand<BanUserCommand>
+    public class BanUserCommandHandler : ScopedCommandHandler<BanUserCommand>
     {
-        public Task Handle(BanUserCommand busCommand)
+        public BanUserCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
         {
-            throw new System.NotImplementedException();
+        }
+
+        public override Task Execute(IUnitOfWork context, BanUserCommand command)
+        {
+            throw new NotImplementedException();
         }
     }
 }

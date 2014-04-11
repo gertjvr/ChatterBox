@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class UnallowUserCommandHandler : IHandleCommand<UnallowUserCommand>
+    public class UnallowUserCommandHandler : ScopedCommandHandler<UnallowUserCommand>
     {
-        public Task Handle(UnallowUserCommand busCommand)
+        public UnallowUserCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, UnallowUserCommand command)
         {
             throw new NotImplementedException();
         }

@@ -11,7 +11,7 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate
         {   
         }
 
-        public static Message Create(Guid roomId, Guid userId, string content, DateTimeOffset createdAt)
+        public Message(Guid roomId, Guid userId, string content, DateTimeOffset createdAt)
         {
             var fact = new MessageCreatedFact(
                 Guid.NewGuid(),
@@ -20,10 +20,8 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate
                 content,
                 createdAt);
 
-            var message = new Message();
-            message.Append(fact);
-            message.Apply(fact);
-            return message;
+            Append(fact);
+            Apply(fact);
         }
 
         public Guid RoomId { get; protected set; }

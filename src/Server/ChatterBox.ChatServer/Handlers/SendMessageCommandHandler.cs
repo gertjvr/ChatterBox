@@ -1,22 +1,26 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class SendMessageCommandHandler : IHandleCommand<SendMessageCommand>
+    public class SendMessageCommandHandler : ScopedCommandHandler<SendMessageCommand>
     {
-        public Task Handle(SendMessageCommand busCommand)
+        public SendMessageCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
         {
-            throw new System.NotImplementedException();
         }
-    }
-    
-    public class SendPrivateMessageCommandHandler : IHandleCommand<SendPrivateMessageCommand>
-    {
-        public Task Handle(SendPrivateMessageCommand busCommand)
+
+        public override async Task Execute(IUnitOfWork context, SendMessageCommand command)
         {
-            throw new System.NotImplementedException();
+            var repository = context.Repository<Message>();
+
+            var message = new Message(command.RoomId, command.UserId, command.Content, command.CreatedAt);
+
+            repository.Add(message);
+
+            context.Complete();
         }
     }
 }

@@ -1,13 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Persistence;
 using ChatterBox.MessageContracts.Commands;
-using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class KickUserCommandHandler : IHandleCommand<KickUserCommand>
+    public class KickUserCommandHandler : ScopedCommandHandler<KickUserCommand>
     {
-        public Task Handle(KickUserCommand busCommand)
+        public KickUserCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        {
+        }
+
+        public override Task Execute(IUnitOfWork context, KickUserCommand command)
         {
             throw new NotImplementedException();
         }

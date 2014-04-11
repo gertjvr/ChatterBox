@@ -5,11 +5,11 @@ using ChatterBox.Domain.Aggregates.UserAggregate;
 
 namespace ChatterBox.Domain.Queries
 {
-    public class GetUserIdByNameQuery : IQuery<User, Guid>
+    public class UserIdByNameQuery : IQuery<User, Guid>
     {
         private readonly string _name;
 
-        public GetUserIdByNameQuery(string name)
+        public UserIdByNameQuery(string name)
         {
             _name = name;
         }

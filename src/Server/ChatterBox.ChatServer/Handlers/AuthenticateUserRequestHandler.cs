@@ -16,8 +16,7 @@ using ChatterBox.MessageContracts.Requests;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class AuthenticateUserRequestHandler
-        : ScopedRequestHandler<AuthenticateUserRequest, AuthenticateUserResponse>
+    public class AuthenticateUserRequestHandler : ScopedRequestHandler<AuthenticateUserRequest, AuthenticateUserResponse>
     {
         private readonly ICryptoService _cryptoService;
         private readonly IMapToNew<User, UserDto> _userMapper;
@@ -61,7 +60,7 @@ namespace ChatterBox.ChatServer.Handlers
             }
             else
             {
-                var userId = userRepository.Query(new GetUserIdByNameQuery(request.UserName));
+                var userId = userRepository.Query(new UserIdByNameQuery(request.UserName));
 
                 user = userRepository.GetById(userId);
 
@@ -71,7 +70,7 @@ namespace ChatterBox.ChatServer.Handlers
                 }
 
                 rooms = roomRepository
-                    .Query(new GetRoomsForUserIdQuery(user.Id))
+                    .Query(new RoomsForUserIdQuery(user.Id))
                     .ToList();
 
                 if (user.HashedPassword != request.Password.ToSha256(user.Salt))

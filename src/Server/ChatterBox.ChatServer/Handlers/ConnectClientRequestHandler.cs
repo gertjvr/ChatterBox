@@ -6,8 +6,7 @@ using ChatterBox.MessageContracts.Requests;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class ConnectClientRequestHandler
-        : ScopedRequestHandler<ConnectClientRequest, ConnectClientResponse>
+    public class ConnectClientRequestHandler : ScopedRequestHandler<ConnectClientRequest, ConnectClientResponse>
     {
         public ConnectClientRequestHandler(Func<Owned<IUnitOfWork>> unitOfWork)
             : base(unitOfWork)
