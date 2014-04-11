@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Commands;
 
 namespace ChatterBox.ChatServer.Handlers
@@ -11,9 +12,15 @@ namespace ChatterBox.ChatServer.Handlers
         {
         }
 
-        public override Task Execute(IUnitOfWork context, BanUserCommand command)
+        public override async Task Execute(IUnitOfWork context, BanUserCommand command)
         {
-            throw new NotImplementedException();
+            var repository = context.Repository<User>();
+
+            var user = repository.GetById(command.BanUserId);
+
+            user.ChangeUserRole(UserRole.Banned);
+
+            context.Complete();
         }
     }
 }
