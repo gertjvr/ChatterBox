@@ -48,7 +48,7 @@ namespace Messanger.Console
 
                 var conversation = repo.GetById(roomId);
 
-                conversation.AddUser(userId);
+                conversation.Join(userId);
 
                 uow.Complete();
             }

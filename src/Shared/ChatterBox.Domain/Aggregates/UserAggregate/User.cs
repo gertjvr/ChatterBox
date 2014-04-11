@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 
@@ -7,6 +8,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
     [Serializable]
     public class User : AggregateRoot
     {
+        private readonly List<PrivateMessage> _privateMessages = new List<PrivateMessage>(); 
+
         protected User()
         {
         }
@@ -26,6 +29,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         public DateTimeOffset LastActivity { get; protected set; }
         
         public UserStatus Status { get; protected set; }
+
+        public IEnumerable<PrivateMessage> PrivateMessages { get { return _privateMessages; } }
 
         public User(string name, string email, string hash, string salt, string hashedPassword, DateTimeOffset lastActivity, UserRole role = UserRole.User, UserStatus status = UserStatus.Active)
         {
@@ -146,5 +151,21 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         {
             Status = fact.Status;
         }
+
+        public void ReceivePrivateMessage(string content, Guid userId, DateTimeOffset receivedAt)
+        {
+            var fact = new PrivateMessageReceivedFact(
+                content, 
+                userId,
+                receivedAt);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(PrivateMessageReceivedFact fact)
+        {
+            _privateMessages.Add(new PrivateMessage(fact.Content, fact.UserId, fact.ReceivedAt));
+        }    
     }
 }

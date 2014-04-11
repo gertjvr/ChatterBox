@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ChatterBox.Core.Infrastructure.Entities;
-using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.Domain.Aggregates.RoomAggregate.Facts;
 
 namespace ChatterBox.Domain.Aggregates.RoomAggregate
@@ -63,9 +62,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
             Topic = fact.Topic;
         }
 
-        public void AddUser(Guid userId)
+        public void Join(Guid userId)
         {
-            var fact = new UserAddedFact(
+            var fact = new UserJoinedFact(
                 Id,
                 userId);
 
@@ -73,9 +72,22 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
             Apply(fact);
         }
 
-        public void Apply(UserAddedFact fact)
+        public void Apply(UserJoinedFact fact)
         {
             Contacts.Add(fact.UserId);
+        }
+
+        public void Leave(Guid userId)
+        {
+            var fact = new UserLeftFact(userId);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(UserLeftFact fact)
+        {
+            Contacts.Remove(fact.UserId);
         }
     }
 }

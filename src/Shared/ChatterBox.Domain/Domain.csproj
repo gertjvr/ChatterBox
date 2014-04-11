@@ -54,8 +54,11 @@
     <Compile Include="Aggregates\ClientAggregate\Facts\ClientCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Facts\MessageCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
+    <Compile Include="Aggregates\RoomAggregate\Facts\UserLeftedFact.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\PrivateMessageReceivedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserLastActivityUpdatedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserStatusChangedFact.cs" />
+    <Compile Include="Aggregates\UserAggregate\PrivateMessage.cs" />
     <Compile Include="Aggregates\UserAggregate\UserStatus.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserSaltChangedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\UserRole.cs" />
@@ -65,7 +68,7 @@
     <Compile Include="Aggregates\UserAggregate\User.cs" />
     <Compile Include="Aggregates\RoomAggregate\Room.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserCreatedFact.cs" />
-    <Compile Include="Aggregates\RoomAggregate\Facts\UserAddedFact.cs" />
+    <Compile Include="Aggregates\RoomAggregate\Facts\UserJoinedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomCreatedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomTopicChangedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\Facts\UserIdentityCreatedFact.cs" />
