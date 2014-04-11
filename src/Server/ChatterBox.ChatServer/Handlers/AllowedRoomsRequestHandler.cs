@@ -29,7 +29,7 @@ namespace ChatterBox.ChatServer.Handlers
 
             var rooms = repository.Query(new UserAllowedRoomsQuery(request.UserId));
 
-            return new AllowedRoomsResponse(rooms.Select(_mapper.Map));
+            return new AllowedRoomsResponse(rooms.Select(_mapper.Map).ToArray());
         }
     }
 }
