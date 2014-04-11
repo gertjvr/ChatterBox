@@ -9,11 +9,14 @@ namespace ChatterBox.MessageContracts.Requests
         {   
         }
 
-        public PreviousMessagesRequest(Guid fromId)
+        public PreviousMessagesRequest(Guid fromId, int numberOfMessages)
         {
             FromId = fromId;
+            NumberOfMessages = numberOfMessages;
         }
 
         public Guid FromId { get; protected set; }
+
+        public int NumberOfMessages { get; protected set; }
     }
 }

@@ -102,7 +102,7 @@ namespace ChatterBox.ChatClient
         {
             var messageMapper = _container.Resolve<IMapToNew<MessageDto, Message>>();
 
-            var response = await _bus.Request(new PreviousMessagesRequest(fromId));
+            var response = await _bus.Request(new PreviousMessagesRequest(fromId, 10));
 
             return response.Messages.Select(messageMapper.Map).ToArray();
         }
