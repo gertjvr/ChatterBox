@@ -50,6 +50,7 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
             var roomCreatedFact = new RoomCreatedFact(
                 Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad"),
                 "Home",
+                false,
                 Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b"));
 
             roomCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("63113645-ac0a-4dcd-a206-f939219d2dcc"), 0, clock.UtcNow));
