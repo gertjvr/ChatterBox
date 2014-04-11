@@ -75,6 +75,7 @@
     <Compile Include="Aggregates\UserIdentityAggregate\Facts\UserIdentityCreatedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\UserIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\UserAllowedRoomsQuery.cs" />
     <Compile Include="Queries\EnsureUsersExistsQuery.cs" />
     <Compile Include="Queries\RecentMessagesQuery.cs" />
     <Compile Include="Queries\EnsureUserNameIsAvailibleQuery.cs" />
