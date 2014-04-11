@@ -13,11 +13,12 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         {
         }
 
-        public Room(string name, Guid ownerId)
+        public Room(string name, Guid ownerId, bool privateRoom = false)
         {
             var fact = new RoomCreatedFact(
                 Guid.NewGuid(),
                 name,
+                privateRoom,
                 ownerId);
 
             Append(fact);
@@ -116,6 +117,19 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         public void Apply(RoomClosedFact fact)
         {
             Closed = true;
+        }
+
+        public void Open(Guid userId)
+        {
+            var fact = new RoomOpenedFact(userId);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(RoomOpenedFact fact)
+        {
+            Closed = false;
         }
     }
 }

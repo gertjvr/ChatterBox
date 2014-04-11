@@ -56,6 +56,7 @@
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\OwnerAddedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomClosedFact.cs" />
+    <Compile Include="Aggregates\RoomAggregate\Facts\RoomOpenedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserLeftedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\PrivateMessageReceivedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserLastActivityUpdatedFact.cs" />
