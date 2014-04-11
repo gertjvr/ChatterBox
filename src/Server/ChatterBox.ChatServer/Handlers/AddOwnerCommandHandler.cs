@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.MessageContracts.Commands;
 
 namespace ChatterBox.ChatServer.Handlers
@@ -13,7 +14,13 @@ namespace ChatterBox.ChatServer.Handlers
 
         public override Task Execute(IUnitOfWork context, AddOwnerCommand command)
         {
-            throw new NotImplementedException();
+            var repository = context.Repository<Room>();
+
+            var room = repository.GetById(command.RoomId);
+
+            room.AddOwner(command.UserId);
+
+            context.Complete();
         }
     }
 }

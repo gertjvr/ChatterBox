@@ -91,5 +91,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         {
             Contacts.Remove(fact.UserId);
         }
+
+        public void AddOwner(Guid userId)
+        {
+            var fact = new OwnerAddedFact(userId);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(OwnerAddedFact fact)
+        {
+            Owners.Add(fact.OwnerId);
+        }
     }
 }
