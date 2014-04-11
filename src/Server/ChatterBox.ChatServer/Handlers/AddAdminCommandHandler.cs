@@ -6,9 +6,9 @@ using ChatterBox.MessageContracts.Commands;
 
 namespace ChatterBox.ChatServer.Handlers
 {
-    public class AddAdminScopedCommandHandler : ScopedCommandHandler<AddAdminCommand>
+    public class AddAdminCommandHandler : ScopedCommandHandler<AddAdminCommand>
     {
-        public AddAdminScopedCommandHandler(Func<IUnitOfWork> unitOfWork)
+        public AddAdminCommandHandler(Func<IUnitOfWork> unitOfWork)
             : base(unitOfWork)
         {
         }

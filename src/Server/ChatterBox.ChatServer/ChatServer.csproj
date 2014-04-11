@@ -111,7 +111,7 @@
     <Compile Include="ConfigurationSettings\MinimumLogLevelSetting.cs" />
     <Compile Include="ConfigurationSettings\NimbusConnectionStringSetting.cs" />
     <Compile Include="ConfigurationSettings\SeqServerUriSetting.cs" />
-    <Compile Include="Handlers\AddAdminScopedCommandHandler.cs" />
+    <Compile Include="Handlers\AddAdminCommandHandler.cs" />
     <Compile Include="Handlers\AuthenticateUserRequestHandler.cs" />
     <Compile Include="Handlers\BanUserCommandHandler.cs" />
     <Compile Include="Handlers\AllowedRoomsRequestHandler.cs" />
