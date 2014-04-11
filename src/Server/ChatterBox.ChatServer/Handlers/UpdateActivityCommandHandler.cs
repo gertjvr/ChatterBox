@@ -1,19 +1,33 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Persistence;
+using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Commands;
 
 namespace ChatterBox.ChatServer.Handlers
 {
     public class UpdateActivityCommandHandler : ScopedCommandHandler<UpdateActivityCommand>
     {
-        public UpdateActivityCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        private readonly IClock _clock;
+
+        public UpdateActivityCommandHandler(
+            Func<IUnitOfWork> unitOfWork,
+            IClock clock) 
+            : base(unitOfWork)
         {
+            _clock = clock;
         }
 
-        public override Task Execute(IUnitOfWork context, UpdateActivityCommand command)
+        public override async Task Execute(IUnitOfWork context, UpdateActivityCommand command)
         {
-            throw new NotImplementedException();
+            var repository = context.Repository<User>();
+
+            var user = repository.GetById(command.UserId);
+
+            user.UpdateLastActivity(_clock.UtcNow);
+
+            context.Complete();
         }
     }
 }
