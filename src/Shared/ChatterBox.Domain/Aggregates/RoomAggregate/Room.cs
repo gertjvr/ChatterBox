@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.RoomAggregate.Facts;
 
@@ -9,6 +8,10 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
     [Serializable]
     public class Room : AggregateRoot
     {
+        private List<Guid> _owners;
+        private List<Guid> _contacts;
+        private List<Guid> _allowed;
+
         protected Room()
         {
         }
@@ -35,17 +38,23 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         
         public string Welcome { get; protected set; }
 
-        public ICollection<Guid> Owners { get; protected set; }
+        public Guid CreatorId { get; protected set; }
 
-        public ICollection<Guid> Contacts { get; protected set; }
+        public IEnumerable<Guid> Owners { get { return _owners; } }
+
+        public IEnumerable<Guid> Contacts { get { return _contacts; } }
+
+        public IEnumerable<Guid> Allowed { get { return _allowed; } } 
 
         public void Apply(RoomCreatedFact fact)
         {
             Id = fact.AggregateRootId;
             Name = fact.Name;
+            CreatorId = fact.CreatorId;
 
-            Owners = new Collection<Guid> { fact.OwnerId };
-            Contacts = new Collection<Guid> { fact.OwnerId };
+            _owners = new List<Guid> { fact.CreatorId };
+            _contacts = new List<Guid> { fact.CreatorId };
+            _allowed = new List<Guid> { fact.CreatorId };
         }
 
         public void ChangeTopic(string topic, Guid userId, DateTimeOffset changedAt)
@@ -77,7 +86,7 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(UserJoinedFact fact)
         {
-            Contacts.Add(fact.UserId);
+            _contacts.Add(fact.UserId);
         }
 
         public void Leave(Guid userId)
@@ -90,7 +99,7 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(UserLeftFact fact)
         {
-            Contacts.Remove(fact.UserId);
+            _contacts.Remove(fact.UserId);
         }
 
         public void AddOwner(Guid userId)
@@ -103,7 +112,7 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(OwnerAddedFact fact)
         {
-            Owners.Add(fact.OwnerId);
+            _owners.Add(fact.OwnerId);
         }
 
         public void Close(Guid userId)
@@ -130,6 +139,32 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         public void Apply(RoomOpenedFact fact)
         {
             Closed = false;
+        }
+
+        public void AllowUser(Guid userId)
+        {
+            var fact = new UserAllowedFact(userId);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(UserAllowedFact fact)
+        {
+            _allowed.Add(fact.UserId);
+        }
+
+        public void RemoveOwner(Guid ownerId)
+        {
+            var fact = new OwnerRemovedFact(ownerId);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(OwnerRemovedFact fact)
+        {
+            _owners.Remove(fact.OwnerId);
         }
     }
 }

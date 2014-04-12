@@ -9,18 +9,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
             Guid aggregateRootId, 
             string name, 
             bool privateRoom, 
-            Guid ownerId)
+            Guid creatorId)
             : base(aggregateRootId)
         {
             Name = name;
             PrivateRoom = privateRoom;
-            OwnerId = ownerId;
+            CreatorId = creatorId;
         }
 
         public string Name { get; protected set; }
         
         public bool PrivateRoom { get; protected set; }
 
-        public Guid OwnerId { get; protected set; }
+        public Guid CreatorId { get; set; }
     }
 }

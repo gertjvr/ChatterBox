@@ -1,21 +1,19 @@
 ﻿using System;
-using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class AddOwnerCommand : IBusCommand
+    public class AddOwnerCommand : IUserCommand
     {
-        protected AddOwnerCommand()
-        {   
-        }
-
-        public AddOwnerCommand(Guid roomId, Guid userId)
+        public AddOwnerCommand(Guid roomId, Guid targetUserId, Guid userId)
         {
             RoomId = roomId;
+            TargetUserId = targetUserId;
             UserId = userId;
         }
 
         public Guid RoomId { get; protected set; }
+        
+        public Guid TargetUserId { get; protected set; }
 
         public Guid UserId { get; protected set; }
     }
