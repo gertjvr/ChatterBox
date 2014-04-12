@@ -28,7 +28,6 @@ namespace ChatterBox.ChatServer.Handlers
             var room = roomRepository.GetById(request.RoomId);
 
             return new RoomInfoResponse(_roomMapper.Map(room));
-
         }
     }
 }

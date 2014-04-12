@@ -8,7 +8,9 @@ namespace ChatterBox.ChatServer.Handlers
 {
     public class AddOwnerCommandHandler : ScopedCommandHandler<AddOwnerCommand>
     {
-        public AddOwnerCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        public AddOwnerCommandHandler(
+            Func<IUnitOfWork> unitOfWork) 
+            : base(unitOfWork)
         {
         }
 
