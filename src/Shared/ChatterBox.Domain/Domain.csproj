@@ -76,6 +76,7 @@
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomTopicChangedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\Facts\UserIdentityCreatedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\UserIdentity.cs" />
+    <Compile Include="Extensions\RepositoryExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\PreviousMessagesQuery.cs" />
     <Compile Include="Queries\UserAllowedRoomsQuery.cs" />

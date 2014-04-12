@@ -146,6 +146,7 @@
     <Compile Include="ScopedCommandHandler.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScopedUserCommandHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

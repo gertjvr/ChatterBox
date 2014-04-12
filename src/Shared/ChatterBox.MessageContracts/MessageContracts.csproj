@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Commands\BanUserCommand.cs" />
     <Compile Include="Commands\AddAdminCommand.cs" />
+    <Compile Include="Commands\IUserCommand.cs" />
     <Compile Include="Commands\RemoveAdminCommand.cs" />
     <Compile Include="Commands\SendMessageCommand.cs" />
     <Compile Include="Commands\AllowUserCommand.cs" />
