@@ -31,6 +31,10 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         public UserStatus Status { get; protected set; }
 
         public IEnumerable<PrivateMessage> PrivateMessages { get { return _privateMessages; } }
+        
+        public bool IsAdmin { get { return UserRole == UserRole.Admin; } }
+
+        public bool IsBanned { get { return UserRole == UserRole.Banned; } }
 
         public User(string name, string email, string hash, string salt, string hashedPassword, DateTimeOffset lastActivity, UserRole role = UserRole.User, UserStatus status = UserStatus.Active)
         {

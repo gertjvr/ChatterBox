@@ -1,18 +1,15 @@
 ﻿using System;
-using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class AddAdminCommand : IBusCommand
+    public class AddAdminCommand : IUserCommand
     {
-        protected AddAdminCommand()
-        {   
+        public AddAdminCommand(Guid targetUserId, Guid userId)
+        {
+            TargetUserId = targetUserId;
         }
 
-        public AddAdminCommand(Guid userId)
-        {
-            UserId = userId;
-        }
+        public Guid TargetUserId { get; set; }
 
         public Guid UserId { get; protected set; }
     }
