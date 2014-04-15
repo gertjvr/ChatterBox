@@ -1,25 +1,20 @@
 using System;
-using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class SetInviteCodeCommand : IBusCommand
+    public class SetInviteCodeCommand : IUserBusCommand
     {
-        protected SetInviteCodeCommand()
-        {   
-        }
-
-        public SetInviteCodeCommand(Guid userId, Guid roomId, string inviteCode)
+        public SetInviteCodeCommand(Guid roomId, string inviteCode, Guid userId)
         {
-            UserId = userId;
             RoomId = roomId;
             InviteCode = inviteCode;
+            UserId = userId;
         }
 
-        public Guid UserId { get; protected set; }
-        
         public Guid RoomId { get; protected set; }
 
         public string InviteCode { get; protected set; }
+        
+        public Guid UserId { get; protected set; }
     }
 }

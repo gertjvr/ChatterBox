@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="Commands\BanUserCommand.cs" />
     <Compile Include="Commands\AddAdminCommand.cs" />
-    <Compile Include="Commands\IUserCommand.cs" />
+    <Compile Include="Commands\IUserBusCommand.cs" />
     <Compile Include="Commands\RemoveAdminCommand.cs" />
     <Compile Include="Commands\SendMessageCommand.cs" />
     <Compile Include="Commands\AllowUserCommand.cs" />
@@ -65,6 +65,12 @@
     <Compile Include="Dtos\MessageDto.cs" />
     <Compile Include="Dtos\RoomDto.cs" />
     <Compile Include="Dtos\UserDto.cs" />
+    <Compile Include="Events\AdminAddedEvent.cs" />
+    <Compile Include="Events\OwnerAddedEvent.cs" />
+    <Compile Include="Events\RoomClosedEvent.cs" />
+    <Compile Include="Events\RoomTopicChangedEvent.cs" />
+    <Compile Include="Events\UserAllowedEvent.cs" />
+    <Compile Include="Events\UserRoleChangedEvent.cs" />
     <Compile Include="Requests\AuthenticateUserResponse.cs" />
     <Compile Include="Requests\AuthenticateUserRequest.cs" />
     <Compile Include="Requests\AllowedRoomsRequest.cs" />
@@ -76,8 +82,8 @@
     <Compile Include="Commands\LeaveRoomCommand.cs" />
     <Compile Include="Commands\SetInviteCodeCommand.cs" />
     <Compile Include="Commands\ChangeUserNameCommand.cs" />
-    <Compile Include="Requests\ConnectClientResponse.cs" />
-    <Compile Include="Requests\ConnectClientRequest.cs" />
+    <Compile Include="Requests\CreateClientResponse.cs" />
+    <Compile Include="Requests\CreateClientRequest.cs" />
     <Compile Include="Commands\DisconnectClientCommand.cs" />
     <Compile Include="Commands\UpdateActivityCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

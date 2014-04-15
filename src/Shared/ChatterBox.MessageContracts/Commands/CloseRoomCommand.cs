@@ -1,21 +1,16 @@
 using System;
-using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class CloseRoomCommand : IBusCommand
+    public class CloseRoomCommand : IUserBusCommand
     {
-        protected CloseRoomCommand()
-        {   
-        }
-
-        public CloseRoomCommand(Guid roomId, Guid userId)
+        public CloseRoomCommand(Guid targetRoomId, Guid userId)
         {
-            RoomId = roomId;
+            TargetRoomId = targetRoomId;
             UserId = userId;
         }
 
-        public Guid RoomId { get; protected set; }
+        public Guid TargetRoomId { get; protected set; }
 
         public Guid UserId { get; protected set; }
     }

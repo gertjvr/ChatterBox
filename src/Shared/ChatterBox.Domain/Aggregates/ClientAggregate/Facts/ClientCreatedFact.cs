@@ -9,15 +9,19 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate.Facts
         public ClientCreatedFact(
             Guid aggregateRootId, 
             Guid userId, 
-            string name)
+            string userAgent, 
+            DateTimeOffset lastActivity)
             : base(aggregateRootId)
         {
             UserId = userId;
-            Name = name;
+            UserAgent = userAgent;
+            LastActivity = lastActivity;
         }
 
         public Guid UserId { get; protected set; }
 
-        public string Name { get; protected set; }
+        public string UserAgent { get; protected set; }
+
+        public DateTimeOffset LastActivity { get; protected set; }
     }
 }

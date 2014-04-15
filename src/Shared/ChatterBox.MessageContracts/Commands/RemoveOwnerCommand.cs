@@ -2,18 +2,18 @@ using System;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class RemoveOwnerCommand : IUserCommand
+    public class RemoveOwnerCommand : IUserBusCommand
     {
-        public RemoveOwnerCommand(Guid roomId, Guid ownerId, Guid userId)
+        public RemoveOwnerCommand(Guid targetRoomId, Guid targetUserId, Guid userId)
         {
-            RoomId = roomId;
-            OwnerId = ownerId;
+            TargetRoomId = targetRoomId;
+            TargetUserId = targetUserId;
             UserId = userId;
         }
 
-        public Guid RoomId { get; protected set; }
+        public Guid TargetRoomId { get; protected set; }
 
-        public Guid OwnerId { get; protected set; }
+        public Guid TargetUserId { get; protected set; }
 
         public Guid UserId { get; private set; }
     }

@@ -53,11 +53,10 @@ namespace Messanger.Console
             {
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = uow.Repository<Room>();
-                var clock = scope.Resolve<IClock>();
                 
                 var room = repo.GetById(roomId);
 
-                room.ChangeTopic(newTopic, userId, clock.UtcNow);
+                room.ChangeTopic(newTopic);
 
                 uow.Complete();
             }

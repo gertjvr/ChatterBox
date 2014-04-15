@@ -5,7 +5,10 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
 {
     public class UserLeftFact : FactAbout<Room>
     {
-        public UserLeftFact(Guid userId)
+        public UserLeftFact(
+            Guid aggregateRootId, 
+            Guid userId)
+            : base(aggregateRootId)
         {
             UserId = userId;
         }

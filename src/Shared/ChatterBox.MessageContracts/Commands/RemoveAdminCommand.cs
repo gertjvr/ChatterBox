@@ -1,18 +1,16 @@
 ﻿using System;
-using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class RemoveAdminCommand : IBusCommand
+    public class RemoveAdminCommand : IUserBusCommand
     {
-        protected RemoveAdminCommand()
-        {   
-        }
-
-        public RemoveAdminCommand(Guid userId)
+        public RemoveAdminCommand(Guid targetUserId, Guid userId)
         {
+            TargetUserId = targetUserId;
             UserId = userId;
         }
+
+        public Guid TargetUserId { get; protected set; }
 
         public Guid UserId { get; protected set; }
     }

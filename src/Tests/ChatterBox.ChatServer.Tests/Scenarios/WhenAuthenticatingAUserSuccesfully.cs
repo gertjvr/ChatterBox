@@ -32,8 +32,8 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             Request = new AuthenticateUserRequest(userName, password);
 
             User = Fixture.Build<User>()
-                .Do(u => u.ChangeSalt(salt))
-                .Do(u => u.ChangePassword(hashedPassword))
+                .Do(u => u.UpdateSalt(salt))
+                .Do(u => u.UpdatePassword(hashedPassword))
                 .Create();
 
             Repository = Fixture.Freeze<IRepository<User>>();

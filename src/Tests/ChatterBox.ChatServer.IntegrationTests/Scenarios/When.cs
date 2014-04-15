@@ -93,7 +93,7 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
         {
             var roomId = Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad");
 
-            var response = await Subject.Request(new PreviousMessagesRequest(Guid.Empty));
+            var response = await Subject.Request(new PreviousMessagesRequest(Guid.Empty, 10));
         }
     }
 }

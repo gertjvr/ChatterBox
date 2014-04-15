@@ -1,19 +1,17 @@
 ﻿using System;
-using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class BanUserCommand : IBusCommand
+    public class BanUserCommand : IUserBusCommand
     {
-        protected BanUserCommand()
+        public BanUserCommand(Guid targetUserId, Guid userId)
         {
+            TargetUserId = targetUserId;
+            UserId = userId;
         }
 
-        public BanUserCommand(Guid banUserId)
-        {
-            BanUserId = banUserId;
-        }
+        public Guid TargetUserId { get; protected set; }
 
-        public Guid BanUserId { get; protected set; }
+        public Guid UserId { get; protected set; }
     }
 }

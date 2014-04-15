@@ -19,7 +19,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
 
         protected override void When()
         {
-            Subject.ChangeUserName(NewUserName);
+            Subject.UpdateUserName(NewUserName);
         }
 
         [Then]
@@ -31,7 +31,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
         [Then]
         public void ShouldHavePendingFact()
         {
-            var pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserNameChangedFact>().ToArray();
+            var pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserNameUpdatedFact>().ToArray();
 
             pendingFacts.Count().ShouldBe(1);
 

@@ -1,25 +1,20 @@
 using System;
-using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class ChangeTopicCommand : IBusCommand
+    public class ChangeTopicCommand : IUserBusCommand
     {
-        protected ChangeTopicCommand()
-        {   
-        }
-
-        public ChangeTopicCommand(Guid roomId, Guid userId, string newTopic)
+        public ChangeTopicCommand(Guid roomId, string newTopic, Guid userId)
         {
             RoomId = roomId;
-            UserId = userId;
             NewTopic = newTopic;
+            UserId = userId;
         }
 
         public Guid RoomId { get; protected set; }
 
-        public Guid UserId { get; protected set; }
-
         public string NewTopic { get; protected set; }
+        
+        public Guid UserId { get; protected set; }
     }
 }

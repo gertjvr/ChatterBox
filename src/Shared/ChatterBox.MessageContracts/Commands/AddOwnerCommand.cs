@@ -2,16 +2,16 @@
 
 namespace ChatterBox.MessageContracts.Commands
 {
-    public class AddOwnerCommand : IUserCommand
+    public class AddOwnerCommand : IUserBusCommand
     {
-        public AddOwnerCommand(Guid roomId, Guid targetUserId, Guid userId)
+        public AddOwnerCommand(Guid targetRoomId, Guid targetUserId, Guid userId)
         {
-            RoomId = roomId;
+            TargetRoomId = targetRoomId;
             TargetUserId = targetUserId;
             UserId = userId;
         }
 
-        public Guid RoomId { get; protected set; }
+        public Guid TargetRoomId { get; protected set; }
         
         public Guid TargetUserId { get; protected set; }
 

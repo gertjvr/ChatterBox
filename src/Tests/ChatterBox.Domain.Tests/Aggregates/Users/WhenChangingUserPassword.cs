@@ -24,7 +24,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
 
         protected override void When()
         {
-            Subject.ChangePassword(NewHashedPassword);
+            Subject.UpdatePassword(NewHashedPassword);
         }
 
         [Then]
@@ -36,7 +36,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
         [Then]
         public void ContainsCorrectPendingFact()
         {
-            var pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserPasswordChangedFact>().ToArray();
+            var pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserPasswordUpdatedFact>().ToArray();
 
             pendingFacts.Count().ShouldBe(1);
 

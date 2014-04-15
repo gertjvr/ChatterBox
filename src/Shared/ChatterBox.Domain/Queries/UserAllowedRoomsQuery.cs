@@ -16,7 +16,7 @@ namespace ChatterBox.Domain.Queries
 
         public IQueryable<Room> Execute(IQueryable<Room> source)
         {
-            return source.Where(room => room.Contacts.Contains(_userId));
+            return source.Where(room => room.Users.Contains(_userId));
         }
     }
 }

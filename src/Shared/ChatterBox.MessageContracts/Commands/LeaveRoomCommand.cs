@@ -9,14 +9,14 @@ namespace ChatterBox.MessageContracts.Commands
         {   
         }
 
-        public LeaveRoomCommand(Guid roomId, Guid userId)
+        public LeaveRoomCommand(Guid targetRoomId, Guid userId)
         {
-            RoomId = roomId;
+            TargetRoomId = targetRoomId;
             UserId = userId;
         }
 
-        public Guid UserId { get; protected set; }
+        public Guid TargetRoomId { get; protected set; }
 
-        public Guid RoomId { get; protected set; }
+        public Guid UserId { get; protected set; }
     }
 }

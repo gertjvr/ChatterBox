@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ChatterBox.Core.Infrastructure.Entities;
+using ChatterBox.Domain.Aggregates.ClientAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 
 namespace ChatterBox.Domain.Aggregates.UserAggregate
@@ -8,7 +9,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
     [Serializable]
     public class User : AggregateRoot
     {
-        private readonly List<PrivateMessage> _privateMessages = new List<PrivateMessage>(); 
+        private readonly List<PrivateMessage> _privateMessages = new List<PrivateMessage>();
+        private readonly List<Guid> _connectedClients = new List<Guid>();
 
         protected User()
         {
@@ -35,6 +37,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         public bool IsAdmin { get { return UserRole == UserRole.Admin; } }
 
         public bool IsBanned { get { return UserRole == UserRole.Banned; } }
+        
+        public IEnumerable<Guid> ConnectedClients { get { return _connectedClients; } }
 
         public User(string name, string email, string hash, string salt, string hashedPassword, DateTimeOffset lastActivity, UserRole role = UserRole.User, UserStatus status = UserStatus.Active)
         {
@@ -69,7 +73,7 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         public void UpdateLastActivity(DateTimeOffset lastActivity)
         {
             var fact = new UserLastActivityUpdatedFact(
-                Guid.NewGuid(),
+                Id,
                 lastActivity);
 
             Append(fact);
@@ -81,9 +85,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             LastActivity = fact.LastActivity;
         }
 
-        public void ChangeUserName(string newUserName)
+        public void UpdateUserName(string newUserName)
         {
-            var fact = new UserNameChangedFact(
+            var fact = new UserNameUpdatedFact(
                 Id,
                 newUserName);
 
@@ -91,14 +95,14 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Apply(fact);
         }
 
-        public void Apply(UserNameChangedFact fact)
+        public void Apply(UserNameUpdatedFact fact)
         {
             Name = fact.NewUserName;
         }
 
-        public void ChangeUserRole(UserRole userRole)
+        public void UpdateUserRole(UserRole userRole)
         {
-            var fact = new UserRoleChangedFact(
+            var fact = new UserRoleUpdatedFact(
                 Id,
                 userRole);
 
@@ -106,14 +110,14 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Apply(fact);
         }
 
-        public void Apply(UserRoleChangedFact fact)
+        public void Apply(UserRoleUpdatedFact fact)
         {
             UserRole = fact.UserRole;
         }
 
-        public void ChangePassword(string newHashedPassword)
+        public void UpdatePassword(string newHashedPassword)
         {
-            var fact = new UserPasswordChangedFact(
+            var fact = new UserPasswordUpdatedFact(
                 Id,
                 newHashedPassword);
 
@@ -121,14 +125,14 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Apply(fact);
         }
 
-        public void Apply(UserPasswordChangedFact fact)
+        public void Apply(UserPasswordUpdatedFact fact)
         {
             HashedPassword = fact.NewHashedPassword;
         }
 
-        public void ChangeSalt(string newSalt)
+        public void UpdateSalt(string newSalt)
         {
-            var fact = new UserSaltChangedFact(
+            var fact = new UserSaltUpdatedFact(
                 Id,
                 newSalt);
 
@@ -136,32 +140,27 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Apply(fact);
         }
 
-        public void Apply(UserSaltChangedFact fact)
+        public void Apply(UserSaltUpdatedFact fact)
         {
             Salt = fact.NewSalt;
         }
 
-        public void ChangeStatus(UserStatus status)
+        public void UpdateStatus(UserStatus status)
         {
-            var fact = new UserStatusChangedFact(
-                Id,
-                Status);
+            var fact = new UserStatusUpdatedFact(Id, status);
 
             Append(fact);
             Apply(fact);
         }
 
-        public void Apply(UserStatusChangedFact fact)
+        public void Apply(UserStatusUpdatedFact fact)
         {
             Status = fact.Status;
         }
 
         public void ReceivePrivateMessage(string content, Guid userId, DateTimeOffset receivedAt)
         {
-            var fact = new PrivateMessageReceivedFact(
-                content, 
-                userId,
-                receivedAt);
+            var fact = new PrivateMessageReceivedFact(content, userId, receivedAt);
 
             Append(fact);
             Apply(fact);
@@ -170,6 +169,19 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
         public void Apply(PrivateMessageReceivedFact fact)
         {
             _privateMessages.Add(new PrivateMessage(fact.Content, fact.UserId, fact.ReceivedAt));
-        }    
+        }
+
+        public void RemoveConnectedClient(Client client)
+        {
+            var fact = new ConnectedClientRemovedFact(Id, client.Id);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(ConnectedClientRemovedFact fact)
+        {
+            _connectedClients.Remove(fact.ClientId);
+        }
     }
 }
