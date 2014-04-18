@@ -1,17 +1,29 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.ClientAggregate.Facts;
-using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.ClientAggregate
 {
-    [Serializable]
     public class Client : AggregateRoot
     {
-        public Client(Guid clientId, Guid userId, string userAgent, DateTimeOffset lastActivity)
+        protected Client()
+        {   
+        }
+
+        public Client(Guid id, Guid userId, string userAgent, DateTimeOffset lastActivity)
         {
+            if (id == Guid.Empty) 
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "id");
+
+            if (userId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+
+            if (userAgent == null) 
+                throw new ArgumentNullException("userAgent");
+
             var fact = new ClientCreatedFact(
-                clientId,
+                id,
                 userId,
                 userAgent,
                 lastActivity);
@@ -20,19 +32,22 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate
             Apply(fact);
         }
 
+        public Guid UserId { get; private set; }
+
+        public string UserAgent { get; private set; }
+
+        public DateTimeOffset LastActivity { get; private set; }
+
         public void Apply(ClientCreatedFact fact)
         {
+            if (fact == null)
+                throw new ArgumentNullException("fact");
+
             Id = fact.AggregateRootId;
             UserId = fact.UserId;
             UserAgent = fact.UserAgent;
             LastActivity = fact.LastActivity;
         }
-
-        public Guid UserId { get; protected set; }
-        
-        public string UserAgent { get; protected set; }
-
-        public DateTimeOffset LastActivity { get; protected set; }
 
         public void UpdateLastActivity(DateTimeOffset lastActivity)
         {
@@ -46,11 +61,17 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate
 
         public void Apply(ClientLastActivityUpdatedFact fact)
         {
+            if (fact == null)
+                throw new ArgumentNullException("fact");
+
             LastActivity = fact.LastActivity;
         }
 
         public void UpdateUserAgent(string userAgent)
         {
+            if (userAgent == null)
+                throw new ArgumentNullException("userAgent");
+
             var fact = new ClientUserAgentUpdatedFact(Id, userAgent);
 
             Append(fact);
@@ -59,6 +80,9 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate
 
         public void Apply(ClientUserAgentUpdatedFact fact)
         {
+            if (fact == null)
+                throw new ArgumentNullException("fact");
+
             UserAgent = fact.UserAgent;
         }
     }

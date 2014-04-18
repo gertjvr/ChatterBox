@@ -5,7 +5,8 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
 {
     public class UserBannedFact : FactAbout<User>
     {
-        public UserBannedFact(Guid aggregateRootId) : base(aggregateRootId)
+        public UserBannedFact(Guid aggregateRootId) 
+            : base(aggregateRootId)
         {   
         }
     }

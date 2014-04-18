@@ -9,7 +9,7 @@ using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.Domain.Properties;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts.Messages.Commands;
 using Nimbus;
 using ThirdDrawer.Extensions.CollectionExtensionMethods;
 
@@ -42,7 +42,7 @@ namespace ChatterBox.ChatServer.Handlers.Messages
 
             //room.EnsureUserIsInRoom();
 
-            if (room == null || (room.Private && room.AllowedUsers.None(c => c == callingUser.Id)))
+            if (room == null || (room.PrivateRoom && room.AllowedUsers.None(c => c == callingUser.Id)))
             {
                 return;
             }

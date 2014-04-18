@@ -65,7 +65,7 @@
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomClosedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomOpenedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserAllowedFact.cs" />
-    <Compile Include="Aggregates\RoomAggregate\Facts\UserLeftedFact.cs" />
+    <Compile Include="Aggregates\RoomAggregate\Facts\UserLeftFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserUnallowedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\ConnectedClientRemovedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\PrivateMessageReceivedFact.cs" />

@@ -1,32 +1,23 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts.Messages.Commands;
 using Nimbus.Handlers;
 using Nimbus.MessageContracts;
-using NUnit.Framework;
 using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 {
-    [TestFixture]
     public class AllRequestTypes
     {
-        readonly Dictionary<string, string> _knownDifferentials = new Dictionary<string, string>()
-        {   
-        };
+        private readonly Dictionary<string, string> _knownDifferentials = new Dictionary<string, string>();
             
-        [Test]
-        [TestCaseSource(typeof (TestCases))]
         public void ShouldEndWithRequest(Type requestType)
         {
             requestType.Name.ShouldEndWith("Request");
         }
 
-        [Test]
-        [TestCaseSource(typeof (TestCases))]
         public void ShouldHaveAResponseWithACorrespondingName(Type requestType)
         {
             GetResponseType(requestType).ShouldNotBe(null);
@@ -41,8 +32,6 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             return requestType.Assembly.GetType(responseTypeName);;
         }
 
-        [Test]
-        [TestCaseSource(typeof (TestCases))]
         public void ShouldHaveAtLeastOneHandler(Type requestType)
         {
             var responseType = GetResponseType(requestType);
@@ -58,23 +47,14 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             relevantHandlers.ShouldNotBeEmpty();
         }
 
-        internal class TestCases : IEnumerable<TestCaseData>
-        {
-            public IEnumerator<TestCaseData> GetEnumerator()
-            {
-                return typeof (SendMessageCommand)
-                    .Assembly
-                    .GetExportedTypes()
-                    .Where(t => t.IsClosedTypeOf(typeof (IBusRequest<,>)))
-                    .Select(t => new TestCaseData(t)
-                                .SetName(t.FullName))
-                    .GetEnumerator();
-            }
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
+        public static IEnumerable<Type> GetTypesToVerify()
+        {
+            return typeof (SendMessageCommand)
+                .Assembly
+                .GetExportedTypes()
+                .Where(t => t.IsClosedTypeOf(typeof (IBusRequest<,>)))
+                .Where(t => !t.IsAbstract && !t.IsInterface);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using ChatterBox.ChatClient.Models;
 using ChatterBox.Core.Mapping;
+using ChatterBox.MessageContracts;
 using ChatterBox.MessageContracts.Dtos;
-using ChatterBox.MessageContracts.Requests;
 
 namespace ChatterBox.ChatClient.Infrastructure.Mappers
 {

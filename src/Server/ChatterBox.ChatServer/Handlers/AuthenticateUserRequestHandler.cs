@@ -11,8 +11,8 @@ using ChatterBox.Core.Services;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Queries;
+using ChatterBox.MessageContracts;
 using ChatterBox.MessageContracts.Dtos;
-using ChatterBox.MessageContracts.Requests;
 
 namespace ChatterBox.ChatServer.Handlers
 {

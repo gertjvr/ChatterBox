@@ -5,8 +5,8 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Commands;
-using ChatterBox.MessageContracts.Events;
+using ChatterBox.MessageContracts.Owners.Commands;
+using ChatterBox.MessageContracts.Owners.Events;
 using Nimbus;
 
 namespace ChatterBox.ChatServer.Handlers.Owners
@@ -28,13 +28,13 @@ namespace ChatterBox.ChatServer.Handlers.Owners
 
             targetRoom.EnsureOwnerOrAdmin(callingUser);
 
-            targetRoom.AddOwner(targetUser.Id);
+            targetRoom.AddOwner(targetUser);
 
-            if (targetRoom.Private)
+            if (targetRoom.PrivateRoom)
             {
                 if (targetRoom.AllowedUsers.Contains(targetUser.Id) == false)
                 {
-                    targetRoom.AllowUser(targetUser.Id);
+                    targetRoom.AllowUser(targetUser);
                 }
             }
 

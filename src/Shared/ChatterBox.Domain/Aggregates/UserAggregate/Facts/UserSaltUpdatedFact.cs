@@ -10,9 +10,12 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             string newSalt) 
             : base(aggregateRootId)
         {
+            if (newSalt == null) 
+                throw new ArgumentNullException("newSalt");
+
             NewSalt = newSalt;
         }
 
-        public string NewSalt { get; protected set; }
+        public string NewSalt { get; private set; }
     }
 }

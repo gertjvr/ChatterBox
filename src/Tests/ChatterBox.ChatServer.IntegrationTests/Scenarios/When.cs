@@ -7,20 +7,18 @@ using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Facts;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Persistence.Memory;
-using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.Domain.Aggregates.RoomAggregate.Facts;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
-using ChatterBox.Domain.Queries;
-using ChatterBox.MessageContracts.Commands;
-using ChatterBox.MessageContracts.Requests;
+using ChatterBox.MessageContracts;
+using ChatterBox.MessageContracts.Messages.Commands;
+using ChatterBox.MessageContracts.Users.Requests;
 using Shouldly;
 
 namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
 {
     public class WithEmptyFactStoreFirstAuthentication : ChatServerSpecificationForBus
     {
-        [Then]
         public async Task ShouldCreateUserAsAdministrator()
         {
             var response = await Subject.Request(new AuthenticateUserRequest("fred@rockwell.com", "yabadabado"));
@@ -50,8 +48,8 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
             var roomCreatedFact = new RoomCreatedFact(
                 Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad"),
                 "Home",
-                false,
-                Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b"));
+                Guid.Parse("95cdcb0c-aad2-438d-b964-a5beb6c9f43b"),
+                false);
 
             roomCreatedFact.SetUnitOfWorkProperties(new UnitOfWorkProperties(Guid.Parse("63113645-ac0a-4dcd-a206-f939219d2dcc"), 0, clock.UtcNow));
 
@@ -79,7 +77,6 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
         //    response.RoomId.ShouldNotBe(Guid.Empty);
         //}
         
-        [Then]
         public async Task SendMessage()
         {
             var roomId = Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad");
@@ -88,7 +85,6 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
             await Subject.Send(new SendMessageCommand("Hello World!", roomId, userId));
         }
 
-        [Then]
         public async Task ShouldHaveReceivedMessage()
         {
             var roomId = Guid.Parse("51caa0fe-2156-492f-b690-e1ad1befc2ad");

@@ -1,9 +1,9 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate.Facts
 {
-    [Serializable]
     public class UserIdentityCreatedFact : FactAbout<UserIdentity>
     {
         public UserIdentityCreatedFact(
@@ -14,18 +14,30 @@ namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate.Facts
             string providerName) 
             : base(aggregateRootId)
         {
+            if (userId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+
+            if (email == null) 
+                throw new ArgumentNullException("email");
+
+            if (identity == null) 
+                throw new ArgumentNullException("identity");
+
+            if (providerName == null) 
+                throw new ArgumentNullException("providerName");
+
             UserId = userId;
             Email = email;
             Identity = identity;
             ProviderName = providerName;
         }
 
-        public Guid UserId { get; protected set; }
+        public Guid UserId { get; private set; }
         
-        public string Email { get; protected set; }
+        public string Email { get; private set; }
         
-        public string Identity { get; protected set; }
+        public string Identity { get; private set; }
 
-        public string ProviderName { get; protected set; }
+        public string ProviderName { get; private set; }
     }
 }

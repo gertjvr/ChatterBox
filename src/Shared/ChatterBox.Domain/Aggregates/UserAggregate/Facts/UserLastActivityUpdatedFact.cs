@@ -13,6 +13,6 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             LastActivity = lastActivity;
         }
 
-        public DateTimeOffset LastActivity { get; protected set; }
+        public DateTimeOffset LastActivity { get; private set; }
     }
 }

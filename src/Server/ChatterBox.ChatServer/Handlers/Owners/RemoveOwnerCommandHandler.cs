@@ -5,7 +5,7 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts.Owners.Commands;
 using Nimbus;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 
@@ -35,7 +35,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                 throw new Exception("{0} is not an owner of {1}.".FormatWith(targetUser.Name, targetRoom.Name));
             }
 
-            targetRoom.RemoveOwner(targetUser.Id);
+            targetRoom.RemoveOwner(targetUser);
 
             context.Complete();
 

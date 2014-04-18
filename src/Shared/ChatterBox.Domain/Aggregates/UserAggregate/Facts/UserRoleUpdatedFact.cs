@@ -13,6 +13,6 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             UserRole = userRole;
         }
 
-        public UserRole UserRole { get; protected set; }
+        public UserRole UserRole { get; private set; }
     }
 }

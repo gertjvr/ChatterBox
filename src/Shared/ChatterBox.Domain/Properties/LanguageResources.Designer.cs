@@ -2174,6 +2174,15 @@ namespace ChatterBox.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Guid cannot be empty..
+        /// </summary>
+        internal static string GuidCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("GuidCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show this list of commands..
         /// </summary>
         internal static string Help_CommandInfo {

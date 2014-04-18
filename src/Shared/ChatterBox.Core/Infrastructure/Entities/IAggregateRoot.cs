@@ -8,6 +8,7 @@ namespace ChatterBox.Core.Infrastructure.Entities
     {
         Guid Id { get; }
         IEnumerable<IFact> GetAndClearPendingFacts();
-        Guid RevisionId { get; set; }
+        Guid RevisionId { get; }
+        void SetRevisionId(Guid revisionId);
     }
 }

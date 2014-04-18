@@ -4,13 +4,15 @@ using ChatterBox.Core.Infrastructure.Facts;
 
 namespace ChatterBox.Core.Infrastructure.Entities
 {
-    [Serializable]
     public abstract class AggregateRoot : Entity, IAggregateRoot
     {
         private readonly List<IFact> _pendingFacts = new List<IFact>();
 
         protected internal override void Append(IFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             lock (_pendingFacts)
             {
                 _pendingFacts.Add(fact);
@@ -27,6 +29,15 @@ namespace ChatterBox.Core.Infrastructure.Entities
             }
         }
 
-        public Guid RevisionId { get; set; }
+        public Guid RevisionId { get; private set; }
+
+        public void SetRevisionId(Guid revisionId)
+        {
+            if (revisionId == Guid.Empty) 
+                throw new ArgumentException("Guid cannot be empty.", "revisionId");
+
+            RevisionId = revisionId;
+        }
+        
     }
 }

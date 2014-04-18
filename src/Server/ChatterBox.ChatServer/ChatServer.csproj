@@ -115,11 +115,8 @@
     <Compile Include="Handlers\Admins\AddAdminCommandHandler.cs" />
     <Compile Include="Handlers\AuthenticateUserRequestHandler.cs" />
     <Compile Include="Handlers\Admins\BanUserCommandHandler.cs" />
-    <Compile Include="Handlers\AllowedRoomsRequestHandler.cs" />
-    <Compile Include="Handlers\PreviousMessagesRequestHandler.cs" />
-    <Compile Include="Handlers\RoomInfoRequestHandler.cs" />
     <Compile Include="Handlers\Messages\SendPrivateMessageCommandHandler.cs" />
-    <Compile Include="Handlers\UserInfoRequestHandler.cs" />
+    <Compile Include="Handlers\Rooms\RoomInfoRequestHandler.cs" />
     <Compile Include="Handlers\Admins\RemoveAdminCommandHandler.cs" />
     <Compile Include="Handlers\Messages\SendMessageCommandHandler.cs" />
     <Compile Include="Handlers\Owners\AddOwnerCommandHandler.cs" />
@@ -130,6 +127,11 @@
     <Compile Include="Handlers\Owners\LockRoomCommandHandler.cs" />
     <Compile Include="Handlers\Owners\OpenRoomCommandHandler.cs" />
     <Compile Include="Handlers\Owners\RemoveOwnerCommandHandler.cs" />
+    <Compile Include="Handlers\Users\AllowedRoomsRequestHandler.cs" />
+    <Compile Include="Handlers\Users\ChangeUserNameCommandHandler.cs" />
+    <Compile Include="Handlers\Users\CreateUserRequestHandler.cs" />
+    <Compile Include="Handlers\Users\PreviousMessagesRequestHandler.cs" />
+    <Compile Include="Handlers\Users\UserInfoRequestHandler.cs" />
     <Compile Include="Infrastructure\Mappers\MessageToMessageDtoMapper.cs" />
     <Compile Include="Infrastructure\Mappers\RoomToRoomDtoMapper.cs" />
     <Compile Include="Infrastructure\Mappers\UserToUserDtoMapper.cs" />
@@ -139,8 +141,6 @@
     <Compile Include="Handlers\Rooms\JoinRoomCommandHandler.cs" />
     <Compile Include="Handlers\Rooms\LeaveRoomCommandHandler.cs" />
     <Compile Include="Handlers\Rooms\SetInviteCodeCommandHandler.cs" />
-    <Compile Include="Handlers\ChangeUserNameCommandHandler.cs" />
-    <Compile Include="Handlers\CreateUserRequestHandler.cs" />
     <Compile Include="Handlers\Users\CreateClientRequestHandler.cs" />
     <Compile Include="Handlers\Users\DisconnectClientCommandHandler.cs" />
     <Compile Include="Handlers\Users\UpdateActivityCommandHandler.cs" />
@@ -150,7 +150,7 @@
     <Compile Include="ScopedUserCommandHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -4,24 +4,22 @@ using ChatterBox.Core.Persistence;
 
 namespace ChatterBox.Core.Infrastructure.Facts
 {
-    [Serializable]
     public abstract class FactAbout<T> : IFact where T : IAggregateRoot
     {
-        public Guid AggregateRootId { get; set; }
+        protected FactAbout(Guid aggregateRootId)
+        {
+            if (aggregateRootId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "aggregateRootId");
+
+            AggregateRootId = aggregateRootId;
+        }
+
+        public Guid AggregateRootId { get; private set; }
 
         /// <remarks>
         ///     This will be set by our fact store at commit time.
         /// </remarks>
-        public UnitOfWorkProperties UnitOfWorkProperties { get; set; }
-
-        protected FactAbout()
-        {
-        }
-
-        protected FactAbout(Guid aggregateRootId)
-        {
-            AggregateRootId = aggregateRootId;
-        }
+        public UnitOfWorkProperties UnitOfWorkProperties { get; private set; }
 
         public string StreamName
         {
@@ -35,6 +33,9 @@ namespace ChatterBox.Core.Infrastructure.Facts
 
         public void SetUnitOfWorkProperties(UnitOfWorkProperties properties)
         {
+            if (properties == null) 
+                throw new ArgumentNullException("properties");
+
             UnitOfWorkProperties = properties;
         }
     }

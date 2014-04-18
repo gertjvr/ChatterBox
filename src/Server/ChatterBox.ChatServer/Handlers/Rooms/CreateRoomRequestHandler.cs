@@ -4,7 +4,7 @@ using Autofac.Features.OwnedInstances;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Requests;
+using ChatterBox.MessageContracts.Rooms.Requests;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 
 namespace ChatterBox.ChatServer.Handlers.Rooms

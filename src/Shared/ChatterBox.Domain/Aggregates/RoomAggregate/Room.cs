@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.RoomAggregate.Facts;
+using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.RoomAggregate
 {
@@ -18,38 +20,47 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public Room(string name, Guid creatorId, bool privateRoom = false)
         {
+            if (name == null) 
+                throw new ArgumentNullException("name");
+
+            if (creatorId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "creatorId");
+
             var fact = new RoomCreatedFact(
                 Guid.NewGuid(),
                 name,
-                privateRoom,
-                creatorId);
+                creatorId,
+                privateRoom);
 
             Append(fact);
             Apply(fact);
         }
 
-        public string Name { get; protected set; }
+        public string Name { get; private set; }
 
-        public string Topic { get; protected set; }
+        public string Topic { get; private set; }
 
-        public bool Private { get; protected set; }
+        public bool PrivateRoom { get; private set; }
         
-        public bool Closed { get; protected set; }
+        public bool Closed { get; private set; }
         
-        public string Welcome { get; protected set; }
+        public string Welcome { get; private set; }
 
-        public Guid CreatorId { get; protected set; }
+        public Guid CreatorId { get; private set; }
+        
+        public string InviteCode { get; private set; }
 
         public IEnumerable<Guid> Owners { get { return _owners; } }
 
         public IEnumerable<Guid> Users { get { return _users; } }
 
         public IEnumerable<Guid> AllowedUsers { get { return _allowedUsers; } }
-        
-        public string InviteCode { get; protected set; }
 
         public void Apply(RoomCreatedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             Id = fact.AggregateRootId;
             Name = fact.Name;
             CreatorId = fact.CreatorId;
@@ -60,9 +71,10 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void ChangeTopic(string topic)
         {
-            var fact = new RoomTopicChangedFact(
-                Id,
-                topic);
+            if (topic == null) 
+                throw new ArgumentNullException("topic");
+
+            var fact = new RoomTopicChangedFact(Id, topic);
 
             Append(fact);
             Apply(fact);
@@ -70,14 +82,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(RoomTopicChangedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             Topic = fact.NewTopic;
         }
 
-        public void Join(Guid userId)
+        public void Join(User user)
         {
-            var fact = new UserJoinedFact(
-                Id,
-                userId);
+            if (user == null) 
+                throw new ArgumentNullException("user");
+
+            var fact = new UserJoinedFact(Id, user.Id);
 
             Append(fact);
             Apply(fact);
@@ -85,14 +101,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(UserJoinedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             _users.Add(fact.UserId);
         }
 
-        public void Leave(Guid userId)
+        public void Leave(User user)
         {
-            var fact = new UserLeftFact(
-                Id, 
-                userId);
+            if (user == null) 
+                throw new ArgumentNullException("user");
+
+            var fact = new UserLeftFact(Id, user.Id);
 
             Append(fact);
             Apply(fact);
@@ -100,14 +120,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(UserLeftFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             _users.Remove(fact.UserId);
         }
 
-        public void AddOwner(Guid ownerId)
+        public void AddOwner(User owner)
         {
-            var fact = new OwnerAddedFact(
-                Id, 
-                ownerId);
+            if (owner == null) 
+                throw new ArgumentNullException("owner");
+
+            var fact = new OwnerAddedFact(Id, owner.Id);
 
             Append(fact);
             Apply(fact);
@@ -115,6 +139,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(OwnerAddedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             _owners.Add(fact.OwnerId);
         }
 
@@ -128,6 +155,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(RoomClosedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             Closed = true;
         }
 
@@ -141,12 +171,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(RoomOpenedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             Closed = false;
         }
 
-        public void AllowUser(Guid userId)
+        public void AllowUser(User user)
         {
-            var fact = new UserAllowedFact(Id, userId);
+            if (user == null) 
+                throw new ArgumentNullException("user");
+
+            var fact = new UserAllowedFact(Id, user.Id);
 
             Append(fact);
             Apply(fact);
@@ -154,12 +190,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(UserAllowedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             _allowedUsers.Add(fact.UserId);
         }
 
-        public void RemoveOwner(Guid ownerId)
+        public void RemoveOwner(User owner)
         {
-            var fact = new OwnerRemovedFact(Id, ownerId);
+            if (owner == null) 
+                throw new ArgumentNullException("owner");
+
+            var fact = new OwnerRemovedFact(Id, owner.Id);
 
             Append(fact);
             Apply(fact);
@@ -167,12 +209,18 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(OwnerRemovedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             _owners.Remove(fact.OwnerId);
         }
 
-        public void UnallowUser(Guid userId)
+        public void UnallowUser(User user)
         {
-            var fact = new UserUnallowedFact(Id, userId);
+            if (user == null) 
+                throw new ArgumentNullException("user");
+
+            var fact = new UserUnallowedFact(Id, user.Id);
 
             Append(fact);
             Apply(fact);
@@ -180,11 +228,17 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(UserUnallowedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             _allowedUsers.Remove(fact.UserId);
         }
 
         public void SetInviteCode(string inviteCode)
         {
+            if (inviteCode == null) 
+                throw new ArgumentNullException("inviteCode");
+
             var fact = new InviteCodeSetFact(Id, inviteCode);
 
             Append(fact);
@@ -193,6 +247,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
 
         public void Apply(InviteCodeSetFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             InviteCode = fact.InviteCode;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
 {
@@ -8,19 +9,24 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
         public RoomCreatedFact(
             Guid aggregateRootId, 
             string name, 
-            bool privateRoom, 
-            Guid creatorId)
+            Guid creatorId, 
+            bool privateRoom)
             : base(aggregateRootId)
         {
+            if (name == null) throw new ArgumentNullException("name");
+
+            if (creatorId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "creatorId");
+
             Name = name;
-            PrivateRoom = privateRoom;
             CreatorId = creatorId;
+            PrivateRoom = privateRoom;
         }
 
-        public string Name { get; protected set; }
-        
-        public bool PrivateRoom { get; protected set; }
+        public string Name { get; private set; }
 
-        public Guid CreatorId { get; set; }
+        public Guid CreatorId { get; private set; }
+
+        public bool PrivateRoom { get; private set; }
     }
 }

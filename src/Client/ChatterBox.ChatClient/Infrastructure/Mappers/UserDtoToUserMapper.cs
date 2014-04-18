@@ -16,7 +16,6 @@ namespace ChatterBox.ChatClient.Infrastructure.Mappers
                 Name = source.Name,
                 Hash = source.Hash,
                 Status = (UserStatus)source.Status,
-                Note = source.Note,
                 LastActivity = source.LastActivity,
                 UserRole = (UserRole)source.UserRole
             };

@@ -10,9 +10,12 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             string newHashedPassword) 
             : base(aggregateRootId)
         {
+            if (newHashedPassword == null) 
+                throw new ArgumentNullException("newHashedPassword");
+
             NewHashedPassword = newHashedPassword;
         }
 
-        public string NewHashedPassword { get; set; }
+        public string NewHashedPassword { get; private set; }
     }
 }

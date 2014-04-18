@@ -4,8 +4,8 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Commands;
-using ChatterBox.MessageContracts.Events;
+using ChatterBox.MessageContracts.Owners.Commands;
+using ChatterBox.MessageContracts.Owners.Events;
 using Nimbus;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 

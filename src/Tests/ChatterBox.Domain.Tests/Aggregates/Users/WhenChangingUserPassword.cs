@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using ChatterBox.Core.Extensions;
+using ChatterBox.Core.Tests;
+using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
 using Ploeh.AutoFixture;
@@ -27,13 +29,11 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
             Subject.UpdatePassword(NewHashedPassword);
         }
 
-        [Then]
         public void ChangedPasswordCorrectly()
         {
             Subject.HashedPassword.ShouldBe(NewHashedPassword);
         }
 
-        [Then]
         public void ContainsCorrectPendingFact()
         {
             var pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserPasswordUpdatedFact>().ToArray();

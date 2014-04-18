@@ -10,9 +10,12 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
             string newTopic) 
             : base(aggregateRootId)
         {
+            if (newTopic == null) 
+                throw new ArgumentNullException("newTopic");
+
             NewTopic = newTopic;
         }
 
-        public string NewTopic { get; protected set; }
+        public string NewTopic { get; private set; }
     }
 }

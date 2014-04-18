@@ -5,7 +5,7 @@ using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.Domain.Properties;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts.Rooms.Commands;
 using Nimbus;
 
 namespace ChatterBox.ChatServer.Handlers.Rooms
@@ -23,7 +23,7 @@ namespace ChatterBox.ChatServer.Handlers.Rooms
 
             room.EnsureOwnerOrAdmin(callingUser);
 
-            if (!room.Private)
+            if (!room.PrivateRoom)
             {
                 throw new Exception(LanguageResources.InviteCode_PrivateRoomRequired);
             }

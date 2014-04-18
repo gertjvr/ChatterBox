@@ -6,8 +6,8 @@ using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.Domain.Properties;
-using ChatterBox.MessageContracts.Commands;
-using ChatterBox.MessageContracts.Events;
+using ChatterBox.MessageContracts.Owners.Commands;
+using ChatterBox.MessageContracts.Owners.Events;
 using Nimbus;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 
@@ -30,7 +30,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
 
             targetRoom.EnsureOwnerOrAdmin(callingUser);
 
-            if (targetRoom.Private == false) 
+            if (targetRoom.PrivateRoom == false) 
             {
                 throw new Exception(LanguageResources.RoomNotPrivate.FormatWith(targetRoom.Name));
             }
@@ -40,7 +40,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                 throw new Exception(LanguageResources.RoomUserAlreadyAllowed.FormatWith(targetUser.Name, targetRoom.Name));
             }
 
-            targetRoom.AllowUser(targetUser.Id);
+            targetRoom.AllowUser(targetUser);
 
             context.Complete();
 

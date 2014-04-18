@@ -8,9 +8,12 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate.Facts
         public ClientUserAgentUpdatedFact(Guid aggregateRootId, string userAgent)
             : base(aggregateRootId)
         {
+            if (userAgent == null) 
+                throw new ArgumentNullException("userAgent");
+
             UserAgent = userAgent;
         }
 
-        public string UserAgent { get; protected set; }
+        public string UserAgent { get; private set; }
     }
 }

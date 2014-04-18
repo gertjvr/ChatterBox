@@ -4,9 +4,17 @@ namespace ChatterBox.MessageContracts.Dtos
 {
     public class MessageDto : IDto
     {
-        public Guid Id { get; set; }
-        public string Content { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public UserDto User { get; set; }
+        public MessageDto(Guid id, string content, DateTimeOffset createdAt, UserDto user)
+        {
+            Id = id;
+            Content = content;
+            CreatedAt = createdAt;
+            User = user;
+        }
+
+        public Guid Id { get; private set; }
+        public string Content { get; private set; }
+        public DateTimeOffset CreatedAt { get; private set; }
+        public UserDto User { get; private set; }
     }
 }

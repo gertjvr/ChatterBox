@@ -17,6 +17,21 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             DateTimeOffset lastActivity) 
             : base(aggregateRootId)
         {
+            if (name == null) 
+                throw new ArgumentNullException("name");
+
+            if (email == null) 
+                throw new ArgumentNullException("email");
+
+            if (hash == null) 
+                throw new ArgumentNullException("hash");
+
+            if (salt == null) 
+                throw new ArgumentNullException("salt");
+
+            if (hashedPassword == null) 
+                throw new ArgumentNullException("hashedPassword");
+
             Name = name;
             Email = email;
             Hash = hash;
@@ -27,20 +42,20 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             Status = status;
         }
 
-        public string Name { get; protected set; }
+        public string Name { get; private set; }
 
-        public string Email { get; protected set; }
+        public string Email { get; private set; }
 
-        public string Hash { get; protected set; }
+        public string Hash { get; private set; }
         
-        public string Salt { get; protected set; }
+        public string Salt { get; private set; }
 
-        public string HashedPassword { get; protected set; }
+        public string HashedPassword { get; private set; }
 
-        public UserRole UserRole { get; protected set; }
+        public UserRole UserRole { get; private set; }
    
-        public DateTimeOffset LastActivity { get; protected set; }
+        public DateTimeOffset LastActivity { get; private set; }
         
-        public UserStatus Status { get; protected set; }
+        public UserStatus Status { get; private set; }
     }
 }

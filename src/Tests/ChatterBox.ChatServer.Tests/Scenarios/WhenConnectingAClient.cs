@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ChatterBox.ChatServer.Handlers;
 using ChatterBox.ChatServer.Handlers.Users;
-using ChatterBox.MessageContracts.Requests;
+using ChatterBox.Core.Tests;
+using ChatterBox.Core.Tests.Specifications;
+using ChatterBox.MessageContracts.Users.Requests;
 using Ploeh.AutoFixture;
 using Shouldly;
 
@@ -25,7 +26,6 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             Response = await Subject.Handle(Request);
         }
 
-        [Then]
         public void ShouldReturnCorrectClientId()
         {
             Response.ClientId.ShouldNotBe(Guid.Empty);

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts.Owners.Commands;
 
 namespace ChatterBox.ChatServer.Handlers.Owners
 {
@@ -16,7 +16,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
         {
             var repository = context.Repository<Room>();
 
-            var room = repository.GetById(command.RoomId);
+            var room = repository.GetById(command.TargetRoomId);
 
             room.Open();
 

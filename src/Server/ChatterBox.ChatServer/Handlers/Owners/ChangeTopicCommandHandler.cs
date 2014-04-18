@@ -4,8 +4,8 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Commands;
-using ChatterBox.MessageContracts.Events;
+using ChatterBox.MessageContracts.Owners.Commands;
+using ChatterBox.MessageContracts.Owners.Events;
 using Nimbus;
 
 namespace ChatterBox.ChatServer.Handlers.Owners
@@ -21,7 +21,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
         {
             var repository = context.Repository<Room>();
 
-            var targetRoom = repository.VerifyRoom(command.RoomId);
+            var targetRoom = repository.VerifyRoom(command.TargetRoomId);
 
             targetRoom.EnsureOpen();
             targetRoom.EnsureOwnerOrAdmin(callingUser);

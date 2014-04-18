@@ -24,13 +24,11 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
             if (source == null)
                 return null;
 
-            return new MessageDto
-            {
-                Id = source.Id,
-                Content = source.Content,
-                User = _userMapper.Map(_userRepository.GetById(source.UserId)),
-                CreatedAt = source.CreatedAt,
-            };
+            return new MessageDto(
+                source.Id,
+                source.Content,
+                source.CreatedAt,
+                _userMapper.Map(_userRepository.GetById(source.UserId)));
         }
     }
 }

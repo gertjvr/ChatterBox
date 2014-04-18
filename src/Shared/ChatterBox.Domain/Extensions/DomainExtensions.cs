@@ -10,7 +10,7 @@ namespace ChatterBox.Domain.Extensions
     {
         public static void EnsureAllowed(this User user, Room room)
         {
-            if (room.Private && !room.IsUserAllowed(user))
+            if (room.PrivateRoom && !room.IsUserAllowed(user))
             {
                 throw new Exception("You do not have access to {0}.".FormatWith(room.Name));
             }

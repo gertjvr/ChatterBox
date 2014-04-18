@@ -1,5 +1,6 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.ClientAggregate.Facts
 {
@@ -13,15 +14,21 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate.Facts
             DateTimeOffset lastActivity)
             : base(aggregateRootId)
         {
+            if (userId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+            
+            if (userAgent == null) 
+                throw new ArgumentNullException("userAgent");
+
             UserId = userId;
             UserAgent = userAgent;
             LastActivity = lastActivity;
         }
 
-        public Guid UserId { get; protected set; }
+        public Guid UserId { get; private set; }
 
-        public string UserAgent { get; protected set; }
+        public string UserAgent { get; private set; }
 
-        public DateTimeOffset LastActivity { get; protected set; }
+        public DateTimeOffset LastActivity { get; private set; }
     }
 }

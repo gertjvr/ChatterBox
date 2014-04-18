@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts.Messages.Commands;
 
 namespace ChatterBox.ChatServer.Handlers.Messages
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.MessageAggregate.Facts;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.MessageAggregate
 {
@@ -13,6 +14,15 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate
 
         public Message(Guid roomId, Guid userId, string content, DateTimeOffset createdAt)
         {
+            if (roomId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "roomId");
+
+            if (userId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+            
+            if (content == null) 
+                throw new ArgumentNullException("content");
+
             var fact = new MessageCreatedFact(
                 Guid.NewGuid(),
                 roomId,
@@ -24,16 +34,19 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate
             Apply(fact);
         }
 
-        public Guid RoomId { get; protected set; }
+        public Guid RoomId { get; private set; }
 
-        public Guid UserId { get; protected set; }
+        public Guid UserId { get; private set; }
 
-        public string Content { get; protected set; }
+        public string Content { get; private set; }
 
-        public DateTimeOffset CreatedAt { get; protected set; }
+        public DateTimeOffset CreatedAt { get; private set; }
 
         public void Apply(MessageCreatedFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             Id = fact.AggregateRootId;
             RoomId = fact.RoomId;
             UserId = fact.UserId;

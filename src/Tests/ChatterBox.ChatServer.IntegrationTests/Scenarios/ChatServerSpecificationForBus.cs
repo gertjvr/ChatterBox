@@ -3,14 +3,13 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Builder;
 using ChatterBox.Core.Persistence.Memory;
+using ChatterBox.Core.Tests.Specifications;
 using Nimbus;
-using NUnit.Framework;
 using Serilog;
 using Serilog.Events;
 
 namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
 {
-    [Category("IntergrationTests")]
     public abstract class ChatServerSpecificationForBus : SpecificationForAsync<IBus>
     {
         protected IContainer _container;
@@ -45,8 +44,7 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
             ((Bus)Subject).Start();
         }
 
-        [TearDown]
-        public override void TearDown()
+        public override async Task TearDown()
         {
             var disposable = Subject as IDisposable;
             if (disposable != null) disposable.Dispose();

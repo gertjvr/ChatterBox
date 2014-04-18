@@ -33,18 +33,16 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
             if (source == null)
                 return null;
 
-            return new RoomDto
-            {
-                Name = source.Name,
-                Count = 0,
-                Private = source.Private,
-                Topic = source.Topic,
-                Closed = source.Closed,
-                Welcome = source.Welcome,
-                Contacts = source.Users.Select(contactId => _userMapper.Map(_userRepository.GetById(contactId))).ToArray(),
-                Owners = source.Owners.Select(ownerId => _userMapper.Map(_userRepository.GetById(ownerId))).ToArray(),
-                RecentMessages = _messageRepository.Query(new RecentMessagesQuery(15)).Select(message => _messageMapper.Map(message)),
-            };
+            return new RoomDto(
+                source.Name,
+                0,
+                source.PrivateRoom,
+                source.Topic,
+                source.Closed,
+                source.Welcome,
+                source.Users.Select(contactId => _userMapper.Map(_userRepository.GetById(contactId))).ToArray(),
+                source.Owners.Select(ownerId => _userMapper.Map(_userRepository.GetById(ownerId))).ToArray(),
+                _messageRepository.Query(new RecentMessagesQuery(15)).Select(message => _messageMapper.Map(message)));
         }
     }
 }

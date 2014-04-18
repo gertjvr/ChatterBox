@@ -5,7 +5,7 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts.Owners.Commands;
 using Nimbus;
 using Nimbus.Extensions;
 
@@ -36,7 +36,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                 throw new Exception("Why would you want to unallow yourself?");
             }
 
-            if (targetRoom.Private == false)
+            if (targetRoom.PrivateRoom == false)
             {
                 throw new Exception("{0} is not a private room.".FormatWith(targetRoom.Name));
             }
@@ -56,7 +56,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                 throw new Exception("Owners cannot unallow other owners. Only the room creator can unallow an owner.");
             }
 
-            targetRoom.UnallowUser(targetUser.Id);
+            targetRoom.UnallowUser(targetUser);
 
             //TODO Make the user leave the room
 

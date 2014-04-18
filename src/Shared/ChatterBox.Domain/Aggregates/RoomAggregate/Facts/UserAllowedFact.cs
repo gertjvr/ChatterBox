@@ -1,5 +1,6 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
 {
@@ -10,6 +11,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
             Guid userId)
             : base(aggregateRootId)
         {
+            if (userId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+
             UserId = userId;
         }
 

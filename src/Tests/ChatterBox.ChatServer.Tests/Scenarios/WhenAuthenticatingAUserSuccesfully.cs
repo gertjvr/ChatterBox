@@ -2,10 +2,12 @@ using System;
 using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers;
 using ChatterBox.Core.Extensions;
+using ChatterBox.Core.Tests;
 using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Queries;
-using ChatterBox.MessageContracts.Requests;
+using ChatterBox.MessageContracts;
 using NSubstitute;
 using Ploeh.AutoFixture;
 using Shouldly;
@@ -55,13 +57,11 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             Response = await Subject.Handle(Request);
         }
 
-        [Then]
         public void ShouldReturnCorrectUserId()
         {
             Response.UserId.ShouldBe(User.Id);
         }
 
-        [Then]
         public void ShouldReturnClientId()
         {
             Response.ClientId.ShouldNotBe(Guid.Empty);

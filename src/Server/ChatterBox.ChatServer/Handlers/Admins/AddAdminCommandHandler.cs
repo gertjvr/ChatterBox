@@ -4,8 +4,8 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.Domain.Properties;
-using ChatterBox.MessageContracts.Commands;
-using ChatterBox.MessageContracts.Events;
+using ChatterBox.MessageContracts.Admins.Commands;
+using ChatterBox.MessageContracts.Admins.Events;
 using Nimbus;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 
@@ -15,7 +15,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
     {
         public AddAdminCommandHandler(Func<IUnitOfWork> unitOfWork, IBus bus)
             : base(unitOfWork, bus)
-        {   
+        {
         }
 
         public override async Task Execute(IUnitOfWork context, User callingUser, AddAdminCommand command)

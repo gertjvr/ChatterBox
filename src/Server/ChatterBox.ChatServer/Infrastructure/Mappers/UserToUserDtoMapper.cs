@@ -11,14 +11,12 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
             if (source == null)
                 return null;
 
-            return new UserDto
-            {
-                Name = source.Name,
-                Hash = source.Hash,
-                Status = (int)source.Status,
-                LastActivity = source.LastActivity,
-                UserRole = (int)source.UserRole,
-            };
+            return new UserDto(
+                source.Name,
+                source.Hash,
+                source.LastActivity,
+                (int)source.Status,
+                (int)source.UserRole);
         }
     }
 }

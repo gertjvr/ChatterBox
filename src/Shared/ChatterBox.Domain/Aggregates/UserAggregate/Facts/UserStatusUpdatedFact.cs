@@ -13,6 +13,6 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
             Status = status;
         }
 
-        public UserStatus Status { get; protected set; }
+        public UserStatus Status { get; private set; }
     }
 }

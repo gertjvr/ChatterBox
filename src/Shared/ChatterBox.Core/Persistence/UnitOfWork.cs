@@ -73,7 +73,7 @@ namespace ChatterBox.Core.Persistence
 
             var factsArray = facts.ToArray();
             _factStore.AppendAtomically(factsArray);
-            _enlistedItems.Do(ar => ar.RevisionId = unitOfWorkId).Done();
+            _enlistedItems.Do(ar => ar.SetRevisionId(unitOfWorkId)).Done();
 
             _completed = true;
 

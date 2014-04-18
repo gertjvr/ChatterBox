@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>1998</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +40,9 @@
     <Reference Include="ConfigInjector, Version=1.1.0.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\ConfigInjector.1.1.0.6\lib\net45\ConfigInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="Fixie">
+      <HintPath>..\..\..\packages\Fixie.0.0.1.158\lib\net45\Fixie.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -62,10 +66,6 @@
     <Reference Include="Nimbus.MessageContracts, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.3.0.1\lib\net45\Nimbus.MessageContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=1.2.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -92,15 +92,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\chatterbox.core.tests\fixie\conventions\AllTypesConvention.cs">
+      <Link>Fixie\Conventions\AllTypesConvention.cs</Link>
+    </Compile>
+    <Compile Include="..\chatterbox.core.tests\fixie\conventions\SpecificationForConvention.cs">
+      <Link>Fixie\Conventions\SpecificationForConvention.cs</Link>
+    </Compile>
     <Compile Include="TestHarnessTypeProvider.cs" />
     <Compile Include="TestHarnessBusFactory.cs" />
     <Compile Include="ObjectMother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenarios\ChatServerSpecificationForBus.cs" />
-    <Compile Include="Scenarios\When.cs" />
-    <Compile Include="SpecificationFor.cs" />
-    <Compile Include="SpecificationForAsync.cs" />
-    <Compile Include="ThenAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Server\ChatterBox.ChatServer\App.config">
@@ -125,6 +127,10 @@
     <ProjectReference Include="..\..\Shared\ChatterBox.MessageContracts\MessageContracts.csproj">
       <Project>{272e3901-c8ad-443c-a870-89c45eb0d0d2}</Project>
       <Name>MessageContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatterBox.Core.Tests\Core.Tests.csproj">
+      <Project>{8151f9e3-e95e-4830-9bf3-d0d0366364d4}</Project>
+      <Name>Core.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

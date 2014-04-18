@@ -1165,4 +1165,7 @@ Use ? or type /? to display the FAQ and list of commands.</value>
   <data name="SendMessageTooLong" xml:space="preserve">
     <value>You cannot post this message. It is too long.</value>
   </data>
+  <data name="GuidCannotBeEmpty" xml:space="preserve">
+    <value>Guid cannot be empty.</value>
+  </data>
 </root>

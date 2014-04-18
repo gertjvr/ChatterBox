@@ -180,7 +180,7 @@ namespace ChatterBox.Domain.Services
 
                 var room = new Room(roomName, user.Id);
 
-                room.AddOwner(user.Id);
+                room.AddOwner(user);
 
                 repository.Add(room);
 
@@ -202,12 +202,12 @@ namespace ChatterBox.Domain.Services
                 var user = context.Repository<User>().VerifyUser(userId);
                 var room = context.Repository<Room>().VerifyRoom(roomId);
 
-                if (room.Private)
+                if (room.PrivateRoom)
                 {
                     if (!String.IsNullOrEmpty(inviteCode) &&
                         String.Equals(inviteCode, room.InviteCode, StringComparison.OrdinalIgnoreCase))
                     {
-                        room.AllowUser(user.Id);
+                        room.AllowUser(user);
                     }
 
                     if (!room.IsUserAllowed(user))
@@ -216,7 +216,7 @@ namespace ChatterBox.Domain.Services
                     }
                 }
                 
-                room.Join(user.Id);
+                room.Join(user);
 
                 context.Complete();
             }
@@ -229,7 +229,7 @@ namespace ChatterBox.Domain.Services
                 var user = context.Repository<User>().VerifyUser(userId);
                 var room = context.Repository<Room>().VerifyRoom(roomId);
 
-                room.Leave(user.Id);
+                room.Leave(user);
 
                 context.Complete();
             }
@@ -244,7 +244,7 @@ namespace ChatterBox.Domain.Services
 
                 room.EnsureOwnerOrAdmin(user);
 
-                if (!room.Private)
+                if (!room.PrivateRoom)
                 {
                     throw new Exception(LanguageResources.InviteCode_PrivateRoomRequired);
                 }

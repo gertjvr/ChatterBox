@@ -6,7 +6,7 @@ using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.ClientAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Requests;
+using ChatterBox.MessageContracts.Users.Requests;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {

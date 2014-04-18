@@ -8,9 +8,14 @@ using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.ChatClient.Models;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
-using ChatterBox.MessageContracts.Commands;
+using ChatterBox.MessageContracts;
 using ChatterBox.MessageContracts.Dtos;
-using ChatterBox.MessageContracts.Requests;
+using ChatterBox.MessageContracts.Messages.Commands;
+using ChatterBox.MessageContracts.Owners.Commands;
+using ChatterBox.MessageContracts.Rooms.Commands;
+using ChatterBox.MessageContracts.Rooms.Requests;
+using ChatterBox.MessageContracts.Users.Commands;
+using ChatterBox.MessageContracts.Users.Requests;
 using ConfigInjector.QuickAndDirty;
 using Nimbus;
 using Seq;
@@ -90,7 +95,7 @@ namespace ChatterBox.ChatClient
 
         public async Task SendPrivateMessage(Guid userId, string message)
         {
-            await _bus.Send(new SendPrivateMessageCommand(userId, message, _userContext.UserId));
+            await _bus.Send(new SendPrivateMessageCommand(message, userId, _userContext.UserId));
         }
 
         public async Task Kick(Guid userId, Guid roomId)

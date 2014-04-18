@@ -1,5 +1,6 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Facts;
+using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.MessageAggregate.Facts
 {
@@ -14,18 +15,27 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate.Facts
             DateTimeOffset createdAt)
             : base(aggregateRootId)
         {
+            if (userId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+
+            if (roomId == Guid.Empty)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+
+            if (content == null)
+                throw new ArgumentNullException("content");
+
             UserId = userId;
             RoomId = roomId;
             Content = content;
             CreatedAt = createdAt;
         }
 
-        public Guid UserId { get; protected set; }
+        public Guid UserId { get; private set; }
 
-        public Guid RoomId { get; protected set; }
+        public Guid RoomId { get; private set; }
 
-        public string Content { get; protected set; }
+        public string Content { get; private set; }
 
-        public DateTimeOffset CreatedAt { get; protected set; }
+        public DateTimeOffset CreatedAt { get; private set; }
     }
 }
