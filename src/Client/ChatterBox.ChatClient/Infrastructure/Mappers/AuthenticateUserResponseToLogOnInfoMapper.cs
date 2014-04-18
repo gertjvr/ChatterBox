@@ -2,6 +2,7 @@
 using ChatterBox.ChatClient.Models;
 using ChatterBox.Core.Mapping;
 using ChatterBox.MessageContracts;
+using ChatterBox.MessageContracts.Authentication.Request;
 using ChatterBox.MessageContracts.Dtos;
 
 namespace ChatterBox.ChatClient.Infrastructure.Mappers

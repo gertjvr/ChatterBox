@@ -11,10 +11,10 @@ using ChatterBox.Core.Services;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Queries;
-using ChatterBox.MessageContracts;
+using ChatterBox.MessageContracts.Authentication.Request;
 using ChatterBox.MessageContracts.Dtos;
 
-namespace ChatterBox.ChatServer.Handlers
+namespace ChatterBox.ChatServer.Handlers.Authentication
 {
     public class AuthenticateUserRequestHandler : ScopedRequestHandler<AuthenticateUserRequest, AuthenticateUserResponse>
     {

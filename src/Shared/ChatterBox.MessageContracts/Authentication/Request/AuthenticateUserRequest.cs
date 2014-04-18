@@ -1,7 +1,7 @@
 ﻿using System;
 using Nimbus.MessageContracts;
 
-namespace ChatterBox.MessageContracts
+namespace ChatterBox.MessageContracts.Authentication.Request
 {
     public class AuthenticateUserRequest : IBusRequest<AuthenticateUserRequest, AuthenticateUserResponse>
     {

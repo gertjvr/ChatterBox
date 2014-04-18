@@ -9,6 +9,7 @@ using ChatterBox.ChatClient.Models;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
 using ChatterBox.MessageContracts;
+using ChatterBox.MessageContracts.Authentication.Request;
 using ChatterBox.MessageContracts.Dtos;
 using ChatterBox.MessageContracts.Messages.Commands;
 using ChatterBox.MessageContracts.Owners.Commands;

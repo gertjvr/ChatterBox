@@ -2,7 +2,7 @@
 using ChatterBox.MessageContracts.Dtos;
 using Nimbus.MessageContracts;
 
-namespace ChatterBox.MessageContracts
+namespace ChatterBox.MessageContracts.Authentication.Request
 {
     public class AuthenticateUserResponse : IBusResponse
     {
