@@ -100,6 +100,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AutofacModules\LoggerModule.cs" />
     <Compile Include="AutofacModules\MappingModule.cs" />
     <Compile Include="AutofacModules\PersistenceModule.cs" />
@@ -135,6 +138,11 @@
     <Compile Include="Infrastructure\Mappers\MessageToMessageDtoMapper.cs" />
     <Compile Include="Infrastructure\Mappers\RoomToRoomDtoMapper.cs" />
     <Compile Include="Infrastructure\Mappers\UserToUserDtoMapper.cs" />
+    <Compile Include="Properties\LanguageResources.Designer.cs">
+      <DependentUpon>LanguageResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ScopedRequestHandler.cs" />
     <Compile Include="Handlers\Owners\UnallowUserCommandHandler.cs" />
     <Compile Include="Handlers\Rooms\CreateRoomRequestHandler.cs" />
@@ -167,7 +175,13 @@
       <Name>MessageContracts</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\LanguageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

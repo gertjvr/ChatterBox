@@ -63,6 +63,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Fixie\Conventions\AllTypesConvention.cs" />
     <Compile Include="Fixie\Conventions\SpecificationForConvention.cs" />
     <Compile Include="Fixie\Extensions\BehaviorBuilderExtensions.cs" />

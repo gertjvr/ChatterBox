@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Admins\Commands\BanUserCommand.cs" />
     <Compile Include="Admins\Commands\AddAdminCommand.cs" />
     <Compile Include="Admins\Events\AdminAddedEvent.cs" />
