@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using ChatterBox.Core.Infrastructure.Entities;
+using ThirdDrawer.Extensions.CollectionExtensionMethods;
 
 namespace ChatterBox.Core.Infrastructure.Queries
 {
@@ -35,48 +35,46 @@ namespace ChatterBox.Core.Infrastructure.Queries
             get { return _items.Value.Values.AsQueryable(); }
         }
 
-        public void UpdateAtomically(IEnumerable<T> newItems, IEnumerable<T> modifiedItems, IEnumerable<T> removedItems)
+        public void Add(T item)
+        {
+            _items.Value.TryAdd(item.Id, item);
+        }
 
+        public void Remove(T item)
+        {
+            T dummy;
+            _items.Value.TryRemove(item.Id, out dummy);
+        }
+
+        public void Revert(IEnumerable<T> newItems, IEnumerable<T> modifiedItems, IEnumerable<T> removedItems)
         {
             lock (this)
             {
-                foreach (var item in newItems)
-                {
-                    _items.Value[item.Id] = item;
-                    _lastSeenRevisionIds[item.Id] = item.RevisionId;
-                }
+                T dummy;
+                newItems.AsParallel()
+                        .Do(item => _items.Value.TryRemove(item.Id, out dummy))
+                        .Done();
 
-                foreach (var item in removedItems)
-                {
-                    T dummy;
-                    _items.Value.TryRemove(item.Id, out dummy);
-                }
+                var actualModifiedItems = modifiedItems
+                    .Where(item => item.RevisionId != LastSeenRevisionId(item.Id))
+                    .ToArray();
 
-                foreach (var item in modifiedItems)
-                {
-                    T existing;
-                    _items.Value.TryGetValue(item.Id, out existing);
+                var itemsToRebuild = removedItems.Union(actualModifiedItems);
 
-                    var replacement = NeedsRebuild(existing, item)
-                        ? _aggregateRebuilder.Rebuild<T>(item.Id)
-                        : item;
-
-                    _lastSeenRevisionIds[item.Id] = item.RevisionId;
-                    _items.Value[replacement.Id] = replacement;
-                }
+                itemsToRebuild
+                    .AsParallel()
+                    .Select(itemToRebuild => _aggregateRebuilder.Rebuild<T>(itemToRebuild.Id))
+                    .Do(item => _items.Value[item.Id] = item)
+                    .Do(item => _lastSeenRevisionIds[item.Id] = item.RevisionId)
+                    .Done();
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool NeedsRebuild(IAggregateRoot existing, IAggregateRoot updated)
+        private Guid LastSeenRevisionId(Guid itemId)
         {
-            if (existing == null) return false;
-            if (existing.RevisionId == Guid.Empty) return false;
-
-            var lastSeenRevisionId = _lastSeenRevisionIds[updated.Id];
-            if (existing.RevisionId == lastSeenRevisionId) return false;
-
-            return true;
+            Guid lastSeenRevisionId;
+            _lastSeenRevisionIds.TryGetValue(itemId, out lastSeenRevisionId);
+            return lastSeenRevisionId;
         }
     }
 }

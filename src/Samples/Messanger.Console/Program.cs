@@ -54,7 +54,7 @@ namespace Messanger.Console
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = uow.Repository<Room>();
+                var repo = scope.Resolve<IRepository<Room>>();
                 
                 var room = repo.GetById(roomId);
 
@@ -69,7 +69,7 @@ namespace Messanger.Console
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = uow.Repository<User>();
+                var repo = scope.Resolve<IRepository<User>>();
                 var crypto = scope.Resolve<ICryptoService>();
                 var clock = scope.Resolve<IClock>();
 
@@ -87,7 +87,7 @@ namespace Messanger.Console
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var repo = uow.Repository<Room>();
+                var repo = scope.Resolve<IRepository<Room>>();
 
                 var room = new Room(name, ownerId);
 

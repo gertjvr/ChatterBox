@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
-using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Queries;
 using ThirdDrawer.Extensions.CollectionExtensionMethods;
@@ -12,9 +11,9 @@ namespace ChatterBox.Core.Persistence
     {
         private readonly IQueryModel<T> _queryModel;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ConcurrentDictionary<Guid, T> _newItems = new ConcurrentDictionary<Guid, T>();
-        private readonly ConcurrentDictionary<Guid, T> _modifiedItems = new ConcurrentDictionary<Guid, T>();
-        private readonly ConcurrentDictionary<Guid, T> _removedItems = new ConcurrentDictionary<Guid, T>();
+        private readonly HashSet<T> _addedItems = new HashSet<T>();
+        private readonly HashSet<T> _modifiedItems = new HashSet<T>();
+        private readonly HashSet<T> _removedItems = new HashSet<T>();
 
         public Repository(IQueryModel<T> queryModel, IUnitOfWork unitOfWork)
         {
@@ -26,8 +25,10 @@ namespace ChatterBox.Core.Persistence
 
         public T GetById(Guid id)
         {
-            var item = _modifiedItems.GetOrAdd(id, itemId => _queryModel.GetById(itemId).Clone<T>());
+            var item = _queryModel.GetById(id);
+
             _unitOfWork.Enlist(item);
+            _modifiedItems.Add(item);
             return item;
         }
 
@@ -36,31 +37,23 @@ namespace ChatterBox.Core.Persistence
             if (item.Id == Guid.Empty) throw new InvalidOperationException("Aggregate roots must have IDs assigned before being added to a repository.");
 
             _unitOfWork.Enlist(item);
-            _newItems[item.Id] = item;
+            _addedItems.Add(item);
+            _queryModel.Add(item);
         }
 
         public void Remove(T item)
         {
             _unitOfWork.Enlist(item);
-            _removedItems[item.Id] = item;
+            _removedItems.Add(item);
+            _queryModel.Remove(item);
         }
 
         public T[] Query(IQuery<T> query)
         {
-            var fromUoW = query.Execute(_modifiedItems.Values.AsQueryable())
-                               .Except(_removedItems.Values);
+            var results = query.Execute(_queryModel.Items).ToArray();
+            results.Do(item => _unitOfWork.Enlist(item))
+                   .Done();
 
-            var fromSnapshot = query.Execute(_queryModel.Items)
-                                    .Except(fromUoW)
-                                    .Except(_removedItems.Values)
-                                    .AsParallel()
-                                    .Select(item => item.Clone<T>())
-                ;
-
-            fromSnapshot.Do(item => _unitOfWork.Enlist(item)).Done();
-
-            // we re-execute in case there was an orderby clause
-            var results = query.Execute(fromUoW.Concat(fromSnapshot)).ToArray();
             return results;
         }
 
@@ -71,11 +64,11 @@ namespace ChatterBox.Core.Persistence
 
         private void OnUnitOfWorkCompleted(object sender, EventArgs e)
         {
-            _queryModel.UpdateAtomically(_newItems.Values, _modifiedItems.Values, _removedItems.Values);
         }
 
         private void OnUnitOfWorkAbandoned(object sender, EventArgs e)
         {
+            _queryModel.Revert(_addedItems, _modifiedItems, _removedItems);
         }
     }
 }

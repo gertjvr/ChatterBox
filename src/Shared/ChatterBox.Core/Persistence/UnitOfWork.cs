@@ -12,28 +12,33 @@ namespace ChatterBox.Core.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly Guid _Id;
         private readonly IFactStore _factStore;
         private readonly IDomainEventBroker _domainEventBroker;
+        private readonly List<IAggregateRoot> _enlistedItems = new List<IAggregateRoot>();
         private readonly IClock _clock;
         private readonly ILifetimeScope _scope;
-        private readonly List<IAggregateRoot> _enlistedItems = new List<IAggregateRoot>();
-
         private bool _completed;
         private bool _abandoned;
+        private bool _disposed;
 
-        public UnitOfWork(IFactStore factStore, IDomainEventBroker domainEventBroker, IClock clock, ILifetimeScope rootScope)
+        public UnitOfWork(IFactStore factStore, IDomainEventBroker domainEventBroker, IClock clock, ILifetimeScope scope)
         {
-            _Id = Guid.NewGuid();
             _factStore = factStore;
             _domainEventBroker = domainEventBroker;
             _clock = clock;
-            _scope = rootScope;
+            _scope = scope;
+
+            DomainOperationMutex.Wait();
         }
 
         public void Enlist(IAggregateRoot item)
         {
             _enlistedItems.Add(item);
+        }
+
+        public IEnumerable<IAggregateRoot> EnlistedItems
+        {
+            get { return _enlistedItems; }
         }
 
         public IRepository<TAggregateRoot> Repository<TAggregateRoot>() where TAggregateRoot : IAggregateRoot
@@ -65,7 +70,7 @@ namespace ChatterBox.Core.Persistence
                 foreach (var fact in factsFromThisPass)
                 {
                     fact.SetUnitOfWorkProperties(new UnitOfWorkProperties(unitOfWorkId, sequenceNumber, _clock.UtcNow));
-                    _domainEventBroker.Raise((dynamic) fact);
+                    _domainEventBroker.Raise((dynamic)fact);
 
                     sequenceNumber++;
                 }
@@ -97,14 +102,24 @@ namespace ChatterBox.Core.Persistence
 
         public void Dispose()
         {
+            GC.SuppressFinalize(this);
             Dispose(true);
         }
 
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing) return;
+            if (_disposed) return;
 
-            if (!_completed) Abandon();
+            try
+            {
+                if (!_completed) Abandon();
+            }
+            finally
+            {
+                _disposed = true;
+                DomainOperationMutex.Release();
+            }
         }
     }
 }
