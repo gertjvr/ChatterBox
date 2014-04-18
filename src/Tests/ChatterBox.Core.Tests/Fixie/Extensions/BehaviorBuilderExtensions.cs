@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Fixie;
 using Fixie.Conventions;
 
@@ -24,7 +25,7 @@ namespace ChatterBox.Core.Tests.Fixie.Extensions
         {
             var lifecycleMethod =
                 new MethodFilter()
-                    .Where(x => x.HasSignature(typeof(void), method))
+                    .Where(x => x.HasSignature(typeof(void), method) || x.HasSignature(typeof(Task), method))
                     .Filter(type)
                     .SingleOrDefault();
 

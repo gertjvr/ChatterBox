@@ -15,7 +15,7 @@ namespace ChatterBox.Core.Tests.Fixie.Conventions
         public SpecificationForConvention()
         {
             Classes
-                .Where(type => type.IsInNamespace(GetType().Namespace))
+                .NameStartsWith("When")
                 .Where(type => type.IsAssignableTo<ISpecificationFor>());
 
             Methods
