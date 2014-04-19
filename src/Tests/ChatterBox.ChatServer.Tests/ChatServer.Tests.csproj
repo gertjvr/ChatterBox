@@ -117,6 +117,7 @@
     <Compile Include="..\chatterbox.core.tests\fixie\conventions\SpecificationForConvention.cs">
       <Link>Fixie\Conventions\SpecificationForConvention.cs</Link>
     </Compile>
+    <Compile Include="AutofacModules\SubstituteModule.cs" />
     <Compile Include="IoC\Conventions\AllTypesRegisteredWithTheServerContainer.cs" />
     <Compile Include="MessageContracts\Conventions\AllTypesNamesEndingWithEvent.cs" />
     <Compile Include="MessageContracts\Conventions\AllTypesMessageContractProperties.cs" />

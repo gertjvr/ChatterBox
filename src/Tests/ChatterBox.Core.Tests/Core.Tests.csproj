@@ -44,11 +44,17 @@
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
     </Reference>
+    <Reference Include="Ploeh.Albedo">
+      <HintPath>..\..\..\packages\Albedo.0.1.1\lib\net35\Ploeh.Albedo.dll</HintPath>
+    </Reference>
     <Reference Include="Ploeh.AutoFixture">
       <HintPath>..\..\..\packages\AutoFixture.3.18.3\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
     <Reference Include="Ploeh.AutoFixture.AutoNSubstitute">
       <HintPath>..\..\..\packages\AutoFixture.AutoNSubstitute.3.18.3\lib\net40\Ploeh.AutoFixture.AutoNSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture.Idioms">
+      <HintPath>..\..\..\packages\AutoFixture.Idioms.3.18.3\lib\net40\Ploeh.AutoFixture.Idioms.dll</HintPath>
     </Reference>
     <Reference Include="Shouldly">
       <HintPath>..\..\..\packages\Shouldly.2.1.1\lib\net40\Shouldly.dll</HintPath>
@@ -72,11 +78,8 @@
     <Compile Include="Fixie\Conventions\SpecificationForConvention.cs" />
     <Compile Include="Fixie\Extensions\BehaviorBuilderExtensions.cs" />
     <Compile Include="Fixie\Extensions\ClassFilterExtensions.cs" />
-    <Compile Include="IoC\Conventions\AllTypesRegisteredWithTheContainer.cs" />
-    <Compile Include="Shouldly\IgnoreException.cs" />
-    <Compile Include="Shouldly\InconclusiveException.cs" />
+    <Compile Include="IoC\AutofacContainerAssertion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shouldly\Should.cs" />
     <Compile Include="Specifications\AutoSpecificationFor.cs" />
     <Compile Include="Specifications\AutoSpecificationForAsync.cs" />
     <Compile Include="Specifications\ISpecificationFor.cs" />

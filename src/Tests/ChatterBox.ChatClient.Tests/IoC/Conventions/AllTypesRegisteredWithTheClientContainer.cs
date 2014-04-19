@@ -1,25 +1,25 @@
 ﻿using System;
 using Autofac.Builder;
-using ChatterBox.Core.Tests.IoC.Conventions;
+using ChatterBox.Core.Tests.IoC;
 
 namespace ChatterBox.ChatClient.Tests.IoC.Conventions
 {
-    public class AllTypesRegisteredWithTheClientContainer : AllTypesRegisteredWithTheContainer
+    public class AllTypesRegisteredWithTheClientContainer
     {
-        public AllTypesRegisteredWithTheClientContainer() 
-            : base(ChatterBox.ChatClient.IoC.LetThereBeIoC(ContainerBuildOptions.IgnoreStartableComponents))
+        public void VerifyAllTypesCanBeResolved()
         {
+            var assertion = new AutofacContainerAssertion(Filter, IsKnownOffender);
+            var container = ChatterBox.ChatClient.IoC.LetThereBeIoC(ContainerBuildOptions.IgnoreStartableComponents);
+            assertion.Verify(container);
         }
 
-        protected override bool Filter(Type serviceType)
+        private bool Filter(Type serviceType)
         {
             return true;
         }
 
-        protected override bool IsKnownOffender(Type serviceType)
+        private bool IsKnownOffender(Type serviceType)
         {
-            //if (serviceType == typeof(IReportingDataService)) return true;
-
             return false;
         }
     }
