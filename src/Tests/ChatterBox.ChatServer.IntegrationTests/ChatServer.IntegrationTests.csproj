@@ -109,8 +109,8 @@
     <Compile Include="Scenarios\ChatServerSpecificationForBus.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Server\ChatterBox.ChatServer\App.config">
-      <Link>App.config</Link>
+    <None Include="..\..\Server\ChatterBox.ChatServer\app.config">
+      <Link>app.config</Link>
     </None>
     <None Include="App.Override.config" />
     <None Include="packages.config" />

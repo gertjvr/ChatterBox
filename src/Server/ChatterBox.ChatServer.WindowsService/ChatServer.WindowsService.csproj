@@ -58,8 +58,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ChatterBox.ChatServer\App.config">
-      <Link>App.config</Link>
+    <None Include="..\ChatterBox.ChatServer\app.config">
+      <Link>app.config</Link>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

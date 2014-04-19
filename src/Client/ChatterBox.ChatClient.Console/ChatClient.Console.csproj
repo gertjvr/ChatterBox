@@ -58,8 +58,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ChatterBox.ChatClient\App.config">
-      <Link>App.config</Link>
+    <None Include="..\ChatterBox.ChatClient\app.config">
+      <Link>app.config</Link>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
