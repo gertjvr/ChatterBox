@@ -9,14 +9,20 @@ namespace ChatterBox.MessageContracts.Owners.Commands
         {   
         }
         
-        public LockRoomCommand(Guid targetRoomId)
+        public LockRoomCommand(Guid targetRoomId, Guid callingUserId)
         {
             if (targetRoomId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "targetRoomId");
 
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
+
             TargetRoomId = targetRoomId;
+            CallingUserId = callingUserId;
         }
 
         public Guid TargetRoomId { get; private set; }
+        
+        public Guid CallingUserId { get; private set; }
     }
 }

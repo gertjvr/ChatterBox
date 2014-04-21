@@ -1,38 +1,66 @@
 using System;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.Domain.Properties;
 using ChatterBox.MessageContracts.Admins.Commands;
 using ChatterBox.MessageContracts.Admins.Events;
 using Nimbus;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Admins
 {
-    public class RemoveAdminCommandHandler : ScopedUserCommandHandler<RemoveAdminCommand>
+    public class RemoveAdminCommandHandler : IHandleCommand<RemoveAdminCommand>
     {
-        public RemoveAdminCommandHandler(Func<IUnitOfWork> unitOfWork, IBus bus) 
-            : base(unitOfWork, bus)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _repository;
+        private readonly IBus _bus;
+
+        public RemoveAdminCommandHandler(IUnitOfWork unitOfWork, IRepository<User> repository, IBus bus)
         {
+            if (unitOfWork == null)
+                throw new ArgumentNullException("unitOfWork");
+
+            if (repository == null)
+                throw new ArgumentNullException("repository");
+
+            if (bus == null)
+                throw new ArgumentNullException("bus");
+
+            _unitOfWork = unitOfWork;
+            _repository = repository;
+            _bus = bus;
         }
 
-        public override async Task Execute(IUnitOfWork context, User callingUser, RemoveAdminCommand command)
+        public async Task Handle(RemoveAdminCommand command)
         {
-            var targetUser = context.Repository<User>().VerifyUser(command.TargetUserId);
+            if (command == null) 
+                throw new ArgumentNullException("command");
 
-            callingUser.EnsureAdmin();
-
-            if (!targetUser.IsAdmin)
+            try
             {
-                throw new Exception(String.Format(LanguageResources.UserNotAdmin, targetUser.Name));
+                var callingUser = _repository.VerifyUser(command.CallingUserId);
+                var targetUser = _repository.VerifyUser(command.TargetUserId);
+
+                callingUser.EnsureAdmin();
+
+                if (!targetUser.IsAdmin)
+                {
+                    throw new Exception(String.Format(LanguageResources.UserNotAdmin, targetUser.Name));
+                }
+
+                targetUser.UpdateUserRole(UserRole.User);
+
+                _unitOfWork.Complete();
+
+                await _bus.Publish(new UserRoleChangedEvent(targetUser.Id, targetUser.Name, (int)targetUser.UserRole));
             }
-
-            targetUser.UpdateUserRole(UserRole.User);
-
-            context.Complete();
-
-            await _bus.Publish(new UserRoleChangedEvent(targetUser.Id, targetUser.Name, (int)targetUser.UserRole));
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

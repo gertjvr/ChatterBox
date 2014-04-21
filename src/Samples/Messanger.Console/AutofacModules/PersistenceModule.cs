@@ -2,7 +2,6 @@
 using ChatterBox.ChatServer.ConfigurationSettings;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Queries;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Persistence.Disk;
 
 namespace Messanger.Console.AutofacModules

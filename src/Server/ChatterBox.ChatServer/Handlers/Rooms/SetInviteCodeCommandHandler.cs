@@ -1,35 +1,72 @@
 using System;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.Domain.Properties;
 using ChatterBox.MessageContracts.Rooms.Commands;
 using Nimbus;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Rooms
 {
-    public class SetInviteCodeCommandHandler : ScopedUserCommandHandler<SetInviteCodeCommand>
+    public class SetInviteCodeCommandHandler : IHandleCommand<SetInviteCodeCommand>
     {
-        public SetInviteCodeCommandHandler(Func<IUnitOfWork> unitOfWork, IBus bus) 
-            : base(unitOfWork, bus)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Room> _roomRepository;
+        private readonly IBus _bus;
+
+        public SetInviteCodeCommandHandler(
+            IUnitOfWork unitOfWork, 
+            IRepository<User> userRepository,
+            IRepository<Room> roomRepository,
+            IBus bus)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (roomRepository == null) 
+                throw new ArgumentNullException("roomRepository");
+            
+            if (bus == null) 
+                throw new ArgumentNullException("bus");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _roomRepository = roomRepository;
+            _bus = bus;
         }
 
-        public override async Task Execute(IUnitOfWork context, User callingUser, SetInviteCodeCommand command)
+        public async Task Handle(SetInviteCodeCommand command)
         {
-            var room = context.Repository<Room>().VerifyRoom(command.RoomId);
+            if (command == null) 
+                throw new ArgumentNullException("command");
 
-            room.EnsureOwnerOrAdmin(callingUser);
-
-            if (!room.PrivateRoom)
+            try
             {
-                throw new Exception(LanguageResources.InviteCode_PrivateRoomRequired);
-            }
+                var callingUser = _userRepository.VerifyUser(command.CallingUserId);
+                var targetRoom = _roomRepository.VerifyRoom(command.TargetRoomId);
 
-            room.SetInviteCode(command.InviteCode);
-            context.Complete();
+                targetRoom.EnsureOwnerOrAdmin(callingUser);
+
+                if (!targetRoom.PrivateRoom)
+                {
+                    throw new InvalidOperationException(LanguageResources.InviteCode_PrivateRoomRequired);
+                }
+
+                targetRoom.SetInviteCode(command.InviteCode);
+                _unitOfWork.Complete();
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

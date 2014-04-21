@@ -29,6 +29,9 @@ namespace ChatterBox.ChatServer
 
         private void StartNimbus(Bus bus)
         {
+            if (bus == null) 
+                throw new ArgumentNullException("bus");
+
             bus.Start();
         }
 

@@ -37,14 +37,5 @@ namespace ChatterBox.MessageContracts.Authentication.Request
         public Guid ClientId { get; private set; }
 
         public Guid UserId { get; private set; }
-
-        public static AuthenticateUserResponse Failed()
-        {
-            return new AuthenticateUserResponse(
-                null, 
-                new RoomDto[0], 
-                Guid.Empty, 
-                Guid.Empty);
-        }
     }
 }

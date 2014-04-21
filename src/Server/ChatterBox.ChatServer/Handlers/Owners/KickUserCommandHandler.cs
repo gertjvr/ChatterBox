@@ -1,17 +1,24 @@
 using System;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.MessageContracts.Owners.Commands;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Owners
 {
-    public class KickUserCommandHandler : ScopedCommandHandler<KickUserCommand>
+    public class KickUserCommandHandler : IHandleCommand<KickUserCommand>
     {
-        public KickUserCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public KickUserCommandHandler(IUnitOfWork unitOfWork)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+
+            _unitOfWork = unitOfWork;
         }
 
-        public override Task Execute(IUnitOfWork context, KickUserCommand command)
+        public Task Handle(KickUserCommand command)
         {
             throw new NotImplementedException();
         }

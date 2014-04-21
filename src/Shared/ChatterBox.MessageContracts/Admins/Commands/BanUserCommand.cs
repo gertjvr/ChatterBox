@@ -1,27 +1,28 @@
 ﻿using System;
+using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Admins.Commands
 {
-    public class BanUserCommand : IUserBusCommand
+    public class BanUserCommand : IBusCommand
     {
         protected BanUserCommand()
         {   
         }
         
-        public BanUserCommand(Guid targetUserId, Guid userId)
+        public BanUserCommand(Guid targetUserId, Guid callingUserId)
         {
             if (targetUserId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "targetUserId");
 
-            if (userId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "userId");
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
 
             TargetUserId = targetUserId;
-            UserId = userId;
+            CallingUserId = callingUserId;
         }
 
         public Guid TargetUserId { get; private set; }
 
-        public Guid UserId { get; private set; }
+        public Guid CallingUserId { get; private set; }
     }
 }

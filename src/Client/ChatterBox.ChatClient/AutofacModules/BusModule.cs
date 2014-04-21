@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Autofac;
 using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.MessageContracts.Messages.Commands;
@@ -9,7 +8,7 @@ using Nimbus.Infrastructure;
 
 namespace ChatterBox.ChatClient.AutofacModules
 {
-    public class BusModule : Autofac.Module
+    public class BusModule : Module
     {
         private static readonly Func<string> MachineName = () => Environment.MachineName;
         private static readonly Func<string, string> ConnectionString = cs => cs.Replace("{MachineName}", MachineName()); 

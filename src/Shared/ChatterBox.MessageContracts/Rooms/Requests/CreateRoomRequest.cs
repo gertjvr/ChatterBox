@@ -9,20 +9,20 @@ namespace ChatterBox.MessageContracts.Rooms.Requests
         {   
         }
 
-        public CreateRoomRequest(string roomName, Guid userId)
+        public CreateRoomRequest(string roomName, Guid callingUserId)
         {
             if (roomName == null)
                 throw new ArgumentNullException("roomName");
             
-            if (userId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "userId");
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
 
             RoomName = roomName;
-            UserId = userId;
+            CallingUserId = callingUserId;
         }
 
         public string RoomName { get; private set; }
 
-        public Guid UserId { get; private set; }
+        public Guid CallingUserId { get; private set; }
     };
 }

@@ -1,33 +1,53 @@
 using System;
 using System.Threading.Tasks;
-using Autofac.Features.OwnedInstances;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Dtos;
 using ChatterBox.MessageContracts.Rooms.Requests;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Rooms
 {
-    public class RoomInfoRequestHandler : ScopedRequestHandler<RoomInfoRequest, RoomInfoResponse>
+    public class RoomInfoRequestHandler : IHandleRequest<RoomInfoRequest, RoomInfoResponse>
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<Room> _roomRepository;
         private readonly IMapToNew<Room, RoomDto> _roomMapper;
 
         public RoomInfoRequestHandler(
-            Func<Owned<IUnitOfWork>> unitOfWork,
-            IMapToNew<Room, RoomDto> roomMapper) 
-            : base(unitOfWork)
+            IUnitOfWork unitOfWork,
+            IRepository<Room> roomRepository, 
+            IMapToNew<Room, RoomDto> roomMapper)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (roomRepository == null) 
+                throw new ArgumentNullException("roomRepository");
+            
+            if (roomMapper == null) 
+                throw new ArgumentNullException("roomMapper");
+
+            _unitOfWork = unitOfWork;
+            _roomRepository = roomRepository;
             _roomMapper = roomMapper;
         }
 
-        public override async Task<RoomInfoResponse> Execute(IUnitOfWork context, RoomInfoRequest request)
+        public async Task<RoomInfoResponse> Handle(RoomInfoRequest request)
         {
-            var roomRepository = context.Repository<Room>();
+            try
+            {
+                var targetRoom = _roomRepository.VerifyRoom(request.TargetRoomId);
 
-            var room = roomRepository.GetById(request.RoomId);
-
-            return new RoomInfoResponse(_roomMapper.Map(room));
+                return new RoomInfoResponse(_roomMapper.Map(targetRoom));
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

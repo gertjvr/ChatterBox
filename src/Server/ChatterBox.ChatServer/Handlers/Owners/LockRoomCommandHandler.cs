@@ -1,17 +1,24 @@
 using System;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.MessageContracts.Owners.Commands;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Owners
 {
-    public class LockRoomCommandHandler : ScopedCommandHandler<LockRoomCommand>
+    public class LockRoomCommandHandler : IHandleCommand<LockRoomCommand>
     {
-        public LockRoomCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public LockRoomCommandHandler(IUnitOfWork unitOfWork)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+
+            _unitOfWork = unitOfWork;
         }
 
-        public override Task Execute(IUnitOfWork context, LockRoomCommand command)
+        public Task Handle(LockRoomCommand command)
         {
             throw new NotImplementedException();
         }

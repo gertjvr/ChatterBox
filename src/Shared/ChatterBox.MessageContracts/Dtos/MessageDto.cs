@@ -6,6 +6,15 @@ namespace ChatterBox.MessageContracts.Dtos
     {
         public MessageDto(Guid id, string content, DateTimeOffset createdAt, UserDto user)
         {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.");
+            
+            if (content == null) 
+                throw new ArgumentNullException("content");
+            
+            if (user == null) 
+                throw new ArgumentNullException("user");
+
             Id = id;
             Content = content;
             CreatedAt = createdAt;

@@ -22,6 +22,12 @@ namespace ChatterBox.Core.Persistence.Disk
 
         public DiskFactStore(string factStoreDirectoryPath, ITypesProvider typesProvider)
         {
+            if (factStoreDirectoryPath == null) 
+                throw new ArgumentNullException("factStoreDirectoryPath");
+
+            if (typesProvider == null) 
+                throw new ArgumentNullException("typesProvider");
+
             _factStoreDirectoryPath = factStoreDirectoryPath;
             _typesProvider = typesProvider;
 
@@ -36,6 +42,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         public void AppendAtomically(IFact[] facts)
         {
+            if (facts == null) 
+                throw new ArgumentNullException("facts");
+
             if (facts.None()) return;
 
             var factsAndFilenames = facts
@@ -70,11 +79,20 @@ namespace ChatterBox.Core.Persistence.Disk
 
         public IEnumerable<FactAbout<T>> GetStream<T>(Guid id) where T : IAggregateRoot
         {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "id");
+
             return GetStream(id, typeof(T)).Cast<FactAbout<T>>();
         }
 
         private IEnumerable<IFact> GetStream(Guid id, Type aggregateType)
         {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "id");
+            
+            if (aggregateType == null) 
+                throw new ArgumentNullException("aggregateType");
+
             return LoadFactsFrom(GetFactDirectoryFor(aggregateType.Name, id)) //FIXME hack - use StreamName property
                 .OrderBy(f => f.UnitOfWorkProperties.FactTimestamp)
                 .ThenBy(f => f.UnitOfWorkProperties.UnitOfWorkId)
@@ -89,6 +107,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private IEnumerable<Guid> GetAllStreamIds(Type aggregateType)
         {
+            if (aggregateType == null) 
+                throw new ArgumentNullException("aggregateType");
+
             var baseDirectory = GetFactDirectoryFor(aggregateType.Name);
             foreach (var streamDirectory in baseDirectory.GetDirectories())
             {
@@ -109,6 +130,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         public void ImportFrom(IEnumerable<IFact> facts)
         {
+            if (facts == null) 
+                throw new ArgumentNullException("facts");
+
             AppendAtomically(facts.ToArray()); //FIXME this will run out of memory once we have lots of facts.
         }
 
@@ -126,6 +150,12 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private void WriteFactToDisk(string fullyQualifiedFilename, IFact fact)
         {
+            if (fullyQualifiedFilename == null) 
+                throw new ArgumentNullException("fullyQualifiedFilename");
+            
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             using (var stream = File.OpenWrite(fullyQualifiedFilename))
             {
                 using (var writer = new StreamWriter(stream))
@@ -138,6 +168,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private IFact ReadFactFromDisk(FileInfo fileInfo)
         {
+            if (fileInfo == null) 
+                throw new ArgumentNullException("fileInfo");
+
             using (var stream = fileInfo.OpenRead())
             {
                 using (var reader = new StreamReader(stream))
@@ -151,6 +184,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private IEnumerable<IFact> LoadFactsFrom(DirectoryInfo directory)
         {
+            if (directory == null) 
+                throw new ArgumentNullException("directory");
+
             return directory
                 .GetFiles("*" + _filenameSuffix)
                 .AsParallel()
@@ -160,6 +196,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private string ConstructFullyQualifiedFileName(IFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             var directory = GetFactDirectoryFor(fact.StreamName, fact.AggregateRootId);
             var filename = ConstructFilenameFor(fact);
             var fullyQualifiedFileName = directory.FullName + "\\" + filename;
@@ -168,6 +207,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private static string ConstructFilenameFor(IFact fact)
         {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
             var filename = "{0}.{1}.{2}.{3}{4}".FormatWith(fact.UnitOfWorkProperties.FactTimestamp.Ticks,
                                                            fact.UnitOfWorkProperties.UnitOfWorkId,
                                                            fact.UnitOfWorkProperties.SequenceNumber,
@@ -178,6 +220,9 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private DirectoryInfo GetFactDirectoryFor(string streamName)
         {
+            if (streamName == null) 
+                throw new ArgumentNullException("streamName");
+
             var path = Path.Combine(_factDirectoryBase.FullName, streamName);
             var directory = new DirectoryInfo(path);
             if (!directory.Exists) directory.Create();
@@ -186,6 +231,12 @@ namespace ChatterBox.Core.Persistence.Disk
 
         private DirectoryInfo GetFactDirectoryFor(string streamName, Guid id)
         {
+            if (streamName == null) 
+                throw new ArgumentNullException("streamName");
+
+            if (id == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "id");
+
             var path = Path.Combine(GetFactDirectoryFor(streamName).FullName, id.ToString());
             var directory = new DirectoryInfo(path);
             if (!directory.Exists) directory.Create();

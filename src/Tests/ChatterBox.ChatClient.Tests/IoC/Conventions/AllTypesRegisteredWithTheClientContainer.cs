@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac.Builder;
 using ChatterBox.Core.Tests.IoC;
+using ChatterBox.Core.Tests.IoC.Conventions;
 
 namespace ChatterBox.ChatClient.Tests.IoC.Conventions
 {

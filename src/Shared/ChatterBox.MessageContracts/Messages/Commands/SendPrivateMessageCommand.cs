@@ -9,7 +9,7 @@ namespace ChatterBox.MessageContracts.Messages.Commands
         {   
         }
 
-        public SendPrivateMessageCommand(string content, Guid targetUserId, Guid userId)
+        public SendPrivateMessageCommand(string content, Guid targetUserId, Guid callingUserId)
         {
             if (content == null) 
                 throw new ArgumentNullException("content");
@@ -17,18 +17,18 @@ namespace ChatterBox.MessageContracts.Messages.Commands
             if (targetUserId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "targetUserId");
 
-            if (userId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "userId");
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
 
             Content = content;
             TargetUserId = targetUserId;
-            UserId = userId;
+            CallingUserId = callingUserId;
         }
 
         public string Content { get; private set; }
         
         public Guid TargetUserId { get; private set; }
 
-        public Guid UserId { get; private set; }
+        public Guid CallingUserId { get; private set; }
     }
 }

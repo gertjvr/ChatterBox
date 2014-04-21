@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 using ChatterBox.ChatClient.ConfigurationSettings;
 using ChatterBox.ChatClient.Models;
-using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
-using ChatterBox.MessageContracts;
 using ChatterBox.MessageContracts.Authentication.Request;
 using ChatterBox.MessageContracts.Dtos;
 using ChatterBox.MessageContracts.Messages.Commands;
@@ -44,12 +42,12 @@ namespace ChatterBox.ChatClient
             StartNimbus((Bus) _bus);
         }
 
-        public async Task<LogOnInfo> Connect(string name, string password)
+        public async Task<LogOnInfo> Connect(string nameOrEmail, string password)
         {
             var logOnInfoMapper = _container.Resolve<IMapToNew<AuthenticateUserResponse, LogOnInfo>>();
             var userMapper = _container.Resolve<IMapToNew<UserDto, User>>();
 
-            var response = await _bus.Request(new AuthenticateUserRequest(name, password));
+            var response = await _bus.Request(new AuthenticateUserRequest(nameOrEmail, password));
 
             _clientContext.SetClientId(response.ClientId);
 
@@ -64,14 +62,14 @@ namespace ChatterBox.ChatClient
         {
             var userMapper = _container.Resolve<IMapToNew<UserDto, User>>();
 
-            var response = await _bus.Request(new UserInfoRequest(_userContext.UserId));
+            var response = await _bus.Request(new UserInfoRequest(_userContext.UserId, _userContext.UserId));
 
             return userMapper.Map(response.User);
         }
 
         public async Task LogOut()
         {
-            await _bus.Send(new DisconnectClientCommand(_clientContext.ClientId));
+            await _bus.Send(new DisconnectClientCommand(_clientContext.ClientId, _userContext.UserId));
         }
 
         public async Task Send(string message, Guid roomId)
@@ -86,12 +84,12 @@ namespace ChatterBox.ChatClient
 
         public async Task JoinRoom(Guid roomId)
         {
-            await _bus.Send(new JoinRoomCommand(roomId, _userContext.UserId));
+            await _bus.Send(new JoinRoomCommand(roomId, _userContext.UserId, _userContext.UserId));
         }
 
         public async Task LeaveRoom(Guid roomId)
         {
-            await _bus.Send(new LeaveRoomCommand(roomId, _userContext.UserId));
+            await _bus.Send(new LeaveRoomCommand(roomId, _userContext.UserId, _userContext.UserId));
         }
 
         public async Task SendPrivateMessage(Guid userId, string message)
@@ -108,7 +106,7 @@ namespace ChatterBox.ChatClient
         {
             var messageMapper = _container.Resolve<IMapToNew<MessageDto, Message>>();
 
-            var response = await _bus.Request(new PreviousMessagesRequest(fromId, 10));
+            var response = await _bus.Request(new PreviousMessagesRequest(_userContext.UserId, fromId, 10, _userContext.UserId));
 
             return response.Messages.Select(messageMapper.Map).ToArray();
         }
@@ -117,7 +115,7 @@ namespace ChatterBox.ChatClient
         {
             var roomMapper = _container.Resolve<IMapToNew<RoomDto, Room>>();
 
-            var response = await _bus.Request(new RoomInfoRequest(_userContext.UserId));
+            var response = await _bus.Request(new RoomInfoRequest(roomId, _userContext.UserId));
 
             return roomMapper.Map(response.Room);
         }
@@ -126,14 +124,14 @@ namespace ChatterBox.ChatClient
         {
             var roomMapper = _container.Resolve<IMapToNew<RoomDto, Room>>();
 
-            var response = await _bus.Request(new AllowedRoomsRequest(_userContext.UserId));
+            var response = await _bus.Request(new AllowedRoomsRequest(_userContext.UserId, _userContext.UserId));
 
             return response.Rooms.Select(roomMapper.Map);
         }
 
         public void Disconnect()
         {
-            _bus.Send(new DisconnectClientCommand(_clientContext.ClientId));
+            _bus.Send(new DisconnectClientCommand(_clientContext.ClientId, _userContext.UserId));
 
             IContainer container = _container;
             if (container != null) container.Dispose();

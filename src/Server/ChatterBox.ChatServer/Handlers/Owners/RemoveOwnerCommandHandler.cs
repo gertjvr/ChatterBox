@@ -1,45 +1,76 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Owners.Commands;
 using Nimbus;
+using Nimbus.Handlers;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 
 namespace ChatterBox.ChatServer.Handlers.Owners
 {
-    public class RemoveOwnerCommandHandler : ScopedUserCommandHandler<RemoveOwnerCommand>
+    public class RemoveOwnerCommandHandler : IHandleCommand<RemoveOwnerCommand>
     {
-        public RemoveOwnerCommandHandler(Func<IUnitOfWork> unitOfWork, IBus bus) 
-            : base(unitOfWork, bus)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Room> _roomRepository;
+        private readonly IBus _bus;
+
+        public RemoveOwnerCommandHandler(
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
+            IRepository<Room> roomRepository,
+            IBus bus)
         {
+            if (unitOfWork == null)
+                throw new ArgumentNullException("unitOfWork");
+
+            if (userRepository == null)
+                throw new ArgumentNullException("userRepository");
+
+            if (roomRepository == null)
+                throw new ArgumentNullException("roomRepository");
+
+            if (bus == null)
+                throw new ArgumentNullException("bus");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _roomRepository = roomRepository;
+            _bus = bus;
         }
 
-        public override async Task Execute(IUnitOfWork context, User callingUser, RemoveOwnerCommand command)
+        public async Task Handle(RemoveOwnerCommand command)
         {
-            var roomRepository = context.Repository<Room>();
-            var userRepository = context.Repository<User>();
-            
-            var targetRoom = roomRepository.VerifyRoom(command.TargetRoomId);
-            var targetUser = userRepository.VerifyUser(command.TargetUserId);
-            
-            EnsureCreatorOrAdmin(callingUser, targetRoom);
-
-            EnsureOwnerOrAdmin(callingUser, targetRoom);
-
-            if (targetRoom.Owners.Contains(targetUser.Id) == false)
+            try
             {
-                throw new Exception("{0} is not an owner of {1}.".FormatWith(targetUser.Name, targetRoom.Name));
+                var callingUser = _userRepository.VerifyUser(command.CallingUserId);
+                var targetRoom = _roomRepository.VerifyRoom(command.TargetRoomId);
+                var targetUser = _userRepository.VerifyUser(command.TargetUserId);
+
+                EnsureCreatorOrAdmin(callingUser, targetRoom);
+
+                EnsureOwnerOrAdmin(callingUser, targetRoom);
+
+                if (targetRoom.Owners.Contains(targetUser.Id) == false)
+                {
+                    throw new Exception("{0} is not an owner of {1}.".FormatWith(targetUser.Name, targetRoom.Name));
+                }
+
+                targetRoom.RemoveOwner(targetUser);
+
+                _unitOfWork.Complete();
+
+                //TODO Publish OwnerRemovedEvent
             }
-
-            targetRoom.RemoveOwner(targetUser);
-
-            context.Complete();
-
-            //TODO Publish OwnerRemovedEvent
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
 
         private void EnsureCreatorOrAdmin(User user, Room room)

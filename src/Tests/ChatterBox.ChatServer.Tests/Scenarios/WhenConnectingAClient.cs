@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers.Users;
-using ChatterBox.Core.Tests;
 using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.MessageContracts.Users.Requests;
 using Ploeh.AutoFixture;

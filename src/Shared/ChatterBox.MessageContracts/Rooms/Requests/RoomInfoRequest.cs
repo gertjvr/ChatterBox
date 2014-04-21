@@ -9,14 +9,21 @@ namespace ChatterBox.MessageContracts.Rooms.Requests
         {   
         }
         
-        public RoomInfoRequest(Guid roomId)
+        public RoomInfoRequest(Guid targetRoomId, Guid callingUserId)
         {
-            if (roomId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "roomId");
+            if (targetRoomId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "targetRoomId");
+
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
             
-            RoomId = roomId;
+            TargetRoomId = targetRoomId;
+
+            CallingUserId = callingUserId;
         }
 
-        public Guid RoomId { get; private set; }
+        public Guid TargetRoomId { get; private set; }
+
+        public Guid CallingUserId { get; private set; }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
@@ -13,11 +14,17 @@ namespace ChatterBox.Core.Infrastructure
 
         public DomainEventBroker(ILifetimeScope lifetimeScope)
         {
+            if (lifetimeScope == null) 
+                throw new ArgumentNullException("lifetimeScope");
+
             _lifetimeScope = lifetimeScope;
         }
 
         public void Raise<T>(T fact) where T : IFact
         {
+            if (fact == null)
+                throw new ArgumentNullException("fact");
+
             Owned<IHandleFact<T>>[] handlers = null;
             try
             {

@@ -1,14 +1,15 @@
 using System;
+using Nimbus.MessageContracts;
 
 namespace ChatterBox.MessageContracts.Owners.Commands
 {
-    public class RemoveOwnerCommand : IUserBusCommand
+    public class RemoveOwnerCommand : IBusCommand
     {
         protected RemoveOwnerCommand()
         {
         }
         
-        public RemoveOwnerCommand(Guid targetRoomId, Guid targetUserId, Guid userId)
+        public RemoveOwnerCommand(Guid targetRoomId, Guid targetUserId, Guid callingUserId)
         {
             if (targetRoomId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "targetRoomId");
@@ -16,18 +17,18 @@ namespace ChatterBox.MessageContracts.Owners.Commands
             if (targetUserId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "targetUserId");
 
-            if (userId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "userId");
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
 
             TargetRoomId = targetRoomId;
             TargetUserId = targetUserId;
-            UserId = userId;
+            CallingUserId = callingUserId;
         }
 
         public Guid TargetRoomId { get; private set; }
 
         public Guid TargetUserId { get; private set; }
 
-        public Guid UserId { get; private set; }
+        public Guid CallingUserId { get; private set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers.Users;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Users.Requests;
@@ -22,13 +22,9 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         protected override async Task<CreateUserRequestHandler> Given()
         {
             Request = Fixture.Create<CreateUserRequest>();
-
             Repository = Fixture.Freeze<IRepository<User>>();
-
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();
-            UnitOfWork.Repository<User>()
-                .Returns(Repository);
-
+            
             return Fixture.Create<CreateUserRequestHandler>();
         }
 

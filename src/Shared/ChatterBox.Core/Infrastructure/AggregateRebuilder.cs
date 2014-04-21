@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using ChatterBox.Core.Infrastructure.Entities;
-using ChatterBox.Core.Persistence;
 
 namespace ChatterBox.Core.Infrastructure
 {
@@ -11,11 +10,17 @@ namespace ChatterBox.Core.Infrastructure
 
         public AggregateRebuilder(IFactStore factStore)
         {
+            if (factStore == null) 
+                throw new ArgumentNullException("factStore");
+
             _factStore = factStore;
         }
 
         public T Rebuild<T>(Guid id) where T : class, IAggregateRoot
         {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "id");
+
             var facts = _factStore.GetStream<T>(id);
             var aggregateRoot = (T) Activator.CreateInstance(typeof (T), true);
             foreach (var fact in facts)

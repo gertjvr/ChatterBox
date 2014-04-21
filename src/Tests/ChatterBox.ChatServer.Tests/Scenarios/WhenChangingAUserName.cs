@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers.Users;
-using ChatterBox.Core.Persistence;
-using ChatterBox.Core.Tests;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Users.Commands;
@@ -25,7 +24,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
 
             var newUserName = Fixture.Create<string>();
 
-            Command = new ChangeUserNameCommand(User.Id, newUserName);
+            Command = new ChangeUserNameCommand(User.Id, newUserName, User.Id);
 
             Repository = Fixture.Freeze<IRepository<User>>();
             
@@ -33,9 +32,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                 .Returns(User);
 
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();
-            UnitOfWork.Repository<User>()
-                .Returns(Repository);
-
+            
             return Fixture.Create<ChangeUserNameCommandHandler>();
         }
 

@@ -1,50 +1,74 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac.Features.OwnedInstances;
 using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Infrastructure;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Services;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Users.Requests;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
-    public class CreateUserRequestHandler : ScopedRequestHandler<CreateUserRequest, CreateUserResponse>
+    public class CreateUserRequestHandler : IHandleRequest<CreateUserRequest, CreateUserResponse>
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
         private readonly ICryptoService _cryptoService;
         private readonly IClock _clock;
 
         public CreateUserRequestHandler(
-            Func<Owned<IUnitOfWork>> unitOfWork,
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
             ICryptoService cryptoService,
             IClock clock)
-            : base(unitOfWork)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (cryptoService == null) 
+                throw new ArgumentNullException("cryptoService");
+            
+            if (clock == null) 
+                throw new ArgumentNullException("clock");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
             _cryptoService = cryptoService;
             _clock = clock;
         }
 
-        public override async Task<CreateUserResponse> Execute(IUnitOfWork context, CreateUserRequest request)
+        public async Task<CreateUserResponse> Handle(CreateUserRequest request)
         {
-            var repository = context.Repository<User>();
+            if (request == null) 
+                throw new ArgumentNullException("request");
 
-            var salt = _cryptoService.CreateSalt();
-            var hashedPassword = request.Password.ToSha256(salt);
+            try
+            {
+                var salt = _cryptoService.CreateSalt();
+                var hashedPassword = request.Password.ToSha256(salt);
 
-            var user = new User(
-                request.UserName,
-                request.Email,
-                request.Email.ToMD5(),
-                salt,
-                hashedPassword,
-                _clock.UtcNow);
+                var user = new User(
+                    request.UserName,
+                    request.Email,
+                    request.Email.ToMD5(),
+                    salt,
+                    hashedPassword,
+                    _clock.UtcNow);
 
-            repository.Add(user);
+                _userRepository.Add(user);
 
-            context.Complete();
+                _unitOfWork.Complete();
 
-            return new CreateUserResponse(user.Id);
+                return new CreateUserResponse(user.Id);
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

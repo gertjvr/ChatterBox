@@ -17,6 +17,9 @@ namespace ChatterBox.Core.Infrastructure
 
         public AssemblyScanningTypesProvider(Assembly[] assembliesToScan)
         {
+            if (assembliesToScan == null) 
+                throw new ArgumentNullException("assembliesToScan");
+
             if (assembliesToScan.None()) throw new ArgumentException("You must provide at least one assembly that contains fact types", "assembliesToScan");
 
             _factTypes = new Lazy<Type[]>(ScanForFactTypes);

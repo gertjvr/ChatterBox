@@ -1,46 +1,77 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Owners.Commands;
 using ChatterBox.MessageContracts.Owners.Events;
 using Nimbus;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Owners
 {
-    public class AddOwnerCommandHandler : ScopedUserCommandHandler<AddOwnerCommand>
+    public class AddOwnerCommandHandler : IHandleCommand<AddOwnerCommand>
     {
-        public AddOwnerCommandHandler(Func<IUnitOfWork> unitOfWork, IBus bus) 
-            : base(unitOfWork, bus)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Room> _roomRepository;
+        private readonly IBus _bus;
+
+        public AddOwnerCommandHandler(
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
+            IRepository<Room> roomRepository,
+            IBus bus)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (roomRepository == null) 
+                throw new ArgumentNullException("roomRepository");
+            
+            if (bus == null) 
+                throw new ArgumentNullException("bus");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _roomRepository = roomRepository;
+            _bus = bus;
         }
 
-        public override async Task Execute(IUnitOfWork context, User callingUser, AddOwnerCommand command)
+        public async Task Handle(AddOwnerCommand command)
         {
-            var roomRepository = context.Repository<Room>();
-            var userRepository = context.Repository<User>();
-
-            var targetUser = userRepository.VerifyUser(command.TargetUserId);
-            var targetRoom = roomRepository.VerifyRoom(command.TargetRoomId);
-
-            targetRoom.EnsureOwnerOrAdmin(callingUser);
-
-            targetRoom.AddOwner(targetUser);
-
-            if (targetRoom.PrivateRoom)
+            try
             {
-                if (targetRoom.AllowedUsers.Contains(targetUser.Id) == false)
+                var callingUser = _userRepository.VerifyUser(command.CallingUserId);
+                var targetUser = _userRepository.VerifyUser(command.TargetUserId);
+                var targetRoom = _roomRepository.VerifyRoom(command.TargetRoomId);
+
+                targetRoom.EnsureOwnerOrAdmin(callingUser);
+
+                targetRoom.AddOwner(targetUser);
+
+                if (targetRoom.PrivateRoom)
                 {
-                    targetRoom.AllowUser(targetUser);
+                    if (targetRoom.AllowedUsers.Contains(targetUser.Id) == false)
+                    {
+                        targetRoom.AllowUser(targetUser);
+                    }
                 }
+
+                _unitOfWork.Complete();
+
+                await _bus.Publish(new OwnerAddedEvent(targetUser.Id, targetUser.Name, targetRoom.Id, targetRoom.Name));
             }
-
-            context.Complete();
-
-            await _bus.Publish(new OwnerAddedEvent(targetUser.Id, targetUser.Name, targetRoom.Id, targetRoom.Name));
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

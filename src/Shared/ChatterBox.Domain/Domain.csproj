@@ -101,14 +101,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Queries\PreviousMessagesQuery.cs" />
-    <Compile Include="Queries\UserAllowedRoomsQuery.cs" />
-    <Compile Include="Queries\EnsureUsersExistsQuery.cs" />
-    <Compile Include="Queries\RecentMessagesQuery.cs" />
-    <Compile Include="Queries\EnsureUserNameIsAvailibleQuery.cs" />
-    <Compile Include="Queries\RoomsForUserIdQuery.cs" />
-    <Compile Include="Queries\UserIdByNameQuery.cs" />
-    <Compile Include="Services\ChatService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatterBox.Core\Core.csproj">

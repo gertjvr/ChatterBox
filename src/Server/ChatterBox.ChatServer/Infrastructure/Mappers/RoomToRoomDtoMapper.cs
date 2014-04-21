@@ -1,10 +1,11 @@
+using System;
 using System.Linq;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
-using ChatterBox.Domain.Queries;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Dtos;
 
 namespace ChatterBox.ChatServer.Infrastructure.Mappers
@@ -18,10 +19,22 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
 
         public RoomToRoomDtoMapper(
             IRepository<User> userRepository,
-            IMapToNew<User, UserDto> userMapper,
             IRepository<Message> messageRepository,
+            IMapToNew<User, UserDto> userMapper,
             IMapToNew<Message, MessageDto> messageMapper)
         {
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (messageRepository == null) 
+                throw new ArgumentNullException("messageRepository");
+            
+            if (userMapper == null) 
+                throw new ArgumentNullException("userMapper");
+            
+            if (messageMapper == null) 
+                throw new ArgumentNullException("messageMapper");
+
             _userRepository = userRepository;
             _messageRepository = messageRepository;
             _userMapper = userMapper;
@@ -40,9 +53,10 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
                 source.Topic,
                 source.Closed,
                 source.Welcome,
-                source.Users.Select(contactId => _userMapper.Map(_userRepository.GetById(contactId))).ToArray(),
-                source.Owners.Select(ownerId => _userMapper.Map(_userRepository.GetById(ownerId))).ToArray(),
-                _messageRepository.Query(new RecentMessagesQuery(15)).Select(message => _messageMapper.Map(message)));
+                source.Users.Select(contactId => _userMapper.Map(_userRepository.Query(users => users.First(user => user.Id == contactId)))).ToArray(),
+                source.Owners.Select(ownerId => _userMapper.Map(_userRepository.Query(users => users.First(user => user.Id == ownerId)))).ToArray(),
+                _messageRepository.GetMessages(10)
+                    .Select(message => _messageMapper.Map(message)));
         }
     }
 }

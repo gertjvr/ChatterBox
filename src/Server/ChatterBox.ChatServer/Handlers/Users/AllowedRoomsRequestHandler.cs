@@ -1,39 +1,68 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Autofac.Features.OwnedInstances;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.Domain.Queries;
 using ChatterBox.MessageContracts.Dtos;
 using ChatterBox.MessageContracts.Users.Requests;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
-    public class AllowedRoomsRequestHandler : ScopedRequestHandler<AllowedRoomsRequest, AllowedRoomsResponse>
+    public class AllowedRoomsRequestHandler : IHandleRequest<AllowedRoomsRequest, AllowedRoomsResponse>
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Room> _roomRepository;
         private readonly IMapToNew<Room, RoomDto> _mapper;
 
         public AllowedRoomsRequestHandler(
-            Func<Owned<IUnitOfWork>> unitOfWork,
-            IMapToNew<Room, RoomDto> mapper) 
-            : base(unitOfWork)
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
+            IRepository<Room> roomRepository, 
+            IMapToNew<Room, RoomDto> mapper)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (roomRepository == null) 
+                throw new ArgumentNullException("roomRepository");
+            
+            if (mapper == null) 
+                throw new ArgumentNullException("mapper");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _roomRepository = roomRepository;
             _mapper = mapper;
         }
 
-        public override async Task<AllowedRoomsResponse> Execute(IUnitOfWork context, AllowedRoomsRequest request)
+        public async Task<AllowedRoomsResponse> Handle(AllowedRoomsRequest request)
         {
-            var user = context.Repository<User>().VerifyUser(request.UserId);
+            try
+            {
+                var callingUser = _userRepository.VerifyUser(request.CallingUserId);
+                var targetUser = _userRepository.VerifyUser(request.TargetUserId);
 
-            var repository = context.Repository<Room>();
+                var results = _roomRepository.GetAllowedRoomsByUserId(targetUser);
 
-            var rooms = repository.Query(new UserAllowedRoomsQuery(user.Id));
+                var response = new AllowedRoomsResponse(results.Select(_mapper.Map).ToArray());
 
-            return new AllowedRoomsResponse(rooms.Select(_mapper.Map).ToArray());
+                _unitOfWork.Complete();
+
+                return response;
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

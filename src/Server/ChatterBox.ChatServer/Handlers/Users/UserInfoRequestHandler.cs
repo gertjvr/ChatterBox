@@ -1,33 +1,58 @@
 using System;
 using System.Threading.Tasks;
-using Autofac.Features.OwnedInstances;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Dtos;
 using ChatterBox.MessageContracts.Users.Requests;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
-    public class UserInfoRequestHandler : ScopedRequestHandler<UserInfoRequest, UserInfoResponse>
+    public class UserInfoRequestHandler : IHandleRequest<UserInfoRequest, UserInfoResponse>
     {
-        private readonly IMapToNew<User, UserDto> _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+        private readonly IMapToNew<User, UserDto> _userMapper;
 
         public UserInfoRequestHandler(
-            Func<Owned<IUnitOfWork>> unitOfWork,
-            IMapToNew<User, UserDto> mapper) 
-            : base(unitOfWork)
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
+            IMapToNew<User, UserDto> userMapper)
         {
-            _mapper = mapper;
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+
+            if (userMapper == null) 
+                throw new ArgumentNullException("userMapper");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _userMapper = userMapper;
         }
 
-        public override async Task<UserInfoResponse> Execute(IUnitOfWork context, UserInfoRequest request)
+        public async Task<UserInfoResponse> Handle(UserInfoRequest request)
         {
-            var repository = context.Repository<User>();
+            if (request == null) 
+                throw new ArgumentNullException("request");
 
-            var user = repository.GetById(request.UserId);
+            try
+            {
+                var user = _userRepository.VerifyUser(request.TargetUserId);
 
-            return new UserInfoResponse(_mapper.Map(user));
+                _unitOfWork.Complete();
+
+                return new UserInfoResponse(_userMapper.Map(user));
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

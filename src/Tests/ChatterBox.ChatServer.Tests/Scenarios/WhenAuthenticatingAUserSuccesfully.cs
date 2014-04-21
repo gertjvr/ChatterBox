@@ -1,15 +1,16 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using ChatterBox.ChatServer.Handlers;
 using ChatterBox.ChatServer.Handlers.Authentication;
 using ChatterBox.Core.Extensions;
-using ChatterBox.Core.Tests;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
+using ChatterBox.Core.Mapping;
+using ChatterBox.Core.Services;
 using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.Domain.Aggregates.UserAggregate;
-using ChatterBox.Domain.Queries;
-using ChatterBox.MessageContracts;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Authentication.Request;
+using ChatterBox.MessageContracts.Dtos;
 using NSubstitute;
 using Ploeh.AutoFixture;
 using Shouldly;
@@ -19,9 +20,6 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
     public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
     {
         protected User User;
-
-        protected IRepository<User> Repository;
-        protected IUnitOfWork UnitOfWork;
 
         protected AuthenticateUserRequest Request;
         protected AuthenticateUserResponse Response;
@@ -40,16 +38,22 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                 .Do(u => u.UpdatePassword(hashedPassword))
                 .Create();
 
-            Repository = Fixture.Freeze<IRepository<User>>();
-            Repository.Query(Arg.Any<UserIdByNameQuery>())
-                .Returns(User.Id);
+            var userDto = new UserDto(
+                User.Name, 
+                User.Hash, 
+                User.LastActivity, 
+                (int)User.Status, 
+                (int)User.UserRole);
 
-            Repository.GetById(Arg.Is(User.Id))
+            var repository = Fixture.Freeze<IRepository<User>>();
+            repository.Query(Arg.Any<Func<IQueryable<User>, User>>())
                 .Returns(User);
+            
+            var userMapper = Fixture.Freeze<IMapToNew<User, UserDto>>();
+            userMapper.Map(Arg.Is(User)).Returns(userDto);
 
-            UnitOfWork = Fixture.Freeze<IUnitOfWork>();
-            UnitOfWork.Repository<User>()
-                .Returns(Repository);
+            var cryptoService = Fixture.Freeze<ICryptoService>();
+            cryptoService.CreateSalt().Returns(Fixture.Create<string>());
 
             return Fixture.Create<AuthenticateUserRequestHandler>();
         }

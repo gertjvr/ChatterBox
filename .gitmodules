@@ -1,0 +1,3 @@
+[submodule "submodules/Nimbus"]
+	path = submodules/Nimbus
+	url = git@github.com:gertjvr/Nimbus.git

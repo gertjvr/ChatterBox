@@ -3,7 +3,7 @@ using Autofac;
 using Autofac.Builder;
 using ChatterBox.ChatServer.Tests.AutofacModules;
 using ChatterBox.Core.Infrastructure.Entities;
-using ChatterBox.Core.Tests.IoC;
+using ChatterBox.Core.Tests.IoC.Conventions;
 
 namespace ChatterBox.ChatServer.Tests.IoC.Conventions
 {

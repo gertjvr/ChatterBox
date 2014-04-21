@@ -9,20 +9,20 @@ namespace ChatterBox.MessageContracts.Authentication.Request
         {   
         }
 
-        public AuthenticateUserRequest(string userName, string password)
+        public AuthenticateUserRequest(string userNameOrEmail, string password)
         {
-            if (userName == null) 
-                throw new ArgumentNullException("userName");
-            
+            if (userNameOrEmail == null)
+                throw new ArgumentNullException("userNameOrEmail");
+
             if (password == null) 
                 throw new ArgumentNullException("password");
 
-            UserName = userName;
+            UserNameOrEmail = userNameOrEmail;
             Password = password;
         }
 
-        public string UserName { get; private set; }
-
+        public string UserNameOrEmail { get; private set; }
+        
         public string Password { get; private set; }
     }
 }

@@ -1,29 +1,56 @@
 using System;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Rooms.Commands;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Rooms
 {
-    public class LeaveRoomCommandHandler : ScopedCommandHandler<LeaveRoomCommand>
+    public class LeaveRoomCommandHandler : IHandleCommand<LeaveRoomCommand>
     {
-        public LeaveRoomCommandHandler(Func<IUnitOfWork> unitOfWork) : base(unitOfWork)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Room> _roomRepository;
+
+        public LeaveRoomCommandHandler(
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
+            IRepository<Room> roomRepository)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (roomRepository == null) 
+                throw new ArgumentNullException("roomRepository");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _roomRepository = roomRepository;
         }
 
-        public override async Task Execute(IUnitOfWork context, LeaveRoomCommand command)
+        public async Task Handle(LeaveRoomCommand command)
         {
-            var roomRepository = context.Repository<Room>();
-            var userRepository = context.Repository<User>();
+            try
+            {
+                var callingUser = _roomRepository.VerifyRoom(command.CallingUserId);
+                var targetRoom = _roomRepository.GetById(command.TargetRoomId);
+                var targetUser = _userRepository.GetById(command.TargetUserId);
 
-            var room = roomRepository.GetById(command.TargetRoomId);
-            var user = userRepository.GetById(command.UserId);
+                targetRoom.Leave(targetUser);
 
-            room.Leave(user);
-
-            context.Complete();
+                _unitOfWork.Complete();
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

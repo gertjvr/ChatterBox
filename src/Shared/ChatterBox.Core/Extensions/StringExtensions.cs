@@ -21,6 +21,12 @@ namespace ChatterBox.Core.Extensions
 
         public static string ToSha256(this string value, string salt)
         {
+            if (value == null) 
+                throw new ArgumentNullException("value");
+
+            if (salt == null) 
+                throw new ArgumentNullException("salt");
+
             string saltedValue = ((salt ?? "") + value);
 
             return String.Join("", SHA256.Create()

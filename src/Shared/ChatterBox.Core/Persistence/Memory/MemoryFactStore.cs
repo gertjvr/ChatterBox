@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Facts;
 
@@ -14,6 +15,9 @@ namespace ChatterBox.Core.Persistence.Memory
 
         public void AppendAtomically(IFact[] facts)
         {
+            if (facts == null) 
+                throw new ArgumentNullException("facts");
+
             lock (_mutex)
             {
                 var aggregateRoots = facts.GroupBy(f => f.AggregateRootId);
@@ -30,6 +34,9 @@ namespace ChatterBox.Core.Persistence.Memory
 
         public IEnumerable<FactAbout<T>> GetStream<T>(Guid id) where T : IAggregateRoot
         {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "id");
+
             var stream = _streams.GetOrAdd(id, x => new SortedList<UnitOfWorkProperties, IFact>());
 
             lock (_mutex)
@@ -66,6 +73,9 @@ namespace ChatterBox.Core.Persistence.Memory
 
         public virtual void ImportFrom(IEnumerable<IFact> facts)
         {
+            if (facts == null) 
+                throw new ArgumentNullException("facts");
+
             foreach (var fact in facts)
             {
                 var stream = _streams.GetOrAdd(fact.AggregateRootId, x => new SortedList<UnitOfWorkProperties, IFact>());

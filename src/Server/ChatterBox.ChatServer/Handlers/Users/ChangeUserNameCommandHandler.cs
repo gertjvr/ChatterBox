@@ -1,37 +1,59 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.Domain.Properties;
-using ChatterBox.Domain.Queries;
 using ChatterBox.MessageContracts.Users.Commands;
+using Nimbus.Handlers;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
-    public class ChangeUserNameCommandHandler : ScopedCommandHandler<ChangeUserNameCommand>
+    public class ChangeUserNameCommandHandler : IHandleCommand<ChangeUserNameCommand>
     {
-        public ChangeUserNameCommandHandler(Func<IUnitOfWork> unitOfWork)
-            : base(unitOfWork)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+
+        public ChangeUserNameCommandHandler(
+            IUnitOfWork unitOfWork, 
+            IRepository<User> userRepository)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
         }
 
-        public override async Task Execute(IUnitOfWork context, ChangeUserNameCommand command)
+        public async Task Handle(ChangeUserNameCommand command)
         {
-            var repository = context.Repository<User>();
+            if (command == null) 
+                throw new ArgumentNullException("command");
 
-            EnsureUserNameIsAvailible(repository, command.NewUserName);
+            try
+            {
+                EnsureUserNameIsAvailible(command.NewUserName);
 
-            var user = repository.GetById(command.UserId);
-            user.UpdateUserName(command.NewUserName);
+                var user = _userRepository.GetById(command.TargetUserId);
+                user.UpdateUserName(command.NewUserName);
 
-            context.Complete();
+                _unitOfWork.Complete();
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
 
-        private void EnsureUserNameIsAvailible(IRepository<User> repository, string userName)
+        private void EnsureUserNameIsAvailible(string userName)
         {
-            if (repository.Query(new EnsureUserNameIsAvailibleQuery(userName)).Any())
+            if (_userRepository.GetByName(userName) != null)
                 throw new InvalidOperationException(LanguageResources.UserNameTaken.FormatWith(userName));
         }
     }

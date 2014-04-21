@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace ChatterBox.Core.Infrastructure.Queries
 
         public QueryModel(IAggregateRebuilder aggregateRebuilder)
         {
+            if (aggregateRebuilder == null) 
+                throw new ArgumentNullException("aggregateRebuilder");
+
             _aggregateRebuilder = aggregateRebuilder;
             _items = new Lazy<ConcurrentDictionary<Guid, T>>(RebuildAll);
         }
@@ -27,6 +31,9 @@ namespace ChatterBox.Core.Infrastructure.Queries
 
         public T GetById(Guid itemId)
         {
+            if (itemId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "itemId");
+
             return _items.Value[itemId];
         }
 
@@ -37,17 +44,32 @@ namespace ChatterBox.Core.Infrastructure.Queries
 
         public void Add(T item)
         {
+            if (item == null) 
+                throw new ArgumentNullException("item");
+
             _items.Value.TryAdd(item.Id, item);
         }
 
         public void Remove(T item)
         {
+            if (item == null) 
+                throw new ArgumentNullException("item");
+
             T dummy;
             _items.Value.TryRemove(item.Id, out dummy);
         }
 
         public void Revert(IEnumerable<T> newItems, IEnumerable<T> modifiedItems, IEnumerable<T> removedItems)
         {
+            if (newItems == null) 
+                throw new ArgumentNullException("newItems");
+            
+            if (modifiedItems == null) 
+                throw new ArgumentNullException("modifiedItems");
+            
+            if (removedItems == null) 
+                throw new ArgumentNullException("removedItems");
+
             lock (this)
             {
                 T dummy;
@@ -72,6 +94,9 @@ namespace ChatterBox.Core.Infrastructure.Queries
 
         private Guid LastSeenRevisionId(Guid itemId)
         {
+            if (itemId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "itemId");
+
             Guid lastSeenRevisionId;
             _lastSeenRevisionIds.TryGetValue(itemId, out lastSeenRevisionId);
             return lastSeenRevisionId;

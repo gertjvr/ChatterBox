@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Persistence.Memory;
 using Nimbus;
 using NSubstitute;
 
@@ -11,13 +11,12 @@ namespace ChatterBox.ChatServer.Tests.AutofacModules
         {
             base.Load(builder);
 
-            builder.Register(context => Substitute.For<IUnitOfWork>())
+            builder.RegisterType<MemoryFactStore>()
+                .AsImplementedInterfaces()
                 .SingleInstance();
-            
-            builder.Register(context => Substitute.For<IFactStore>())
-                .SingleInstance();
-            
+
             builder.Register(context => Substitute.For<IBus>())
+                .AsImplementedInterfaces()
                 .SingleInstance();
         }
     }

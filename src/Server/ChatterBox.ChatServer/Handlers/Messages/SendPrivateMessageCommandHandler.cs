@@ -1,33 +1,56 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ChatterBox.Core.Infrastructure;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Messages.Commands;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Messages
 {
-    public class SendPrivateMessageCommandHandler : ScopedCommandHandler<SendPrivateMessageCommand>
+    public class SendPrivateMessageCommandHandler : IHandleCommand<SendPrivateMessageCommand>
     {
         private readonly IClock _clock;
+        private readonly IRepository<User> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public SendPrivateMessageCommandHandler(
-            Func<IUnitOfWork> unitOfWork,
-            IClock clock) 
-            : base(unitOfWork)
+            IUnitOfWork unitOfWork,
+            IRepository<User> repository,
+            IClock clock)
         {
+            if (unitOfWork == null)
+                throw new ArgumentNullException("unitOfWork");
+
+            if (repository == null)
+                throw new ArgumentNullException("repository");
+
+            if (clock == null)
+                throw new ArgumentNullException("clock");
+
+            _unitOfWork = unitOfWork;
+            _repository = repository;
             _clock = clock;
         }
 
-        public override async Task Execute(IUnitOfWork context, SendPrivateMessageCommand command)
+        public async Task Handle(SendPrivateMessageCommand command)
         {
-            var repository = context.Repository<User>();
+            if (command == null)
+                throw new ArgumentNullException("command");
 
-            var user = repository.GetById(command.TargetUserId);
+            try
+            {
+                var user = _repository.VerifyUser(command.TargetUserId);
 
-            user.ReceivePrivateMessage(command.Content, command.UserId, _clock.UtcNow);
+                user.ReceivePrivateMessage(command.Content, command.CallingUserId, _clock.UtcNow);
 
-            context.Complete();
+                _unitOfWork.Complete();
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ChatterBox.MessageContracts.Dtos
 {
@@ -7,6 +8,24 @@ namespace ChatterBox.MessageContracts.Dtos
         public RoomDto(string name, int count, bool @private, string topic, bool closed, string welcome,
             IEnumerable<UserDto> contacts, IEnumerable<UserDto> owners, IEnumerable<MessageDto> recentMessages)
         {
+            if (name == null) 
+                throw new ArgumentNullException("name");
+            
+            if (topic == null) 
+                throw new ArgumentNullException("topic");
+            
+            if (welcome == null) 
+                throw new ArgumentNullException("welcome");
+            
+            if (contacts == null) 
+                throw new ArgumentNullException("contacts");
+            
+            if (owners == null) 
+                throw new ArgumentNullException("owners");
+            
+            if (recentMessages == null) 
+                throw new ArgumentNullException("recentMessages");
+
             Name = name;
             Count = count;
             Private = @private;

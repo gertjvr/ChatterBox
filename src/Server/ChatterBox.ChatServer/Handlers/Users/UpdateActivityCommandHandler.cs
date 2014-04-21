@@ -1,33 +1,57 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ChatterBox.Core.Infrastructure;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Users.Commands;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
-    public class UpdateActivityCommandHandler : ScopedCommandHandler<UpdateActivityCommand>
+    public class UpdateActivityCommandHandler : IHandleCommand<UpdateActivityCommand>
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
         private readonly IClock _clock;
 
         public UpdateActivityCommandHandler(
-            Func<IUnitOfWork> unitOfWork,
-            IClock clock) 
-            : base(unitOfWork)
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
+            IClock clock)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (clock == null) 
+                throw new ArgumentNullException("clock");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
             _clock = clock;
         }
 
-        public override async Task Execute(IUnitOfWork context, UpdateActivityCommand command)
+        public async Task Handle(UpdateActivityCommand command)
         {
-            var repository = context.Repository<User>();
+            if (command == null) 
+                throw new ArgumentNullException("command");
 
-            var user = repository.GetById(command.UserId);
+            try
+            {
+                var callingUser = _userRepository.VerifyUser(command.CallingUserId);
+                var targetUser = _userRepository.VerifyUser(command.TargetUserId);
 
-            user.UpdateLastActivity(_clock.UtcNow);
+                targetUser.UpdateLastActivity(_clock.UtcNow);
 
-            context.Complete();
+                _unitOfWork.Complete();
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     }
 }

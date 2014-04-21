@@ -9,10 +9,10 @@ namespace ChatterBox.MessageContracts.Users.Requests
         {   
         }
         
-        public CreateClientRequest(Guid clientId, string userAgent, Guid userId)
+        public CreateClientRequest(Guid clientId, string userAgent, Guid callingUserId)
         {
-            if (userId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "userId");
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
             
             if (userAgent == null) 
                 throw new ArgumentNullException("userAgent");
@@ -21,7 +21,7 @@ namespace ChatterBox.MessageContracts.Users.Requests
                 throw new ArgumentException("Guid cannot be empty.", "clientId");
 
             ClientId = clientId;
-            UserId = userId;
+            CallingUserId = callingUserId;
             UserAgent = userAgent;
         }
 
@@ -29,6 +29,6 @@ namespace ChatterBox.MessageContracts.Users.Requests
 
         public string UserAgent { get; private set; }
 
-        public Guid UserId { get; private set; }
+        public Guid CallingUserId { get; private set; }
     }
 }

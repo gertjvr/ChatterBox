@@ -9,10 +9,10 @@ namespace ChatterBox.MessageContracts.Users.Commands
         {   
         }
         
-        public UpdateActivityCommand(Guid userId, Guid clientId, string userAgent)
+        public UpdateActivityCommand(Guid targetUserId, Guid clientId, string userAgent, Guid callingUserId)
         {
-            if (userId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "userId");
+            if (targetUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "targetUserId");
             
             if (clientId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "clientId");
@@ -20,15 +20,21 @@ namespace ChatterBox.MessageContracts.Users.Commands
             if (userAgent == null) 
                 throw new ArgumentNullException("userAgent");
 
-            UserId = userId;
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
+
+            TargetUserId = targetUserId;
             ClientId = clientId;
             UserAgent = userAgent;
+            CallingUserId = callingUserId;
         }
 
-        public Guid UserId { get; private set; }
+        public Guid TargetUserId { get; private set; }
 
         public Guid ClientId { get; private set; }
         
         public string UserAgent  { get; private set; }
+
+        public Guid CallingUserId { get; private set; }
     }
 }

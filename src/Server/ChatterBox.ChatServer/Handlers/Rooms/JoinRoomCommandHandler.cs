@@ -1,31 +1,59 @@
 using System;
 using System.Threading.Tasks;
-using ChatterBox.Core.Persistence;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Rooms.Commands;
+using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Rooms
 {
-    public class JoinRoomCommandHandler : ScopedCommandHandler<JoinRoomCommand>
+    public class JoinRoomCommandHandler : IHandleCommand<JoinRoomCommand>
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Room> _roomRepository;
+
         public JoinRoomCommandHandler(
-            Func<IUnitOfWork> unitOfWork) 
-            : base(unitOfWork)
+            IUnitOfWork unitOfWork,
+            IRepository<User> userRepository,
+            IRepository<Room> roomRepository)
         {
+            if (unitOfWork == null) 
+                throw new ArgumentNullException("unitOfWork");
+            
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+            
+            if (roomRepository == null) 
+                throw new ArgumentNullException("roomRepository");
+
+            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _roomRepository = roomRepository;
         }
 
-        public override async Task Execute(IUnitOfWork context, JoinRoomCommand command)
+        public async Task Handle(JoinRoomCommand command)
         {
-            var roomRepository = context.Repository<Room>();
-            var userRepository = context.Repository<User>();
+            if (command == null) 
+                throw new ArgumentNullException("command");
 
-            var room = roomRepository.GetById(command.RoomId);
-            var user = userRepository.GetById(command.UserId);
+            try
+            {
+                var callingUser = _userRepository.VerifyUser(command.CallingUserId);
+                var targetRoom = _roomRepository.VerifyRoom(command.TargetRoomId);
+                var targetUser = _userRepository.VerifyUser(command.TargetUserId);
 
-            room.Join(user);
+                targetRoom.Join(targetUser);
 
-            context.Complete();
+                _unitOfWork.Complete();
+            }
+            catch
+            {
+                _unitOfWork.Abandon();
+                throw;
+            }
         }
     };
 }

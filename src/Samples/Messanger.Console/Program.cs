@@ -2,7 +2,6 @@
 using Autofac;
 using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Infrastructure;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Core.Services;
 using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.Domain.Aggregates.RoomAggregate;

@@ -9,7 +9,7 @@ namespace ChatterBox.MessageContracts.Owners.Commands
         {   
         }
         
-        public KickUserCommand(Guid targetUserId, Guid targetRoomId, Guid userId)
+        public KickUserCommand(Guid targetUserId, Guid targetRoomId, Guid callingUserId)
         {
             if (targetUserId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "targetUserId");
@@ -17,18 +17,18 @@ namespace ChatterBox.MessageContracts.Owners.Commands
             if (targetRoomId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "targetRoomId");
 
-            if (userId == Guid.Empty)
-                throw new ArgumentException("Guid cannot be empty.", "userId");
+            if (callingUserId == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "callingUserId");
 
             TargetUserId = targetUserId;
             TargetRoomId = targetRoomId;
-            UserId = userId;
+            CallingUserId = callingUserId;
         }
 
         public Guid TargetUserId { get; private set; }
 
         public Guid TargetRoomId { get; private set; }
 
-        public Guid UserId { get; private set; }
+        public Guid CallingUserId { get; private set; }
     }
 }

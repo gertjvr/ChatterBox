@@ -1,5 +1,6 @@
+using System;
+using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
-using ChatterBox.Core.Persistence;
 using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Dtos;
@@ -15,6 +16,12 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
             IRepository<User> userRepository,
             IMapToNew<User, UserDto> userMapper)
         {
+            if (userRepository == null) 
+                throw new ArgumentNullException("userRepository");
+
+            if (userMapper == null) 
+                throw new ArgumentNullException("userMapper");
+
             _userRepository = userRepository;
             _userMapper = userMapper;
         }

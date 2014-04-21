@@ -1,6 +1,5 @@
 ﻿using System;
 using ChatterBox.Core.Infrastructure.Entities;
-using ChatterBox.Core.Persistence;
 
 namespace ChatterBox.Core.Infrastructure.Facts
 {
