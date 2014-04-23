@@ -5,11 +5,13 @@ using System.Reflection;
 using Autofac;
 using ChatterBox.MessageContracts.Messages.Commands;
 using Nimbus.MessageContracts;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
 namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 {
+    [TestFixture]
     public class AllTypesMessageContractProperties
     {
         private readonly Func<IFixture> _fixtureFactory;

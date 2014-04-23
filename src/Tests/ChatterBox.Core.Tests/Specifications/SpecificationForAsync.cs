@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace ChatterBox.Core.Tests.Specifications
 {
-    public abstract class SpecificationForAsync<T> : ISpecificationFor
+    [TestFixture]
+    public abstract class SpecificationForAsync<T>
         where T : class
     {
         protected T Subject;
@@ -12,13 +14,20 @@ namespace ChatterBox.Core.Tests.Specifications
 
         protected abstract Task When();
 
-        public virtual async Task SetUp()
+        [SetUp]
+        public virtual void SetUp()
         {
-            Subject = await Given();
-            await When();
+            var setup = Task.Run(async () =>
+            {
+                Subject = await Given();
+                await When();
+            });
+
+            setup.Wait();
         }
 
-        public virtual async Task TearDown()
+        [TearDown]
+        public virtual void TearDown()
         {
             var disposable = Subject as IDisposable;
             if (disposable != null) disposable.Dispose();

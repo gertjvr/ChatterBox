@@ -41,11 +41,13 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             await Subject.Handle(Command);
         }
 
+        [Then]
         public void ShouldHaveChangedUserName()
         {
             User.Name.ShouldBe(Command.NewUserName);
         }
 
+        [Then]
         public void ShouldHaveCompletedUnitOfWork()
         {
             UnitOfWork.Received(1).Complete();

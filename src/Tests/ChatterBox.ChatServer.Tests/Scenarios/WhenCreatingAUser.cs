@@ -33,16 +33,19 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
             Response = await Subject.Handle(Request);
         }
 
+        [Then]
         public void ShouldReturnsCorrectUserId()
         {
             Response.UserId.ShouldNotBe(Guid.Empty);
         }
 
+        [Then]
         public void ShouldHaveUserWasPersisted()
         {
             Repository.Received(1).Add(Arg.Any<User>());
         }
 
+        [Then]
         public void ShouldHaveCompletedUnitOfWork()
         {
             UnitOfWork.Received(1).Complete();

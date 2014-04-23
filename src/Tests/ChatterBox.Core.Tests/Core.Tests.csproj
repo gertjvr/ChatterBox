@@ -38,11 +38,11 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Fixie">
-      <HintPath>..\..\..\packages\Fixie.0.0.1.158\lib\net45\Fixie.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Ploeh.Albedo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=179ef6dd03497bbd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -75,20 +75,17 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Fixie\Conventions\AllTypesConvention.cs" />
-    <Compile Include="Fixie\Conventions\SpecificationForConvention.cs" />
-    <Compile Include="Fixie\Extensions\BehaviorBuilderExtensions.cs" />
-    <Compile Include="Fixie\Extensions\ClassFilterExtensions.cs" />
     <Compile Include="IoC\Conventions\AutofacBaseAssertion.cs" />
     <Compile Include="IoC\Conventions\AutofacContainerAssertion.cs" />
     <Compile Include="IoC\Conventions\AutofacLifetimeAssertion.cs" />
     <Compile Include="IoC\Conventions\Lifetime.cs" />
+    <Compile Include="ObjectMother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specifications\AutoSpecificationFor.cs" />
     <Compile Include="Specifications\AutoSpecificationForAsync.cs" />
-    <Compile Include="Specifications\ISpecificationFor.cs" />
     <Compile Include="Specifications\SpecificationFor.cs" />
     <Compile Include="Specifications\SpecificationForAsync.cs" />
+    <Compile Include="Specifications\ThenAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -98,6 +95,10 @@
     <ProjectReference Include="..\..\Shared\ChatterBox.Core\Core.csproj">
       <Project>{FFA4D2D8-9E2B-46CC-8B63-FA7DA1D99841}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\ChatterBox.Domain\Domain.csproj">
+      <Project>{d81eb12f-d0e1-44c4-a8a7-2c6d18ae5fa5}</Project>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

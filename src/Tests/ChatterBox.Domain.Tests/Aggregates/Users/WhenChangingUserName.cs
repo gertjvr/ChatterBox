@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using ChatterBox.Core.Tests;
 using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
@@ -24,11 +23,13 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
             Subject.UpdateUserName(NewUserName);
         }
 
+        [Then]
         public void NameShouldBeNewUserName()
         {
             Subject.Name.ShouldBe(NewUserName);
         }
 
+        [Then]
         public void ShouldHavePendingFact()
         {
             var pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserNameUpdatedFact>().ToArray();

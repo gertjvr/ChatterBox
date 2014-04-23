@@ -24,6 +24,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
         {
         }
 
+        [Then]
         public void InstanciatedCorrectly()
         {
             Subject.Id.ShouldNotBe(Guid.Empty);
@@ -34,6 +35,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.Users
             Subject.HashedPassword.ShouldNotBe(string.Empty);
         }
 
+        [Then]
         public void ContainsCorrectPendingFact()
         {
             UserCreatedFact[] pendingFacts = Subject.GetAndClearPendingFacts().OfType<UserCreatedFact>().ToArray();

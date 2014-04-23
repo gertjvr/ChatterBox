@@ -42,15 +42,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\ConfigInjector.1.1.0.6\lib\net45\ConfigInjector.dll</HintPath>
     </Reference>
-    <Reference Include="Fixie">
-      <HintPath>..\..\..\packages\Fixie.0.0.1.158\lib\net45\Fixie.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.2.1.4.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=1.2.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,15 +80,8 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\chatterbox.core.tests\fixie\conventions\AllTypesConvention.cs">
-      <Link>Fixie\Conventions\AllTypesConvention.cs</Link>
-    </Compile>
-    <Compile Include="..\chatterbox.core.tests\fixie\conventions\SpecificationForConvention.cs">
-      <Link>Fixie\Conventions\SpecificationForConvention.cs</Link>
-    </Compile>
     <Compile Include="TestHarnessTypeProvider.cs" />
     <Compile Include="TestHarnessBusFactory.cs" />
-    <Compile Include="ObjectMother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenarios\ChatServerSpecificationForBus.cs" />
   </ItemGroup>

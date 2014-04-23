@@ -4,12 +4,16 @@ using System.Linq;
 using Autofac;
 using ChatterBox.MessageContracts.Messages.Commands;
 using Nimbus.MessageContracts;
+using NUnit.Framework;
 using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 {
+    [TestFixture]
     public class AllTypesNamesEndingWithCommand
     {
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void ShouldImplementIBusCommand(Type type)
         {
             type.IsAssignableTo<IBusCommand>().ShouldBe(true);

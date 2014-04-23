@@ -69,17 +69,6 @@ namespace ChatterBox.Domain.Extensions
             return repository.Query(users => users.SingleOrDefault(user => user.Name == name));
         }
         
-        public static User GetByNameOrEmail(this IRepository<User> repository, string nameOrEmail)
-        {
-            if (repository == null)
-                throw new ArgumentNullException("repository");
-
-            if (nameOrEmail == null) 
-                throw new ArgumentNullException("nameOrEmail");
-
-            return repository.Query(users => users.SingleOrDefault(user => user.Name == nameOrEmail || user.Email == nameOrEmail));
-        }
-
         public static Room GetByName(this IRepository<Room> repository, string name)
         {
             if (repository == null) 

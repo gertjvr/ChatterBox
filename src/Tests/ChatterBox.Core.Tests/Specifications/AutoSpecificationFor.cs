@@ -1,9 +1,11 @@
 ﻿using System;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
 namespace ChatterBox.Core.Tests.Specifications
 {
+    [TestFixture]
     public abstract class AutoSpecificationFor<T> : SpecificationFor<T>
         where T : class
     {
@@ -21,6 +23,7 @@ namespace ChatterBox.Core.Tests.Specifications
 
         protected IFixture Fixture { get; private set; }
 
+        [SetUp]
         public override void SetUp()
         {
             Fixture = _fixture();
@@ -28,6 +31,7 @@ namespace ChatterBox.Core.Tests.Specifications
             When();
         }
 
+        [TearDown]
         public override void TearDown()
         {
             Subject = null;

@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
 namespace ChatterBox.Core.Tests.Specifications
 {
+    [TestFixture]
     public abstract class AutoSpecificationForAsync<T> : SpecificationForAsync<T>
         where T : class
     {
@@ -22,14 +23,16 @@ namespace ChatterBox.Core.Tests.Specifications
 
         protected IFixture Fixture { get; private set; }
 
-        public override async Task SetUp()
+        [SetUp]
+        public override void SetUp()
         {
             Fixture = _fixture();
-            Subject = await Given();
-            await When();
+
+            base.SetUp();
         }
 
-        public override async Task TearDown()
+        [TearDown]
+        public override void TearDown()
         {
             var disposable = Subject as IDisposable;
             if (disposable != null) disposable.Dispose();

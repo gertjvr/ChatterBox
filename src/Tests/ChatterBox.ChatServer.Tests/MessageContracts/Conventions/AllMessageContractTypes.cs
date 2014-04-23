@@ -6,7 +6,7 @@ using Autofac;
 using ChatterBox.MessageContracts.Messages.Commands;
 using Nimbus.MessageContracts;
 using Nimbus.Serializers.Json;
-using Ploeh.Albedo;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 using Ploeh.AutoFixture.Idioms;
@@ -15,6 +15,7 @@ using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 {
+    [TestFixture]
     public class AllMessageContractTypes
     {
         private readonly Func<IFixture> _fixtureFactory;
@@ -49,6 +50,8 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             return false;
         }
 
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void VerifyMessageTypeIsSerializable(Type messageType)
         {
             var fixture = _fixtureFactory();
@@ -62,6 +65,8 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             });
         }
 
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void VerifyBoundariesForAllPropertiesOnImmutableClass(Type type)
         {
             var assertion = new GuardClauseAssertion(_fixtureFactory());
@@ -69,6 +74,8 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             assertion.Verify(properties);
         }
 
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void VerifyBoundariesForAllMethods(Type type)
         {
             var assertion = new GuardClauseAssertion(_fixtureFactory());
@@ -76,6 +83,8 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             assertion.Verify(methods);
         }
 
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void VerifyBoundariesForAllConstructors(Type type)
         {
             var assertion = new GuardClauseAssertion(_fixtureFactory());
@@ -83,6 +92,8 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             assertion.Verify(ctors);
         }
 
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void VerifyConstructorParametersCorrectlyInitializeProperties(Type type)
         {
             var assertion = new ConstructorInitializedMemberAssertion(_fixtureFactory());
@@ -90,21 +101,8 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
             assertion.Verify(members);
         }
 
-        //public void VerifyPublicPropertiesAssignableFromConstructorAreCorrectlyInitialized(Type type)
-        //{
-        //    var customMatcher = new VisitorEqualityComparer<NameAndType>(
-        //        new NameAndTypeCollectingVisitor(), new NameAndTypeAssignableComparer());
-
-        //    var assertion = new ConstructorInitializedMemberAssertion(
-        //        _fixtureFactory(), EqualityComparer<object>.Default, customMatcher);
-
-        //    var properties = type.GetProperties()
-        //        .Where(p => p.SetMethod != null)
-        //        .ToArray();
-
-        //    assertion.Verify(properties);
-        //}
-
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void VerifyCompositeEqualityBehaviourOnType(Type messageType)
         {
             IFixture fixture = _fixtureFactory();
@@ -116,118 +114,6 @@ namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
                 new EqualsSuccessiveAssertion(fixture));
 
             equalityBehaviourAssertion.Verify(messageType);
-        }
-
-        private class NameAndType
-        {
-            public NameAndType(string name, Type type)
-            {
-                Name = name;
-                Type = type;
-            }
-
-            public string Name { get; private set; }
-            public Type Type { get; private set; }
-        }
-
-        private class NameAndTypeAssignableComparer : IEqualityComparer<NameAndType>
-        {
-            public bool Equals(NameAndType x, NameAndType y)
-            {
-                return string.Equals(x.Name, y.Name, StringComparison.OrdinalIgnoreCase)
-                       && (x.Type.IsAssignableFrom(y.Type) || y.Type.IsAssignableFrom(x.Type));
-            }
-
-            public int GetHashCode(NameAndType obj)
-            {
-                return 0;
-            }
-        }
-
-        private class NameAndTypeCollectingVisitor
-            : ReflectionVisitor<IEnumerable<NameAndType>>
-        {
-            private readonly NameAndType[] _values;
-
-            public NameAndTypeCollectingVisitor(
-                params NameAndType[] values)
-            {
-                _values = values;
-            }
-
-            public override IEnumerable<NameAndType> Value
-            {
-                get { return _values; }
-            }
-
-            public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
-                FieldInfoElement fieldInfoElement)
-            {
-                if (fieldInfoElement == null) throw new ArgumentNullException("fieldInfoElement");
-                var v = new NameAndType(
-                    fieldInfoElement.FieldInfo.Name,
-                    fieldInfoElement.FieldInfo.FieldType);
-                return new NameAndTypeCollectingVisitor(
-                    _values.Concat(new[] {v}).ToArray());
-            }
-
-            public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
-                ParameterInfoElement parameterInfoElement)
-            {
-                if (parameterInfoElement == null) throw new ArgumentNullException("parameterInfoElement");
-                var v = new NameAndType(
-                    parameterInfoElement.ParameterInfo.Name,
-                    parameterInfoElement.ParameterInfo.ParameterType);
-                return new NameAndTypeCollectingVisitor(
-                    _values.Concat(new[] {v}).ToArray());
-            }
-
-            public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
-                PropertyInfoElement propertyInfoElement)
-            {
-                if (propertyInfoElement == null) throw new ArgumentNullException("propertyInfoElement");
-                var v = new NameAndType(
-                    propertyInfoElement.PropertyInfo.Name,
-                    propertyInfoElement.PropertyInfo.PropertyType);
-                return new NameAndTypeCollectingVisitor(
-                    _values.Concat(new[] {v}).ToArray());
-            }
-        }
-
-        private class VisitorEqualityComparer<T> : IEqualityComparer<IReflectionElement>
-        {
-            private readonly IEqualityComparer<T> _comparer;
-            private readonly IReflectionVisitor<IEnumerable<T>> _visitor;
-
-            internal VisitorEqualityComparer(
-                IReflectionVisitor<IEnumerable<T>> visitor,
-                IEqualityComparer<T> comparer)
-            {
-                _visitor = visitor;
-                _comparer = comparer;
-            }
-
-            bool IEqualityComparer<IReflectionElement>.Equals(IReflectionElement x, IReflectionElement y)
-            {
-                T[] values = new CompositeReflectionElement(x, y)
-                    .Accept(_visitor)
-                    .Value
-                    .ToArray();
-
-                IEnumerable<T> distinctValues = values.Distinct(_comparer);
-                return values.Length == 2
-                       && distinctValues.Count() == 1;
-            }
-
-            int IEqualityComparer<IReflectionElement>.GetHashCode(IReflectionElement obj)
-            {
-                if (obj == null) throw new ArgumentNullException("obj");
-                return obj
-                    .Accept(_visitor)
-                    .Value
-                    .Single()
-                    .GetHashCode();
-            }
         }
     }
 }

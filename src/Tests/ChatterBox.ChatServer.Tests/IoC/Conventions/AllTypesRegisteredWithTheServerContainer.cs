@@ -4,11 +4,14 @@ using Autofac.Builder;
 using ChatterBox.ChatServer.Tests.AutofacModules;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Tests.IoC.Conventions;
+using NUnit.Framework;
 
 namespace ChatterBox.ChatServer.Tests.IoC.Conventions
 {
+    [TestFixture]
     public class AllTypesRegisteredWithTheServerContainer
     {
+        [Test]
         public void VerifyAllTypesCanBeResolved()
         {
             var assertion = new AutofacContainerAssertion(Filter, IsKnownOffender);
@@ -17,6 +20,7 @@ namespace ChatterBox.ChatServer.Tests.IoC.Conventions
             container.Dispose();
         }
 
+        [Test]
         public void VerifyAllRegisteredTypesLifetimes()
         {
             var assertion = new AutofacLifetimeAssertion();

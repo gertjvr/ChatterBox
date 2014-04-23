@@ -12,12 +12,12 @@ namespace ChatterBox.ChatServer.AutofacModules
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof (IMapToNew<,>))
                 .AsImplementedInterfaces()
-                .InstancePerDependency();
+                .InstancePerLifetimeScope();
             
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof (IMapToExisting<,>))
                 .AsImplementedInterfaces()
-                .InstancePerDependency();
+                .InstancePerLifetimeScope();
         }
     }
 }

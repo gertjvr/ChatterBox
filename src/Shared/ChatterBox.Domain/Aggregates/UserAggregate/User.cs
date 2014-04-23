@@ -143,6 +143,25 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Name = fact.NewUserName;
         }
 
+        public void UpdateEmailAddress(string newEmailAddress)
+        {
+            if (newEmailAddress == null)
+                throw new ArgumentNullException("newEmailAddress");
+
+            var fact = new EmailAddressUpdatedFact(Id, newEmailAddress);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(EmailAddressUpdatedFact fact)
+        {
+            if (fact == null)
+                throw new ArgumentNullException("fact");
+
+            Name = fact.NewEmailAddress;
+        }
+
         public void UpdateUserRole(UserRole userRole)
         {
             var fact = new UserRoleUpdatedFact(Id, userRole);

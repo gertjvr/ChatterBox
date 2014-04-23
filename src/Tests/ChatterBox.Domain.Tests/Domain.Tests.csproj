@@ -39,11 +39,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Fixie">
-      <HintPath>..\..\..\packages\Fixie.0.0.1.158\lib\net45\Fixie.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Ploeh.Albedo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=179ef6dd03497bbd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -78,12 +78,6 @@
   <ItemGroup>
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\ChatterBox.Core.Tests\Fixie\Conventions\AllTypesConvention.cs">
-      <Link>Fixie\Conventions\AllTypesConvention.cs</Link>
-    </Compile>
-    <Compile Include="..\ChatterBox.Core.Tests\Fixie\Conventions\SpecificationForConvention.cs">
-      <Link>Fixie\Conventions\SpecificationForConvention.cs</Link>
     </Compile>
     <Compile Include="Aggregates\Users\WhenChangingUserPassword.cs" />
     <Compile Include="Aggregates\Users\WhenCreatingUser.cs" />

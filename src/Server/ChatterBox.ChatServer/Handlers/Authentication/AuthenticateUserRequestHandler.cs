@@ -74,7 +74,7 @@ namespace ChatterBox.ChatServer.Handlers.Authentication
             {
                 IEnumerable<Room> allowedRooms;
 
-                var user = _userRepository.GetByNameOrEmail(request.UserNameOrEmail);
+                var user = _userRepository.GetByName(request.UserName);
                 if (user == null)
                 {
                     if (_userRepository.Query(users => users.None()))
@@ -85,9 +85,9 @@ namespace ChatterBox.ChatServer.Handlers.Authentication
                         var hashedPassword = request.Password.ToSha256(salt);
 
                         user = new User(
-                            request.UserNameOrEmail,
-                            request.UserNameOrEmail,
-                            request.UserNameOrEmail.ToMD5(),
+                            "Admin",
+                            request.UserName,
+                            request.UserName.ToMD5(),
                             salt,
                             hashedPassword,
                             _clock.UtcNow,

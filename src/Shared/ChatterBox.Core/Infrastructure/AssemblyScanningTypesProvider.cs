@@ -17,9 +17,7 @@ namespace ChatterBox.Core.Infrastructure
 
         public AssemblyScanningTypesProvider(Assembly[] assembliesToScan)
         {
-            if (assembliesToScan == null) 
-                throw new ArgumentNullException("assembliesToScan");
-
+            if (assembliesToScan == null) throw new ArgumentNullException("assembliesToScan");
             if (assembliesToScan.None()) throw new ArgumentException("You must provide at least one assembly that contains fact types", "assembliesToScan");
 
             _factTypes = new Lazy<Type[]>(ScanForFactTypes);
@@ -45,6 +43,7 @@ namespace ChatterBox.Core.Infrastructure
 
         private void AssertIsValidAggregateType(Type type)
         {
+            if (type == null) throw new ArgumentNullException("type");
             if (type.GetCustomAttribute<SerializableAttribute>() == null) throw new Exception("Aggregate types must be marked as serializable. {0} is not.".FormatWith(type.FullName));
         }
 

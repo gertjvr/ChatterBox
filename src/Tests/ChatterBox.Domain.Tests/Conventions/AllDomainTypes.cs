@@ -5,6 +5,7 @@ using Autofac;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Facts;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 using Ploeh.AutoFixture.Idioms;
@@ -42,6 +43,8 @@ namespace ChatterBox.Domain.Tests.Conventions
             return false;
         }
 
+        [Test]
+        [TestCaseSource("GetDomainTypes")]
         public void VerifyBoundariesForAllPropertiesOnImmutableClass(Type type)
         {
             var assertion = new GuardClauseAssertion(_fixtureFactory());
@@ -49,6 +52,8 @@ namespace ChatterBox.Domain.Tests.Conventions
             assertion.Verify(properties);
         }
 
+        [Test]
+        [TestCaseSource("GetDomainTypes")]
         public void VerifyBoundariesForAllMethods(Type type)
         {
             var assertion = new GuardClauseAssertion(_fixtureFactory());
@@ -56,6 +61,8 @@ namespace ChatterBox.Domain.Tests.Conventions
             assertion.Verify(methods);
         }
 
+        [Test]
+        [TestCaseSource("GetDomainTypes")]
         public void VerifyBoundariesForAllConstructors(Type type)
         {
             var assertion = new GuardClauseAssertion(_fixtureFactory());
@@ -63,6 +70,8 @@ namespace ChatterBox.Domain.Tests.Conventions
             assertion.Verify(ctors);
         }
 
+        [Test]
+        [TestCaseSource("GetDomainTypes")]
         public void VerifyConstructorParametersCorrectlyInitializeProperties(Type type)
         {
             var assertion = new ConstructorInitializedMemberAssertion(_fixtureFactory());
@@ -70,6 +79,8 @@ namespace ChatterBox.Domain.Tests.Conventions
             assertion.Verify(members);
         }
 
+        [Test]
+        [TestCaseSource("GetDomainTypes")]
         public void VerifyCompositeEqualityBehaviourOnManyTypes()
         {
             var fixture = _fixtureFactory();

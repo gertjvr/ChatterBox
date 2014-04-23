@@ -4,12 +4,16 @@ using System.Linq;
 using Autofac;
 using ChatterBox.MessageContracts.Messages.Commands;
 using Nimbus.MessageContracts;
+using NUnit.Framework;
 using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 {
+    [TestFixture]
     public class AllTypesNamesEndingWithRequest
     {
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void ShouldImplementIBusRequest(Type type)
         {
             type.IsClosedTypeOf(typeof (IBusRequest<,>)).ShouldBe(true);

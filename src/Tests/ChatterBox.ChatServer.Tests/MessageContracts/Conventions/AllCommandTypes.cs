@@ -5,17 +5,23 @@ using Autofac;
 using ChatterBox.MessageContracts.Messages.Commands;
 using Nimbus.Handlers;
 using Nimbus.MessageContracts;
+using NUnit.Framework;
 using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.MessageContracts.Conventions
 {
+    [TestFixture]
     public class AllCommandTypes
     {
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void ShouldEndWithCommand(Type commandType)
         {
             commandType.Name.ShouldEndWith("Command");
         }
 
+        [Test]
+        [TestCaseSource("GetTypesToVerify")]
         public void ShouldHaveAtLeastOneHandler(Type commandType)
         {
             var handlerType = typeof (IHandleCommand<>).MakeGenericType(commandType);
