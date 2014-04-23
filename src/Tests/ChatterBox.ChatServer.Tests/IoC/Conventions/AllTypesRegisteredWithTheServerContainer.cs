@@ -17,6 +17,14 @@ namespace ChatterBox.ChatServer.Tests.IoC.Conventions
             container.Dispose();
         }
 
+        public void VerifyAllRegisteredTypesLifetimes()
+        {
+            var assertion = new AutofacLifetimeAssertion();
+            var container = ChatterBox.ChatServer.IoC.LetThereBeIoC(ContainerBuildOptions.IgnoreStartableComponents, builder => builder.RegisterModule<SubstituteModule>());
+            assertion.Verify(container);
+            container.Dispose();
+        }
+
         private bool Filter(Type serviceType)
         {
             if (serviceType.IsAssignableTo<IAggregateRoot>()) return false;

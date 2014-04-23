@@ -82,12 +82,11 @@
     <Compile Include="Rooms\Requests\RoomInfoRequest.cs" />
     <Compile Include="Rooms\Requests\RoomInfoResponse.cs" />
     <Compile Include="Users\Commands\ChangeUserNameCommand.cs" />
+    <Compile Include="Users\Commands\ConnectClientCommand.cs" />
     <Compile Include="Users\Commands\DisconnectClientCommand.cs" />
     <Compile Include="Users\Commands\UpdateActivityCommand.cs" />
     <Compile Include="Users\Requests\AllowedRoomsRequest.cs" />
     <Compile Include="Users\Requests\AllowedRoomsResponse.cs" />
-    <Compile Include="Users\Requests\CreateClientRequest.cs" />
-    <Compile Include="Users\Requests\CreateClientResponse.cs" />
     <Compile Include="Users\Requests\CreateUserRequest.cs" />
     <Compile Include="Users\Requests\CreateUserResponse.cs" />
     <Compile Include="Users\Requests\PreviousMessagesRequest.cs" />

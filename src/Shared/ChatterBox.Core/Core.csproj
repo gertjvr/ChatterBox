@@ -67,6 +67,7 @@
     <Compile Include="AutofacModules\ServicesModule.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Infrastructure\AggregateRebuilder.cs" />
     <Compile Include="Infrastructure\AssemblyScanningTypesProvider.cs" />
     <Compile Include="Infrastructure\Constants.cs" />

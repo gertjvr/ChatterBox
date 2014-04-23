@@ -75,24 +75,30 @@ namespace ChatterBox.ChatServer.Handlers.Authentication
                 IEnumerable<Room> allowedRooms;
 
                 var user = _userRepository.GetByNameOrEmail(request.UserNameOrEmail);
-                if (user == null && _userRepository.Query(users => users.None()))
+                if (user == null)
                 {
-                    allowedRooms = Enumerable.Empty<Room>();
+                    if (_userRepository.Query(users => users.None()))
+                    {
+                        allowedRooms = Enumerable.Empty<Room>();
 
-                    var salt = _cryptoService.CreateSalt();
-                    var hashedPassword = request.Password.ToSha256(salt);
+                        var salt = _cryptoService.CreateSalt();
+                        var hashedPassword = request.Password.ToSha256(salt);
 
-                    user = new User(
-                        request.UserNameOrEmail,
-                        request.UserNameOrEmail,
-                        request.UserNameOrEmail.ToMD5(),
-                        salt,
-                        hashedPassword,
-                        _clock.UtcNow,
-                        UserRole.Admin);
+                        user = new User(
+                            request.UserNameOrEmail,
+                            request.UserNameOrEmail,
+                            request.UserNameOrEmail.ToMD5(),
+                            salt,
+                            hashedPassword,
+                            _clock.UtcNow,
+                            UserRole.Admin);
 
-
-                    _userRepository.Add(user);
+                        _userRepository.Add(user);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Authentication Failed");  
+                    }
                 }
                 else
                 {
@@ -109,7 +115,6 @@ namespace ChatterBox.ChatServer.Handlers.Authentication
                 var response = new AuthenticateUserResponse(
                     _userMapper.Map(user),
                     allowedRooms.Select(room => _roomMapper.Map(room)).ToArray(),
-                    Guid.NewGuid(),
                     user.Id);
 
                 _unitOfWork.Complete();

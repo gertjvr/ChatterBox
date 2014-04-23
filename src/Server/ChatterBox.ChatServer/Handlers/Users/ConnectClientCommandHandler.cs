@@ -4,19 +4,19 @@ using ChatterBox.Core.Infrastructure;
 using ChatterBox.Domain.Aggregates.ClientAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.Domain.Extensions;
-using ChatterBox.MessageContracts.Users.Requests;
+using ChatterBox.MessageContracts.Users.Commands;
 using Nimbus.Handlers;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
-    public class CreateClientRequestHandler : IHandleRequest<CreateClientRequest, CreateClientResponse>
+    public class ConnectClientCommandHandler : IHandleCommand<ConnectClientCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Client> _clientRepository; 
         private readonly IClock _clock;
 
-        public CreateClientRequestHandler(
+        public ConnectClientCommandHandler(
             IUnitOfWork unitOfWork, 
             IRepository<User> userRepository,
             IRepository<Client> clientRepository, 
@@ -40,28 +40,26 @@ namespace ChatterBox.ChatServer.Handlers.Users
             _clientRepository = clientRepository;
         }
 
-        public async Task<CreateClientResponse> Handle(CreateClientRequest request)
+        public async Task Handle(ConnectClientCommand command)
         {
-            if (request == null) 
-                throw new ArgumentNullException("request");
+            if (command == null) 
+                throw new ArgumentNullException("command");
 
             try
             {
-                var callingUser = _userRepository.VerifyUser(request.CallingUserId);
+                var callingUser = _userRepository.VerifyUser(command.CallingUserId);
 
-                var client = _clientRepository.GetById(request.ClientId);
+                var client = _clientRepository.GetById(command.ClientId);
                 if (client != null)
                 {
-                    return new CreateClientResponse(client.Id);
+                    return;
                 }
 
-                client = new Client(request.ClientId, callingUser.Id, request.UserAgent, _clock.UtcNow);
+                client = new Client(command.ClientId, callingUser.Id, command.UserAgent, _clock.UtcNow);
 
                 _clientRepository.Add(client);
 
                 _unitOfWork.Complete();
-
-                return new CreateClientResponse(client.Id);
             }
             catch
             {

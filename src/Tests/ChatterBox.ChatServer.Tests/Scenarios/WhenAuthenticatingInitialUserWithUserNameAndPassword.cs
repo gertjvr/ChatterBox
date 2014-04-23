@@ -16,7 +16,7 @@ using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
+    public class WhenAuthenticatingInitialUserWithUserNameAndPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
     {
         protected User User;
 
@@ -49,10 +49,12 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                 .Returns(User);
             
             var userMapper = Fixture.Freeze<IMapToNew<User, UserDto>>();
-            userMapper.Map(Arg.Is(User)).Returns(userDto);
+            userMapper.Map(Arg.Is(User))
+                .Returns(userDto);
 
             var cryptoService = Fixture.Freeze<ICryptoService>();
-            cryptoService.CreateSalt().Returns(Fixture.Create<string>());
+            cryptoService.CreateSalt()
+                .Returns(Fixture.Create<string>());
 
             return Fixture.Create<AuthenticateUserRequestHandler>();
         }

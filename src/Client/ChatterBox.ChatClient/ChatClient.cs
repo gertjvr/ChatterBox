@@ -49,11 +49,11 @@ namespace ChatterBox.ChatClient
 
             var response = await _bus.Request(new AuthenticateUserRequest(nameOrEmail, password));
 
-            _clientContext.SetClientId(response.ClientId);
-
             _userContext.SetUserId(
                 response.UserId, 
                 userMapper.Map(response.User));
+
+            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, "", _userContext.UserId));
             
             return logOnInfoMapper.Map(response);
         }

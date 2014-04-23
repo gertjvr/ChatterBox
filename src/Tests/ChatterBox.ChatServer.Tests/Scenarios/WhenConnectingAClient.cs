@@ -4,41 +4,35 @@ using ChatterBox.ChatServer.Handlers.Users;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Tests.Specifications;
 using ChatterBox.Domain.Aggregates.UserAggregate;
-using ChatterBox.MessageContracts.Users.Requests;
+using ChatterBox.MessageContracts.Users.Commands;
 using NSubstitute;
 using Ploeh.AutoFixture;
 using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenConnectingAClient : AutoSpecificationForAsync<CreateClientRequestHandler>
+    public class WhenConnectingAClient : AutoSpecificationForAsync<ConnectClientCommandHandler>
     {
         protected User CallingUser;
 
-        protected CreateClientRequest Request;
-        protected CreateClientResponse Response;
+        protected ConnectClientCommand Command;
 
-        protected override async Task<CreateClientRequestHandler> Given()
+        protected override async Task<ConnectClientCommandHandler> Given()
         {
             CallingUser = Fixture.Create<User>();
             
-            Request = new CreateClientRequest(Fixture.Create<Guid>(), Fixture.Create<string>(), CallingUser.Id);
+            Command = new ConnectClientCommand(Fixture.Create<Guid>(), Fixture.Create<string>(), CallingUser.Id);
 
             var repository = Fixture.Freeze<IRepository<User>>();
             repository.GetById(Arg.Is(CallingUser.Id))
                 .Returns(CallingUser);
 
-            return Fixture.Create<CreateClientRequestHandler>();
+            return Fixture.Create<ConnectClientCommandHandler>();
         }
 
         protected override async Task When()
         {
-            Response = await Subject.Handle(Request);
-        }
-
-        public void ShouldReturnCorrectClientId()
-        {
-            Response.ClientId.ShouldNotBe(Guid.Empty);
+            await Subject.Handle(Command);
         }
     }
 }

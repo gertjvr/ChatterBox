@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Autofac.Core;
+using ChatterBox.Core.Extensions;
 
 namespace ChatterBox.Core.Tests.IoC.Conventions
 {
-    public class AutofacContainerAssertion 
+    public class AutofacContainerAssertion : AutofacBaseAssertion
     {
         private readonly Func<Type, bool> _filter;
         private readonly Func<Type, bool> _isKnownOffender;
@@ -28,102 +29,40 @@ namespace ChatterBox.Core.Tests.IoC.Conventions
             _isKnownOffender = isKnownOffender;
         }
 
-        private void DemandCanBeResolved(ILifetimeScope scope, Type serviceType)
+        public override void Verify(IContainer container)
         {
-            try
+            var distinctTypes = container.ComponentRegistry.Registrations
+                .SelectMany(r => r.Services.OfType<TypedService>().Select(s => s.ServiceType).Union(GetGenericFactoryTypes(r)))
+                .Where(t => _filter(t))
+                .Distinct();
+
+            var exceptions = new List<Exception>();
+            foreach (var distinctType in distinctTypes)
             {
-                scope.Resolve(serviceType);
-            }
-            catch (DependencyResolutionException)
-            {
-                var componentRegistration = RegistrationForServiceType(serviceType,
-                    scope.ComponentRegistry);
-
-                var underlyingType = componentRegistration.Target.Activator.LimitType;
-                var factoryDelegateType = underlyingType.GetNestedType("Factory");
-
-                if (factoryDelegateType == null)
-                    throw;
-
-                var factoryDelegateParameters = factoryDelegateType.GetMethod("Invoke").GetParameters();
-                var constructorParameters = serviceType.GetConstructors().Single().GetParameters();
-
-                var constructorParameterTypes = constructorParameters.Select(p => p.ParameterType);
-                var factoryDelegateParameterTypes = factoryDelegateParameters.Select(p => p.ParameterType);
-                var parameterTypesThatMustBeResolvedFromTheContainer = constructorParameterTypes
-                    .Except(factoryDelegateParameterTypes)
-                    .ToArray();
-
-                foreach (var parameterType in parameterTypesThatMustBeResolvedFromTheContainer)
+                if (_isKnownOffender(distinctType))
                 {
-                    DemandCanBeResolved(scope, parameterType);
-                }
-            }
-        }
-
-        private IComponentRegistration RegistrationForServiceType(Type serviceType, IComponentRegistry componentRegistry)
-        {
-            IComponentRegistration componentRegistration = ExtractComponentRegistrations(componentRegistry)
-                .Where(candidate => candidate.TypedService.ServiceType == serviceType)
-                .Select(candidate => candidate.ComponentRegistration)
-                .First();
-            return componentRegistration;
-        }
-
-        private IEnumerable<Candidate> ExtractComponentRegistrations(IComponentRegistry componentRegistry)
-        {
-            return from r in componentRegistry.Registrations
-                   from s in r.Services
-                   where s is TypedService
-                   where _filter(((TypedService)s).ServiceType)
-                   orderby s.Description
-                   select new Candidate(r, (TypedService)s);
-        }
-
-        private class Candidate
-        {
-            public Candidate(IComponentRegistration componentRegistration, TypedService typedService)
-            {
-                ComponentRegistration = componentRegistration;
-                TypedService = typedService;
-            }
-
-            public IComponentRegistration ComponentRegistration { get; private set; }
-            public TypedService TypedService { get; private set; }
-        }
-
-        public void Verify(IContainer container)
-        {
-            var candidates = ExtractComponentRegistrations(container.ComponentRegistry).ToArray();
-
-            foreach (var candidate in candidates)
-            {
-                var serviceType = candidate.TypedService.ServiceType;
-
-                if (_isKnownOffender(serviceType))
-                {
-                    Console.WriteLine("'{0}' is known not to resolve correctly - ignoring it.", serviceType.FullName);
+                    Console.WriteLine("'{0}' is known not to resolve correctly - ignoring it.", distinctType.ToTypeNameString());
                     return;
                 }
 
                 try
                 {
-                    using (ILifetimeScope scope = container.BeginLifetimeScope("AutofacWebRequest"))
-                    {
-                        DemandCanBeResolved(scope, serviceType);
-                    }
+                    container.Resolve(distinctType);
                 }
-                catch (DependencyResolutionException ex)
+                catch (DependencyResolutionException e)
                 {
-                    if (ex.Message.Contains("No scope with a Tag"))
+                    if (e.Message.Contains("No scope with a Tag"))
                     {
-                        Console.WriteLine("'{0}' failed to resolve 'No scope with a Tag' - The test is considered inconclusive.", candidate.TypedService.Description);
+                        Console.WriteLine("'{0}' failed to resolve 'No scope with a Tag' - The test is considered inconclusive.", distinctType.ToTypeNameString());
                         return;
                     }
 
-                    throw;
+                    exceptions.Add(e);
                 }
             }
+
+            if (exceptions.Any())
+                throw new AggregateException("Can't resolve all types registered with Autofac", exceptions);
         }
     }
 }

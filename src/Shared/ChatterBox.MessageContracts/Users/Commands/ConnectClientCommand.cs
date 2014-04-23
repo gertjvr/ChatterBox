@@ -1,15 +1,15 @@
 ﻿using System;
 using Nimbus.MessageContracts;
 
-namespace ChatterBox.MessageContracts.Users.Requests
+namespace ChatterBox.MessageContracts.Users.Commands
 {
-    public class CreateClientRequest : IBusRequest<CreateClientRequest, CreateClientResponse>
+    public class ConnectClientCommand : IBusCommand
     {
-        protected CreateClientRequest()
+        protected ConnectClientCommand()
         {   
         }
         
-        public CreateClientRequest(Guid clientId, string userAgent, Guid callingUserId)
+        public ConnectClientCommand(Guid clientId, string userAgent, Guid callingUserId)
         {
             if (callingUserId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "callingUserId");

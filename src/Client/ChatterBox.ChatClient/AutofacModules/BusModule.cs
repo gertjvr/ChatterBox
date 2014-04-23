@@ -23,7 +23,6 @@ namespace ChatterBox.ChatClient.AutofacModules
             var handlerTypesProvider = new AssemblyScanningTypeProvider(appServerAssembly, messageContractsAssembly);
 
             builder.RegisterNimbus(handlerTypesProvider);
-
             builder.Register(componentContext => new BusBuilder()
                 .Configure()
                 .WithConnectionString(ConnectionString(componentContext.Resolve<NimbusConnectionStringSetting>()))
