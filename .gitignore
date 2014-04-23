@@ -4,5 +4,13 @@
 [Bb]in
 [Cc]sx
 [Rr]cf
-_ReSharper.*
 [Ll]ogs
+
+#resharper
+_ReSharper*/
+_ReSharper.*
+
+#ncrunch
+*.ncrunchproject
+*.ncrunchsolution
+_NCrunch*/

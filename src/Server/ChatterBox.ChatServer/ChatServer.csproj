@@ -53,14 +53,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.InfrastructureContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Nimbus.InfrastructureContracts.1.3.0.2\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Nimbus.MessageContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.3.0.2\lib\net45\Nimbus.MessageContracts.dll</HintPath>
-    </Reference>
     <Reference Include="Seq.Client.Serilog">
       <HintPath>..\..\..\packages\Seq.Client.Serilog.2.0.11\lib\net45\Seq.Client.Serilog.dll</HintPath>
     </Reference>
@@ -156,6 +148,14 @@
     <ProjectReference Include="..\..\..\submodules\Nimbus\src\Extensions\Nimbus.Serializers.Json\Nimbus.Serializers.Json.csproj">
       <Project>{109fb118-fa9a-4eb2-88af-f66c973ce50f}</Project>
       <Name>Nimbus.Serializers.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\submodules\Nimbus\src\Nimbus.InfrastructureContracts\Nimbus.InfrastructureContracts.csproj">
+      <Project>{d59397d3-f595-45ab-9bf8-4615c298545b}</Project>
+      <Name>Nimbus.InfrastructureContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\submodules\Nimbus\src\Nimbus.MessageContracts\Nimbus.MessageContracts.csproj">
+      <Project>{702a4f7e-97c5-4651-b704-65c6d0d70c1c}</Project>
+      <Name>Nimbus.MessageContracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\submodules\Nimbus\src\Nimbus\Nimbus.csproj">
       <Project>{1b793c01-e824-4449-b93d-277626b1791f}</Project>

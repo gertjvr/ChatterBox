@@ -16,7 +16,7 @@ using Shouldly;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios
 {
-    public class WhenAuthenticatingInitialUserWithUserNameAndPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
+    public class WhenAuthenticatingFirstUserWithUserNameAndPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
     {
         protected User User;
 
@@ -26,31 +26,9 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
         protected override async Task<AuthenticateUserRequestHandler> Given()
         {
             var userName = Fixture.Create<string>();
-            var salt = Fixture.Create<string>();
             var password = Fixture.Create<string>();
-            var hashedPassword = password.ToSha256(salt);
-
-            Request = new AuthenticateUserRequest(userName, password);
-
-            User = Fixture.Build<User>()
-                .Do(u => u.UpdateSalt(salt))
-                .Do(u => u.UpdatePassword(hashedPassword))
-                .Create();
-
-            var userDto = new UserDto(
-                User.Name, 
-                User.Hash, 
-                User.LastActivity, 
-                (int)User.Status, 
-                (int)User.UserRole);
-
-            var repository = Fixture.Freeze<IRepository<User>>();
-            repository.Query(Arg.Any<Func<IQueryable<User>, User>>())
-                .Returns(User);
             
-            var userMapper = Fixture.Freeze<IMapToNew<User, UserDto>>();
-            userMapper.Map(Arg.Is(User))
-                .Returns(userDto);
+            Request = new AuthenticateUserRequest(userName, password);
 
             var cryptoService = Fixture.Freeze<ICryptoService>();
             cryptoService.CreateSalt()

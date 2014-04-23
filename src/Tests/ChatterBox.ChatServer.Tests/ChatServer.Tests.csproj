@@ -103,8 +103,8 @@
     <Compile Include="IoC\Conventions\AllTypesRegisteredWithTheServerContainer.cs" />
     <Compile Include="MessageContracts\Conventions\AllTypesNamesEndingWithEvent.cs" />
     <Compile Include="MessageContracts\Conventions\AllTypesMessageContractProperties.cs" />
-    <Compile Include="Scenarios\WhenAuthenticatingInitialUserWithUserNameAndPassword.cs" />
-    <Compile Include="Scenarios\WhenAuthenticatingAUserSuccesfully.cs" />
+    <Compile Include="Scenarios\WhenAuthenticatingFirstUserWithUserNameAndPassword.cs" />
+    <Compile Include="Scenarios\WhenAuthenticatingAUserWithUserNameAndPassword.cs" />
     <Compile Include="Scenarios\WhenChangingAUserName.cs" />
     <Compile Include="Scenarios\WhenConnectingAClient.cs" />
     <Compile Include="Scenarios\WhenCreatingAUser.cs" />
