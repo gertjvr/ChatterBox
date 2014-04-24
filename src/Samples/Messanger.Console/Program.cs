@@ -88,7 +88,7 @@ namespace Messanger.Console
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = scope.Resolve<IRepository<Room>>();
 
-                var room = new Room(name, ownerId);
+                var room = new Room(name, ownerId, string.Empty, string.Empty, false);
 
                 repo.Add(room);
                 uow.Complete();
