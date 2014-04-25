@@ -95,9 +95,15 @@
     <Compile Include="AutofacModules\SubstituteModule.cs" />
     <Compile Include="Handlers\AllHandlerTypes.cs" />
     <Compile Include="IoC\Conventions\AllTypesRegisteredWithTheServerContainer.cs" />
+    <Compile Include="Mappings\AllMappingTypes.cs" />
+    <Compile Include="Mappings\WhenMappingMessageToMessageDto.cs" />
+    <Compile Include="Mappings\WhenMappingRoomToRoomDto.cs" />
+    <Compile Include="Mappings\WhenMappingUserToUserDto.cs" />
     <Compile Include="MessageContracts\Conventions\AllTypesNamesEndingWithEvent.cs" />
-    <Compile Include="Scenarios\WhenAuthenticatingFirstUserWithUserNameAndPassword.cs" />
-    <Compile Include="Scenarios\WhenAuthenticatingAUserWithUserNameAndPassword.cs" />
+    <Compile Include="Scenarios\Authentication\WhenAuthenticatingAUserWithUserNameAndIncorrectPassword.cs" />
+    <Compile Include="Scenarios\Authentication\WhenAuthenticatingFirstUserWithUserNameAndPassword.cs" />
+    <Compile Include="Scenarios\Authentication\WhenAuthenticatingUserWithIncorrectUsername.cs" />
+    <Compile Include="Scenarios\Authentication\WhenAuthenticatingAUserWithUserNameAndPassword.cs" />
     <Compile Include="Scenarios\WhenChangingAUserName.cs" />
     <Compile Include="Scenarios\WhenConnectingAClient.cs" />
     <Compile Include="Scenarios\WhenCreatingAUser.cs" />

@@ -46,6 +46,10 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
             if (source == null)
                 return null;
 
+            var users = source.Users.Select(userId => _userMapper.Map(_userRepository.Query(users1 => users1.First(user => user.Id == userId)))).ToArray();
+            var owners = source.Owners.Select(ownerId => _userMapper.Map(_userRepository.Query(users1 => users1.First(user => user.Id == ownerId)))).ToArray();
+            var recentMessages = _messageRepository.GetMessages().Select(message => _messageMapper.Map(message));
+
             return new RoomDto(
                 source.Name,
                 0,
@@ -53,10 +57,9 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
                 source.Topic,
                 source.Closed,
                 source.WelcomeMessage,
-                source.Users.Select(contactId => _userMapper.Map(_userRepository.Query(users => users.First(user => user.Id == contactId)))).ToArray(),
-                source.Owners.Select(ownerId => _userMapper.Map(_userRepository.Query(users => users.First(user => user.Id == ownerId)))).ToArray(),
-                _messageRepository.GetMessages(10)
-                    .Select(message => _messageMapper.Map(message)));
+                users,
+                owners,
+                recentMessages);
         }
     }
 }

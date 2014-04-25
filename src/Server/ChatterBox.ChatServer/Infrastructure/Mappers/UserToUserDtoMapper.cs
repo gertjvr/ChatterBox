@@ -1,4 +1,5 @@
-﻿using ChatterBox.Core.Mapping;
+﻿using System;
+using ChatterBox.Core.Mapping;
 using ChatterBox.Domain.Aggregates.UserAggregate;
 using ChatterBox.MessageContracts.Dtos;
 

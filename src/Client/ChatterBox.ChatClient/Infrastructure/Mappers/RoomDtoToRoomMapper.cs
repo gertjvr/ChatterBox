@@ -24,11 +24,11 @@ namespace ChatterBox.ChatClient.Infrastructure.Mappers
             {
                 Name = source.Name,
                 Count = source.Count,
-                Private = source.Private,
+                Private = source.PrivateRoom,
                 Topic = source.Topic,
                 Closed = source.Closed,
-                Welcome = source.Welcome,
-                Contacts = source.Contacts.Select(user => _userMapper.Map(user)).ToList()
+                Welcome = source.WelcomeMessage,
+                Contacts = source.Users.Select(user => _userMapper.Map(user)).ToList()
             };
         }
     }

@@ -31,11 +31,13 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
             if (source == null)
                 return null;
 
+            var user = _userRepository.GetById(source.UserId);
+
             return new MessageDto(
                 source.Id,
                 source.Content,
                 source.CreatedAt,
-                _userMapper.Map(_userRepository.GetById(source.UserId)));
+                _userMapper.Map(user));
         }
     }
 }

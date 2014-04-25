@@ -5,8 +5,8 @@ namespace ChatterBox.MessageContracts.Dtos
 {
     public class RoomDto : IDto
     {
-        public RoomDto(string name, int count, bool @private, string topic, bool closed, string welcome,
-            IEnumerable<UserDto> contacts, IEnumerable<UserDto> owners, IEnumerable<MessageDto> recentMessages)
+        public RoomDto(string name, int count, bool privateRoom, string topic, bool closed, string welcomeMessage,
+            IEnumerable<UserDto> users, IEnumerable<UserDto> owners, IEnumerable<MessageDto> recentMessages)
         {
             if (name == null) 
                 throw new ArgumentNullException("name");
@@ -14,11 +14,11 @@ namespace ChatterBox.MessageContracts.Dtos
             if (topic == null) 
                 throw new ArgumentNullException("topic");
             
-            if (welcome == null) 
-                throw new ArgumentNullException("welcome");
+            if (welcomeMessage == null) 
+                throw new ArgumentNullException("welcomeMessage");
             
-            if (contacts == null) 
-                throw new ArgumentNullException("contacts");
+            if (users == null) 
+                throw new ArgumentNullException("users");
             
             if (owners == null) 
                 throw new ArgumentNullException("owners");
@@ -28,22 +28,22 @@ namespace ChatterBox.MessageContracts.Dtos
 
             Name = name;
             Count = count;
-            Private = @private;
+            PrivateRoom = privateRoom;
             Topic = topic;
             Closed = closed;
-            Welcome = welcome;
-            Contacts = contacts;
+            WelcomeMessage = welcomeMessage;
+            Users = users;
             Owners = owners;
             RecentMessages = recentMessages;
         }
 
         public string Name { get; private set; }
         public int Count { get; private set; }
-        public bool Private { get; private set; }
+        public bool PrivateRoom { get; private set; }
         public string Topic { get; private set; }
         public bool Closed { get; private set; }
-        public string Welcome { get; private set; }
-        public IEnumerable<UserDto> Contacts { get; private set; }
+        public string WelcomeMessage { get; private set; }
+        public IEnumerable<UserDto> Users { get; private set; }
         public IEnumerable<UserDto> Owners { get; private set; }
         public IEnumerable<MessageDto> RecentMessages { get; private set; }
     }

@@ -85,7 +85,6 @@ namespace ChatterBox.ChatServer.Handlers.Authentication
                         var hashedPassword = request.Password.ToSha256(salt);
 
                         user = new User(
-                            Guid.NewGuid(),
                             "Admin",
                             request.UserName,
                             request.UserName.ToMD5(),
@@ -98,7 +97,7 @@ namespace ChatterBox.ChatServer.Handlers.Authentication
                     }
                     else
                     {
-                        throw new InvalidOperationException("Authentication Failed");  
+                        throw new InvalidOperationException("Authentication Failed.");  
                     }
                 }
                 else
@@ -107,7 +106,7 @@ namespace ChatterBox.ChatServer.Handlers.Authentication
 
                     if (user.HashedPassword != request.Password.ToSha256(user.Salt))
                     {
-                        throw new InvalidOperationException("Authentication Failed");
+                        throw new InvalidOperationException("Authentication Failed.");
                     }
 
                     user.UpdateLastActivity(_clock.UtcNow);

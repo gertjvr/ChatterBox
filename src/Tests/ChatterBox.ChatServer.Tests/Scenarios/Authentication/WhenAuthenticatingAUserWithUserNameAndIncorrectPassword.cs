@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers.Authentication;
-using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Infrastructure;
+using ChatterBox.Core.Infrastructure.Queries;
 using ChatterBox.Core.Mapping;
 using ChatterBox.Core.Services;
 using ChatterBox.Core.Tests;
@@ -16,18 +16,16 @@ using Ploeh.AutoFixture;
 using Shouldly;
 using ThirdDrawer.Extensions.StringExtensionMethods;
 
-namespace ChatterBox.ChatServer.Tests.Scenarios
+namespace ChatterBox.ChatServer.Tests.Scenarios.Authentication
 {
-    public class WhenAuthenticatingAUserWithUserNameAndPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
+    public class WhenAuthenticatingAUserWithUserNameAndIncorrectPassword : AutoSpecificationForAsync<AuthenticateUserRequestHandler>
     {
         protected User User;
         protected IClock Clock;
 
         protected IRepository<User> Repository;
-        protected IUnitOfWork UnitOfWork;
 
         protected AuthenticateUserRequest Request;
-        protected AuthenticateUserResponse Response;
 
         protected string UserName;
         protected string EmailAddress;
@@ -46,61 +44,24 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
 
             User = ObjectMother.CreateUser(UserName, EmailAddress, Salt, Password, Clock.UtcNow);
 
-            Request = new AuthenticateUserRequest(UserName, Password);
-
-            UnitOfWork = Fixture.Freeze<IUnitOfWork>();
+            Request = new AuthenticateUserRequest(UserName, Fixture.Create<string>());
 
             Repository = Fixture.Freeze<IRepository<User>>();
             Repository.Query(Arg.Any<Func<IQueryable<User>, User>>())
                 .Returns(User);
-
-            var userMapper = Fixture.Freeze<IMapToNew<User, UserDto>>();
-            userMapper.Map(Arg.Any<User>()).Returns(info =>
-            {
-                var user = info.Arg<User>();
-                return new UserDto(
-                    user.Name,
-                    user.Hash,
-                    user.LastActivity,
-                    (int)user.Status,
-                    (int)user.Role);
-            });
-
-            var cryptoService = Fixture.Freeze<ICryptoService>();
-            cryptoService.CreateSalt().Returns(Fixture.Create<string>());
 
             return Fixture.Create<AuthenticateUserRequestHandler>();
         }
 
         protected override async Task When()
         {
-            Response = await Subject.Handle(Request);
         }
 
+        [Then]
         public void ShouldNotCreatedAdminUser()
         {
-            Repository.DidNotReceive().Add(Arg.Any<User>());
-            UnitOfWork.Received(1).Complete();
-        }
-
-        public void ShouldHaveUserName()
-        {
-            Response.User.Name.ShouldBe(UserName);
-        }
-
-        public void ShouldHaveHash()
-        {
-            Response.User.Hash.ShouldBe(EmailAddress.ToMD5());
-        }
-
-        public void ShouldHaveAdminUserRole()
-        {
-            Response.User.UserRole.ShouldBe((int)User.Role);
-        }
-
-        public void ShouldHaveUserId()
-        {
-            Response.UserId.ShouldNotBe(Guid.Empty);
+            var e = Should.Throw<InvalidOperationException>(async () => await Subject.Handle(Request));
+            e.Message.ShouldBe("Authentication Failed.");
         }
 
     }
