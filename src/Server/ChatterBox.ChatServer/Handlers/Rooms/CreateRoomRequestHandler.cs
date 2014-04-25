@@ -57,7 +57,7 @@ namespace ChatterBox.ChatServer.Handlers.Rooms
                     }
                 }
 
-                var room = new Room(request.RoomName, request.CallingUserId, string.Empty, string.Empty, false);
+                var room = new Room(request.RoomName, callingUser.Id, string.Empty, string.Empty, false);
 
                 _roomRepository.Add(room);
 

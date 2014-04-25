@@ -52,7 +52,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                 targetRoom.EnsureOpen();
                 targetRoom.EnsureOwnerOrAdmin(callingUser);
 
-                targetRoom.ChangeTopic(command.NewTopic);
+                targetRoom.UpdateTopic(command.NewTopic);
 
                 _unitOfWork.Complete();
 

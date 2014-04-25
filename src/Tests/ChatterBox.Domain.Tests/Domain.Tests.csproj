@@ -81,6 +81,16 @@
     </Compile>
     <Compile Include="Aggregates\ClientAggregate\WhenUpdatingClientLastActivity.cs" />
     <Compile Include="Aggregates\ClientAggregate\WhenUpdatingClientUserAgent.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenAllowingUserToRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenClosingRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenDeregisteringOwnerForRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenOpeningRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenRegisteringOwnerForRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenSettingInviteCodeForRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenUnallowingUserToRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenUpdatingRoomTopic.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenUserJoinsTheRoom.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenUserLeavesTheRoom.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserLastActivity.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenDeregisteringUserClient.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenReceivingPrivateMessage.cs" />
@@ -90,6 +100,7 @@
     <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserRole.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserSalt.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserStatus.cs" />
+    <Compile Include="Aggregates\RoomAggregate\WhenUpdatingRoomWelcomeMessage.cs" />
     <Compile Include="Conventions\AllDomainTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

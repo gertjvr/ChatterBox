@@ -3,9 +3,9 @@ using ChatterBox.Core.Infrastructure.Facts;
 
 namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
 {
-    public class RoomTopicChangedFact : FactAbout<Room>
+    public class RoomTopicUpdatedFact : FactAbout<Room>
     {
-        public RoomTopicChangedFact(
+        public RoomTopicUpdatedFact(
             Guid aggregateRootId, 
             string newTopic) 
             : base(aggregateRootId)

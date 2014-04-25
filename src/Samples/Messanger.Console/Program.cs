@@ -17,29 +17,27 @@ namespace Messanger.Console
         {
             _container = IoC.LetThereBeIoC();
 
-            var fredId = CreateUser("fred", "fred@rocks.com", "test@password");
-            var wilmaId = CreateUser("wilma", "wilma@rocks.com", "test@password");
+            var fred = CreateUser("fred", "fred@rocks.com", "test@password");
+            var wilma = CreateUser("wilma", "wilma@rocks.com", "test@password");
 
-            var roomId = CreateRoom(string.Empty, fredId);
+            var roomId = CreateRoom(string.Empty, fred);
 
-            ChangeRoomTopic(roomId, "New Topic", fredId);
+            ChangeRoomTopic(roomId, "New Topic");
 
-            CreateMessage(roomId, fredId, "Hello Wilma");
+            CreateMessage(roomId, fred, "Hello Wilma");
 
-            var pebblesId = CreateUser("pebbles", "pebbles@rocks.com", "test@password");
+            var pebbles = CreateUser("pebbles", "pebbles@rocks.com", "test@password");
 
-            AddUserToRoom(roomId, pebblesId);
+            AddUserToRoom(roomId, pebbles);
         }
 
-        private static void AddUserToRoom(Guid roomId, Guid userId)
+        private static void AddUserToRoom(Guid roomId, User user)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
-                var userRepo = scope.Resolve<IRepository<User>>();
                 var roomRepo = scope.Resolve<IRepository<Room>>();
 
-                var user = userRepo.GetById(roomId);
                 var room = roomRepo.GetById(roomId);
 
                 room.Join(user);
@@ -48,7 +46,7 @@ namespace Messanger.Console
             }
         }
 
-        private static void ChangeRoomTopic(Guid roomId, string newTopic, Guid userId)
+        private static void ChangeRoomTopic(Guid roomId, string newTopic)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
@@ -57,13 +55,13 @@ namespace Messanger.Console
                 
                 var room = repo.GetById(roomId);
 
-                room.ChangeTopic(newTopic);
+                room.UpdateTopic(newTopic);
 
                 uow.Complete();
             }
         }
 
-        private static Guid CreateUser(string name,string email, string password)
+        private static User CreateUser(string name,string email, string password)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
@@ -77,18 +75,18 @@ namespace Messanger.Console
                 repo.Add(user);
                 uow.Complete();
 
-                return user.Id;
+                return user;
             }
         }
 
-        private static Guid CreateRoom(string name, Guid ownerId)
+        private static Guid CreateRoom(string name, User owner)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
                 var uow = scope.Resolve<IUnitOfWork>();
                 var repo = scope.Resolve<IRepository<Room>>();
 
-                var room = new Room(name, ownerId, string.Empty, string.Empty, false);
+                var room = new Room(name, owner.Id, string.Empty, string.Empty, false);
 
                 repo.Add(room);
                 uow.Complete();
@@ -97,7 +95,7 @@ namespace Messanger.Console
             }
         }
 
-        private static Guid CreateMessage(Guid roomId, Guid userId, string content)
+        private static Guid CreateMessage(Guid roomId, User user, string content)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
@@ -105,7 +103,7 @@ namespace Messanger.Console
                 var repo = scope.Resolve<IRepository<Message>>();
                 var clock = scope.Resolve<IClock>();
 
-                var message = new Message(roomId, userId, content, clock.UtcNow);
+                var message = new Message(roomId, user.Id, content, clock.UtcNow);
 
                 repo.Add(message);
                 uow.Complete();

@@ -60,7 +60,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                     throw new Exception("{0} is not an owner of {1}.".FormatWith(targetUser.Name, targetRoom.Name));
                 }
 
-                targetRoom.RemoveOwner(targetUser);
+                targetRoom.DeregisterOwner(targetUser);
 
                 _unitOfWork.Complete();
 

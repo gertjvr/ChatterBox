@@ -4,9 +4,9 @@ using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.RoomAggregate.Facts
 {
-    public class OwnerAddedFact : FactAbout<Room>
+    public class OwnerRegisteredFact : FactAbout<Room>
     {
-        public OwnerAddedFact(
+        public OwnerRegisteredFact(
             Guid aggregateRootId, 
             Guid ownerId)
             : base(aggregateRootId)

@@ -52,7 +52,7 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
                 source.PrivateRoom,
                 source.Topic,
                 source.Closed,
-                source.Welcome,
+                source.WelcomeMessage,
                 source.Users.Select(contactId => _userMapper.Map(_userRepository.Query(users => users.First(user => user.Id == contactId)))).ToArray(),
                 source.Owners.Select(ownerId => _userMapper.Map(_userRepository.Query(users => users.First(user => user.Id == ownerId)))).ToArray(),
                 _messageRepository.GetMessages(10)

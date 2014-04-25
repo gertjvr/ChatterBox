@@ -53,7 +53,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
 
                 targetRoom.EnsureOwnerOrAdmin(callingUser);
 
-                targetRoom.AddOwner(targetUser);
+                targetRoom.RegisterOwner(targetUser);
 
                 if (targetRoom.PrivateRoom)
                 {

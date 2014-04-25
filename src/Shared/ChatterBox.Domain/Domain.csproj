@@ -65,10 +65,11 @@
     <Compile Include="Aggregates\MessageAggregate\Facts\MessageCreatedFact.cs" />
     <Compile Include="Aggregates\MessageAggregate\Message.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\InviteCodeSetFact.cs" />
-    <Compile Include="Aggregates\RoomAggregate\Facts\OwnerAddedFact.cs" />
+    <Compile Include="Aggregates\RoomAggregate\Facts\OwnerRegisteredFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\OwnerRemovedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomClosedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomOpenedFact.cs" />
+    <Compile Include="Aggregates\RoomAggregate\Facts\RoomWelcomeMessageUpdatedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserAllowedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserLeftFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserUnallowedFact.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="Aggregates\UserAggregate\Facts\UserCreatedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserJoinedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\RoomCreatedFact.cs" />
-    <Compile Include="Aggregates\RoomAggregate\Facts\RoomTopicChangedFact.cs" />
+    <Compile Include="Aggregates\RoomAggregate\Facts\RoomTopicUpdatedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\Facts\UserIdentityCreatedFact.cs" />
     <Compile Include="Aggregates\UserIdentityAggregate\UserIdentity.cs" />
     <Compile Include="ConfigurationSettings\AllowRoomCreationSetting.cs" />
