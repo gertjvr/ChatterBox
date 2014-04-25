@@ -22,7 +22,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.ClientAggregate
         }
 
         [Then]
-        public void ContainsCorrectPendingFact()
+        public void ShouldHaveUpdatedClientUserAgent()
         {
             Subject.UserAgent.ShouldBe(NewUserAgent);
         }

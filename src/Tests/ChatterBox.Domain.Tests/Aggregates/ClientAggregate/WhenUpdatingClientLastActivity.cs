@@ -23,7 +23,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.ClientAggregate
         }
 
         [Then]
-        public void ContainsCorrectPendingFact()
+        public void ShouldHaveUpdatedClientLastActivity()
         {
             Subject.LastActivity.ShouldBe(NewActivity);
         }
