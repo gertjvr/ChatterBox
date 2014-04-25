@@ -52,7 +52,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
                     throw new Exception(LanguageResources.UserAlreadyAdmin.FormatWith(targetUser.Name));
                 }
 
-                targetUser.UpdateUserRole(UserRole.Admin);
+                targetUser.UpdateRole(UserRole.Admin);
 
                 _unitOfWork.Complete();
 

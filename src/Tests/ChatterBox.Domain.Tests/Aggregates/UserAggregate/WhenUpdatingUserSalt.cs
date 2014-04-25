@@ -22,7 +22,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
         }
 
         [Then]
-        public void ContainsCorrectPendingFact()
+        public void ShouldHaveUpdatedUserSalt()
         {
             Subject.Salt.ShouldBe(NewSalt);
         }

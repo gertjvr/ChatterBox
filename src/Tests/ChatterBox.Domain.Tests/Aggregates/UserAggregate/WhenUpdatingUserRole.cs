@@ -7,7 +7,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
 {
     public class WhenUpdatingUserRole : AutoSpecificationFor<User>
     {
-        public UserRole NewUserRole { get; private set; }
+        public UserRole NewRole { get; private set; }
 
         protected override User Given()
         {
@@ -16,13 +16,13 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
 
         protected override void When()
         {
-            Subject.UpdateUserRole(NewUserRole);
+            Subject.UpdateRole(NewRole);
         }
 
         [Then]
-        public void ContainsCorrectPendingFact()
+        public void ShouldHaveUpdatedUserRole()
         {
-            Subject.Role.ShouldBe(NewUserRole);
+            Subject.Role.ShouldBe(NewRole);
         }
     }
 }

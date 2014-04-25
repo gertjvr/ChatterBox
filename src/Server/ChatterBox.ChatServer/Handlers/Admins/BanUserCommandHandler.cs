@@ -51,7 +51,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
                     throw new Exception(LanguageResources.Ban_CannotBanAdmin);
                 }
 
-                targetUser.UpdateUserRole(UserRole.Banned);
+                targetUser.UpdateRole(UserRole.Banned);
 
                 _unitOfWork.Complete();
 

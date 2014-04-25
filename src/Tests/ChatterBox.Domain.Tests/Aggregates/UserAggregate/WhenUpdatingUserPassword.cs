@@ -23,7 +23,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
         }
 
         [Then]
-        public void ContainsCorrectPendingFact()
+        public void ShouldHaveUpdatedAndHashedUserPassword()
         {
             Subject.HashedPassword.ShouldBe(NewPassword.ToSha256(Subject.Salt));
         }

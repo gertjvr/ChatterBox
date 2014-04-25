@@ -7,24 +7,24 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
 {
     public class WhenUpdatingUserStatus : AutoSpecificationFor<User>
     {
-        public UserStatus NewUserStatus { get; private set; }
+        public UserStatus NewStatus { get; private set; }
 
         protected override User Given()
         {
-            NewUserStatus = Fixture.Create<UserStatus>();
+            NewStatus = Fixture.Create<UserStatus>();
 
             return Fixture.Create<User>();
         }
 
         protected override void When()
         {
-            Subject.UpdateStatus(NewUserStatus);
+            Subject.UpdateStatus(NewStatus);
         }
 
         [Then]
-        public void ContainsCorrectPendingFact()
+        public void ShouldHaveUpdatedUserStatus()
         {
-            Subject.Status.ShouldBe(NewUserStatus);
+            Subject.Status.ShouldBe(NewStatus);
         }
     }
 }

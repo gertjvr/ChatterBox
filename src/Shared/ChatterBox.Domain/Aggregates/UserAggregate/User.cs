@@ -179,7 +179,7 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             EmailAddress = fact.NewEmailAddress;
         }
 
-        public void UpdateUserRole(UserRole userRole)
+        public void UpdateRole(UserRole userRole)
         {
             var fact = new UserRoleUpdatedFact(Id, userRole);
 

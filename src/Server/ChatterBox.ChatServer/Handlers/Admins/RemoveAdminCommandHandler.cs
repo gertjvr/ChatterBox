@@ -50,7 +50,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
                     throw new Exception(String.Format(LanguageResources.UserNotAdmin, targetUser.Name));
                 }
 
-                targetUser.UpdateUserRole(UserRole.User);
+                targetUser.UpdateRole(UserRole.User);
 
                 _unitOfWork.Complete();
 

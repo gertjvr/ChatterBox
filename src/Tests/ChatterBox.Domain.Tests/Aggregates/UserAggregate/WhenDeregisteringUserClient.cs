@@ -23,7 +23,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
         }
 
         [Then]
-        public void ContainsCorrectPendingFact()
+        public void ShouldHaveDeregisteredUserClient()
         {
             Subject.ConnectedClients().ShouldNotContain(Client.Id);
         }
