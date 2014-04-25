@@ -18,7 +18,7 @@ namespace ChatterBox.Domain.Extensions
 
         public static bool IsUserAllowed(this Room room, User user)
         {
-            return room.AllowedUsers.Contains(user.Id) || room.Owners.Contains(user.Id) || user.IsAdmin;
+            return room.AllowedUsers.Contains(user.Id) || room.Owners.Contains(user.Id) || user.IsAdministrator();
         }
 
         public static void EnsureOpen(this Room room)
@@ -31,7 +31,7 @@ namespace ChatterBox.Domain.Extensions
 
         public static void EnsureAdmin(this User user)
         {
-            if (!user.IsAdmin)
+            if (!user.IsAdministrator())
             {
                 throw new Exception("You are not an admin.");
             }
@@ -39,10 +39,20 @@ namespace ChatterBox.Domain.Extensions
 
         public static void EnsureOwnerOrAdmin(this Room room, User user)
         {
-            if (!room.Owners.Contains(user.Id) && user.IsAdmin)
+            if (!room.Owners.Contains(user.Id) && user.IsAdministrator())
             {
                 throw new Exception("You are not an owner of {0}.".FormatWith(room.Name));
             }
+        }
+
+        public static bool IsAdministrator(this User user)
+        {
+            return user.Role == UserRole.Admin;
+        }
+        
+        public static bool IsBanned(this User user)
+        {
+            return user.Role == UserRole.Banned;
         }
     }
 }

@@ -51,6 +51,7 @@ namespace ChatterBox.ChatServer.Handlers.Users
                 var hashedPassword = request.Password.ToSha256(salt);
 
                 var user = new User(
+                    Guid.NewGuid(),
                     request.UserName,
                     request.Email,
                     request.Email.ToMD5(),

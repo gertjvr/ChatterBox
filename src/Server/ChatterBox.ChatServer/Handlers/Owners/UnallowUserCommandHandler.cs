@@ -51,7 +51,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                 var targetUser = _userRepository.VerifyUser(command.TargetUserId);
                 var targetRoom = _roomRepository.VerifyRoom(command.TargetRoomId);
 
-                if (!targetRoom.Owners.Contains(targetUser.Id) && targetUser.IsAdmin)
+                if (!targetRoom.Owners.Contains(targetUser.Id) && targetUser.IsAdministrator())
                 {
                     throw new Exception("You are not an owner of {0}.".FormatWith(targetRoom.Name));
                 }
@@ -71,12 +71,12 @@ namespace ChatterBox.ChatServer.Handlers.Owners
                     throw new Exception("{0} isn't allowed to access {1}.".FormatWith(targetUser.Name, targetRoom.Name));
                 }
 
-                if (callingUser.IsAdmin == false && targetUser.IsAdmin)
+                if (callingUser.IsAdministrator() == false && targetUser.IsAdministrator())
                 {
                     throw new Exception("You cannot unallow an admin. Only admin can unallow admin.");
                 }
 
-                if (targetRoom.CreatorId != callingUser.Id && targetRoom.Owners.Contains(targetUser.Id) && callingUser.IsAdmin == false)
+                if (targetRoom.CreatorId != callingUser.Id && targetRoom.Owners.Contains(targetUser.Id) && callingUser.IsAdministrator() == false)
                 {
                     throw new Exception("Owners cannot unallow other owners. Only the room creator can unallow an owner.");
                 }

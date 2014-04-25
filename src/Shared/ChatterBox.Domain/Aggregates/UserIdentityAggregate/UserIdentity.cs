@@ -12,7 +12,15 @@ namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate
         }
 
         public UserIdentity(Guid userId, string email, string identity, string providerName)
+            : this(Guid.NewGuid(), userId, email, identity, providerName)
+        {   
+        }
+
+        public UserIdentity(Guid id, Guid userId, string email, string identity, string providerName)
         {
+            if (id == null)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "id");
+
             if (userId == Guid.Empty)
                 throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
 
@@ -26,7 +34,7 @@ namespace ChatterBox.Domain.Aggregates.UserIdentityAggregate
                 throw new ArgumentNullException("providerName");
 
             var fact = new UserIdentityCreatedFact(
-                Guid.NewGuid(),
+                id,
                 userId,
                 email,
                 identity,

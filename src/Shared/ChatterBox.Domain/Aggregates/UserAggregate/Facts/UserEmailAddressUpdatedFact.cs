@@ -3,9 +3,9 @@ using ChatterBox.Core.Infrastructure.Facts;
 
 namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
 {
-    public class EmailAddressUpdatedFact: FactAbout<User>
+    public class UserEmailAddressUpdatedFact: FactAbout<User>
     {
-        public EmailAddressUpdatedFact(
+        public UserEmailAddressUpdatedFact(
             Guid aggregateRootId, 
             string newEmailAddress) 
             : base(aggregateRootId)

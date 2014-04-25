@@ -16,7 +16,7 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
                 source.Hash,
                 source.LastActivity,
                 (int)source.Status,
-                (int)source.UserRole);
+                (int)source.Role);
         }
     }
 }

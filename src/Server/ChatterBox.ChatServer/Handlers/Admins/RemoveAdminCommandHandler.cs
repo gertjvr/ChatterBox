@@ -45,7 +45,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
 
                 callingUser.EnsureAdmin();
 
-                if (!targetUser.IsAdmin)
+                if (!targetUser.IsAdministrator())
                 {
                     throw new Exception(String.Format(LanguageResources.UserNotAdmin, targetUser.Name));
                 }
@@ -54,7 +54,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
 
                 _unitOfWork.Complete();
 
-                await _bus.Publish(new UserRoleChangedEvent(targetUser.Id, targetUser.Name, (int)targetUser.UserRole));
+                await _bus.Publish(new UserRoleChangedEvent(targetUser.Id, targetUser.Name, (int)targetUser.Role));
             }
             catch
             {

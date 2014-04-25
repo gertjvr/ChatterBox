@@ -18,18 +18,34 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
         {
         }
 
-        public Room(string name, Guid creatorId, bool privateRoom = false)
+        public Room(string name, Guid creatorId, string welcome, string topic, bool privateRoom)
+            : this(Guid.NewGuid(), name, creatorId, welcome, topic, privateRoom)
+        {   
+        }
+
+        public Room(Guid id, string name, Guid creatorId, string welcome, string topic, bool privateRoom)
         {
+            if (id == null)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "id");
+
             if (name == null) 
                 throw new ArgumentNullException("name");
 
             if (creatorId == Guid.Empty)
                 throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "creatorId");
+            
+            if (welcome == null) 
+                throw new ArgumentNullException("welcome");
+
+            if (topic == null) 
+                throw new ArgumentNullException("topic");
 
             var fact = new RoomCreatedFact(
-                Guid.NewGuid(),
+                id,
                 name,
                 creatorId,
+                welcome,
+                topic,
                 privateRoom);
 
             Append(fact);
@@ -64,6 +80,9 @@ namespace ChatterBox.Domain.Aggregates.RoomAggregate
             Id = fact.AggregateRootId;
             Name = fact.Name;
             CreatorId = fact.CreatorId;
+            Welcome = fact.Welcome;
+            Topic = fact.Topic;
+            PrivateRoom = fact.PrivateRoom;
 
             _owners.Add(fact.CreatorId);
             _allowedUsers.Add(fact.CreatorId);

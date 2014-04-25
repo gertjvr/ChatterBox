@@ -51,7 +51,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                         user.Hash,
                         user.LastActivity,
                         (int) user.Status,
-                        (int) user.UserRole);
+                        (int) user.Role);
                 });
 
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();

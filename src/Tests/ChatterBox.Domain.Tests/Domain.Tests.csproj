@@ -79,9 +79,15 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Aggregates\Users\WhenChangingUserPassword.cs" />
-    <Compile Include="Aggregates\Users\WhenCreatingUser.cs" />
-    <Compile Include="Aggregates\Users\WhenChangingUserName.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserLastActivity.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenDeregisteringUserClient.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenReceivingPrivateMessage.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenRegisteringUserClient.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserEmailAddress.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserPassword.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserRole.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserSalt.cs" />
+    <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserStatus.cs" />
     <Compile Include="Conventions\AllDomainTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -11,6 +11,11 @@ namespace ChatterBox.Domain.Aggregates.ClientAggregate
         {   
         }
 
+        public Client(Guid userId, string userAgent, DateTimeOffset lastActivity) 
+            : this(Guid.NewGuid(), userId, userAgent, lastActivity)
+        {
+        }
+
         public Client(Guid id, Guid userId, string userAgent, DateTimeOffset lastActivity)
         {
             if (id == Guid.Empty) 

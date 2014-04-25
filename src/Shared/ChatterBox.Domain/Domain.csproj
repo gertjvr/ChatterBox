@@ -72,8 +72,9 @@
     <Compile Include="Aggregates\RoomAggregate\Facts\UserAllowedFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserLeftFact.cs" />
     <Compile Include="Aggregates\RoomAggregate\Facts\UserUnallowedFact.cs" />
-    <Compile Include="Aggregates\UserAggregate\Facts\ConnectedClientRemovedFact.cs" />
-    <Compile Include="Aggregates\UserAggregate\Facts\EmailAddressUpdatedFact.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\ConnectedClientRegisteredFact.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\ConnectedClientDeregisteredFact.cs" />
+    <Compile Include="Aggregates\UserAggregate\Facts\UserEmailAddressUpdatedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\PrivateMessageReceivedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserBannedFact.cs" />
     <Compile Include="Aggregates\UserAggregate\Facts\UserLastActivityUpdatedFact.cs" />

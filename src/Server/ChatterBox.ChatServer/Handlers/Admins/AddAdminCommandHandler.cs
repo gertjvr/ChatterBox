@@ -47,7 +47,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
 
                 var targetUser = _repository.GetById(command.TargetUserId);
 
-                if (targetUser.IsAdmin)
+                if (targetUser.IsAdministrator())
                 {
                     throw new Exception(LanguageResources.UserAlreadyAdmin.FormatWith(targetUser.Name));
                 }

@@ -63,7 +63,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
                     user.Hash,
                     user.LastActivity,
                     (int)user.Status,
-                    (int)user.UserRole);
+                    (int)user.Role);
             });
 
             var cryptoService = Fixture.Freeze<ICryptoService>();
@@ -95,7 +95,7 @@ namespace ChatterBox.ChatServer.Tests.Scenarios
 
         public void ShouldHaveAdminUserRole()
         {
-            Response.User.UserRole.ShouldBe((int)User.UserRole);
+            Response.User.UserRole.ShouldBe((int)User.Role);
         }
 
         public void ShouldHaveUserId()

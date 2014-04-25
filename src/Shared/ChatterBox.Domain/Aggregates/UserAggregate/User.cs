@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChatterBox.Core.Extensions;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Domain.Aggregates.ClientAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate.Facts;
@@ -18,19 +19,45 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public User(
             string name,
-            string email,
+            string emailAddress,
             string hash,
             string salt,
             string hashedPassword,
             DateTimeOffset lastActivity,
-            UserRole userRole = UserRole.User,
+            UserRole role = UserRole.User,
+            UserStatus status = UserStatus.Active) 
+            : this(
+                Guid.NewGuid(), 
+                name, 
+                emailAddress, 
+                hash, 
+                salt,
+                hashedPassword, 
+                lastActivity, 
+                role, 
+                status)
+        {
+        }
+
+        public User(
+            Guid id,
+            string name,
+            string emailAddress,
+            string hash,
+            string salt,
+            string hashedPassword,
+            DateTimeOffset lastActivity,
+            UserRole role = UserRole.User,
             UserStatus status = UserStatus.Active)
         {
+            if (id == null)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "id");
+
             if (name == null)
                 throw new ArgumentNullException("name");
 
-            if (email == null)
-                throw new ArgumentNullException("email");
+            if (emailAddress == null)
+                throw new ArgumentNullException("emailAddress");
 
             if (hash == null)
                 throw new ArgumentNullException("hash");
@@ -38,17 +65,17 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             if (salt == null)
                 throw new ArgumentNullException("salt");
 
-            if (hashedPassword == null) 
+            if (hashedPassword == null)
                 throw new ArgumentNullException("hashedPassword");
 
             var fact = new UserCreatedFact(
-                Guid.NewGuid(),
+                id,
                 name,
-                email,
+                emailAddress,
                 hash,
                 salt,
                 hashedPassword,
-                userRole,
+                role,
                 status,
                 lastActivity);
 
@@ -58,7 +85,7 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public string Name { get; private set; }
 
-        public string Email { get; private set; }
+        public string EmailAddress { get; private set; }
 
         public string Hash { get; private set; }
 
@@ -66,30 +93,20 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public string HashedPassword { get; private set; }
 
-        public UserRole UserRole { get; private set; }
+        public UserRole Role { get; private set; }
 
         public DateTimeOffset LastActivity { get; private set; }
 
         public UserStatus Status { get; private set; }
 
-        public IEnumerable<PrivateMessage> PrivateMessages
+        public IEnumerable<PrivateMessage> PrivateMessages()
         {
-            get { return _privateMessages; }
+            return _privateMessages;
         }
 
-        public bool IsAdmin
+        public IEnumerable<Guid> ConnectedClients()
         {
-            get { return UserRole == UserRole.Admin; }
-        }
-
-        public bool IsBanned
-        {
-            get { return UserRole == UserRole.Banned; }
-        }
-
-        public IEnumerable<Guid> ConnectedClients
-        {
-            get { return _connectedClients; }
+            return _connectedClients;
         }
 
         public void Apply(UserCreatedFact fact)
@@ -99,11 +116,11 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
             Id = fact.AggregateRootId;
             Name = fact.Name;
-            Email = fact.Email;
+            EmailAddress = fact.Email;
             Hash = fact.Hash;
             Salt = fact.Salt;
             HashedPassword = fact.HashedPassword;
-            UserRole = fact.UserRole;
+            Role = fact.UserRole;
             Status = fact.Status;
             LastActivity = fact.LastActivity;
         }
@@ -148,18 +165,18 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             if (newEmailAddress == null)
                 throw new ArgumentNullException("newEmailAddress");
 
-            var fact = new EmailAddressUpdatedFact(Id, newEmailAddress);
+            var fact = new UserEmailAddressUpdatedFact(Id, newEmailAddress);
 
             Append(fact);
             Apply(fact);
         }
 
-        public void Apply(EmailAddressUpdatedFact fact)
+        public void Apply(UserEmailAddressUpdatedFact fact)
         {
             if (fact == null)
                 throw new ArgumentNullException("fact");
 
-            Name = fact.NewEmailAddress;
+            EmailAddress = fact.NewEmailAddress;
         }
 
         public void UpdateUserRole(UserRole userRole)
@@ -175,15 +192,17 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             if (fact == null)
                 throw new ArgumentNullException("fact");
 
-            UserRole = fact.UserRole;
+            Role = fact.UserRole;
         }
 
-        public void UpdatePassword(string newHashedPassword)
+        public void UpdatePassword(string newPassword)
         {
-            if (newHashedPassword == null) 
-                throw new ArgumentNullException("newHashedPassword");
+            if (newPassword == null)
+                throw new ArgumentNullException("newPassword");
 
-            var fact = new UserPasswordUpdatedFact(Id, newHashedPassword);
+            var hashedPassword = newPassword.ToSha256(Salt);
+
+            var fact = new UserPasswordUpdatedFact(Id, hashedPassword);
 
             Append(fact);
             Apply(fact);
@@ -232,15 +251,15 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             Status = fact.Status;
         }
 
-        public void ReceivePrivateMessage(string content, Guid userId, DateTimeOffset receivedAt)
+        public void ReceivePrivateMessage(string content, User user, DateTimeOffset receivedAt)
         {
             if (content == null) 
                 throw new ArgumentNullException("content");
 
-            if (userId == Guid.Empty)
-                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
+            if (user == null)
+                throw new ArgumentNullException("user");
 
-            var fact = new PrivateMessageReceivedFact(Id, content, userId, receivedAt);
+            var fact = new PrivateMessageReceivedFact(Id, content, user.Id, receivedAt);
 
             Append(fact);
             Apply(fact);
@@ -254,18 +273,37 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             _privateMessages.Add(new PrivateMessage(fact.Content, fact.UserId, fact.ReceivedAt));
         }
 
-        public void RemoveConnectedClient(Client client)
+        public void RegisterClient(Client client)
         {
             if (client == null) 
                 throw new ArgumentNullException("client");
 
-            var fact = new ConnectedClientRemovedFact(Id, client.Id);
+            var fact = new ConnectedClientRegisteredFact(Id, client.Id);
 
             Append(fact);
             Apply(fact);
         }
 
-        public void Apply(ConnectedClientRemovedFact fact)
+        public void Apply(ConnectedClientRegisteredFact fact)
+        {
+            if (fact == null) 
+                throw new ArgumentNullException("fact");
+
+            _connectedClients.Add(fact.ClientId);
+        }
+        
+        public void DeregisterClient(Client client)
+        {
+            if (client == null) 
+                throw new ArgumentNullException("client");
+
+            var fact = new ConnectedClientDeregisteredFact(Id, client.Id);
+
+            Append(fact);
+            Apply(fact);
+        }
+
+        public void Apply(ConnectedClientDeregisteredFact fact)
         {
             if (fact == null) 
                 throw new ArgumentNullException("fact");

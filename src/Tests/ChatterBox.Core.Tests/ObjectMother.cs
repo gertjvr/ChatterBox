@@ -8,7 +8,7 @@ namespace ChatterBox.Core.Tests
     {
         public static User CreateUser(string userName, string emailAddress, string salt, string password, DateTimeOffset lastActivity)
         {
-            return new User(userName, emailAddress, emailAddress.ToMD5(), salt, password.ToSha256(salt), lastActivity);
+            return new User(Guid.NewGuid(), userName, emailAddress, emailAddress.ToMD5(), salt, password.ToSha256(salt), lastActivity);
         }
     }
 }

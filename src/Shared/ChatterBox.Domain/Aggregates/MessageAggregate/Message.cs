@@ -9,24 +9,32 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate
     public class Message : AggregateRoot
     {
         protected Message()
-        {   
+        {
         }
 
-        public Message(Guid roomId, Guid userId, string content, DateTimeOffset createdAt)
+        public Message(Guid roomId, Guid userId, string content, DateTimeOffset createdAt) 
+            : this(Guid.NewGuid(), roomId, userId, content, createdAt)
         {
+        }
+
+        public Message(Guid id, Guid roomId, Guid userId, string content, DateTimeOffset createdAt)
+        {
+            if (id == null)
+                throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "id");
+
             if (roomId == Guid.Empty)
                 throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "roomId");
 
             if (userId == Guid.Empty)
                 throw new ArgumentException(LanguageResources.GuidCannotBeEmpty, "userId");
-            
-            if (content == null) 
+
+            if (content == null)
                 throw new ArgumentNullException("content");
 
             var fact = new MessageCreatedFact(
-                Guid.NewGuid(),
-                roomId,
+                id,
                 userId,
+                roomId,
                 content,
                 createdAt);
 
@@ -44,7 +52,7 @@ namespace ChatterBox.Domain.Aggregates.MessageAggregate
 
         public void Apply(MessageCreatedFact fact)
         {
-            if (fact == null) 
+            if (fact == null)
                 throw new ArgumentNullException("fact");
 
             Id = fact.AggregateRootId;

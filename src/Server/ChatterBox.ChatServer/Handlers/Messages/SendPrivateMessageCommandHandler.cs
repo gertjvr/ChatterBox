@@ -40,9 +40,10 @@ namespace ChatterBox.ChatServer.Handlers.Messages
 
             try
             {
+                var callingUser = _repository.VerifyUser(command.CallingUserId);
                 var user = _repository.VerifyUser(command.TargetUserId);
 
-                user.ReceivePrivateMessage(command.Content, command.CallingUserId, _clock.UtcNow);
+                user.ReceivePrivateMessage(command.Content, callingUser, _clock.UtcNow);
 
                 _unitOfWork.Complete();
             }

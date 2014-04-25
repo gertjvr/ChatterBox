@@ -75,7 +75,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
 
         private void EnsureCreatorOrAdmin(User user, Room room)
         {
-            if (user.Id != room.CreatorId && !user.IsAdmin)
+            if (user.Id != room.CreatorId && user.IsAdministrator() == false)
             {
                 throw new Exception("You are not the creator of {0}.".FormatWith(room.Name));
             }
@@ -83,7 +83,7 @@ namespace ChatterBox.ChatServer.Handlers.Owners
 
         private void EnsureOwnerOrAdmin(User user, Room room)
         {
-            if (!room.Owners.Contains(user.Id) && user.IsAdmin)
+            if (!room.Owners.Contains(user.Id) && user.IsAdministrator())
             {
                 throw new Exception("You are not an owner of {0}.".FormatWith(room.Name));
             }

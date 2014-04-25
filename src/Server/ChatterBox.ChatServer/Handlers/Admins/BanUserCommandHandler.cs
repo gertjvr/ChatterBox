@@ -46,7 +46,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
 
                 var targetUser = _repository.VerifyUser(command.TargetUserId);
 
-                if (targetUser.IsAdmin)
+                if (targetUser.IsAdministrator())
                 {
                     throw new Exception(LanguageResources.Ban_CannotBanAdmin);
                 }
@@ -55,7 +55,7 @@ namespace ChatterBox.ChatServer.Handlers.Admins
 
                 _unitOfWork.Complete();
 
-                await _bus.Publish(new UserRoleChangedEvent(targetUser.Id, targetUser.Name, (int)targetUser.UserRole));
+                await _bus.Publish(new UserRoleChangedEvent(targetUser.Id, targetUser.Name, (int)targetUser.Role));
             }
             catch
             {

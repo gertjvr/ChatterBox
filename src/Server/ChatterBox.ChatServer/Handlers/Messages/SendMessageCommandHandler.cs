@@ -92,7 +92,7 @@ namespace ChatterBox.ChatServer.Handlers.Messages
 
                 callingUser.UpdateLastActivity(lastActivity);
 
-                var message = new Message(command.TargetRoomId, command.CallingUserId, command.Content, lastActivity);
+                var message = new Message(Guid.NewGuid(), command.TargetRoomId, command.CallingUserId, command.Content, lastActivity);
 
                 _messageRepository.Add(message);
 
