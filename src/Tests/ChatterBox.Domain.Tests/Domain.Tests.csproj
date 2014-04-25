@@ -79,6 +79,8 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Aggregates\ClientAggregate\WhenUpdatingClientLastActivity.cs" />
+    <Compile Include="Aggregates\ClientAggregate\WhenUpdatingClientUserAgent.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenUpdatingUserLastActivity.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenDeregisteringUserClient.cs" />
     <Compile Include="Aggregates\UserAggregate\WhenReceivingPrivateMessage.cs" />
