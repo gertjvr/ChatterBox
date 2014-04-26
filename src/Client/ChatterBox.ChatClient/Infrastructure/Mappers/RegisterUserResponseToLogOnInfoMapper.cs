@@ -1,17 +1,17 @@
-﻿using System.Linq;
+using System.Linq;
 using ChatterBox.ChatClient.Models;
 using ChatterBox.Core.Mapping;
-using ChatterBox.MessageContracts.Authentication.Request;
 using ChatterBox.MessageContracts.Dtos;
+using ChatterBox.MessageContracts.Users.Requests;
 
 namespace ChatterBox.ChatClient.Infrastructure.Mappers
 {
-    public class AuthenticateUserResponseToLogOnInfoMapper : IMapToNew<AuthenticateUserResponse, LogOnInfo>
+    public class RegisterUserResponseToLogOnInfoMapper : IMapToNew<RegisterUserResponse, LogOnInfo>
     {
         private readonly IMapToNew<UserDto, User> _userMapper;
         private readonly IMapToNew<RoomDto, Room> _roomMapper;
 
-        public AuthenticateUserResponseToLogOnInfoMapper(
+        public RegisterUserResponseToLogOnInfoMapper(
             IMapToNew<UserDto, User> userMapper, 
             IMapToNew<RoomDto, Room> roomMapper)
         {
@@ -19,7 +19,7 @@ namespace ChatterBox.ChatClient.Infrastructure.Mappers
             _roomMapper = roomMapper;
         }
 
-        public LogOnInfo Map(AuthenticateUserResponse source)
+        public LogOnInfo Map(RegisterUserResponse source)
         {
             if (source == null)
                 return null;

@@ -87,8 +87,8 @@
     <Compile Include="Users\Commands\UpdateActivityCommand.cs" />
     <Compile Include="Users\Requests\AllowedRoomsRequest.cs" />
     <Compile Include="Users\Requests\AllowedRoomsResponse.cs" />
-    <Compile Include="Users\Requests\CreateUserRequest.cs" />
-    <Compile Include="Users\Requests\CreateUserResponse.cs" />
+    <Compile Include="Users\Requests\RegisterUserRequest.cs" />
+    <Compile Include="Users\Requests\RegisterUserResponse.cs" />
     <Compile Include="Users\Requests\PreviousMessagesRequest.cs" />
     <Compile Include="Users\Requests\PreviousMessagesResponse.cs" />
     <Compile Include="Users\Requests\UserInfoRequest.cs" />

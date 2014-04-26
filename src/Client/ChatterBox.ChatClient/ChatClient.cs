@@ -42,18 +42,34 @@ namespace ChatterBox.ChatClient
             StartNimbus((Bus) _bus);
         }
 
-        public async Task<LogOnInfo> Connect(string nameOrEmail, string password)
+        public async Task<LogOnInfo> Register(string name, string emailAddress, string password)
         {
-            var logOnInfoMapper = _container.Resolve<IMapToNew<AuthenticateUserResponse, LogOnInfo>>();
+            var logOnInfoMapper = _container.Resolve<IMapToNew<RegisterUserResponse, LogOnInfo>>();
             var userMapper = _container.Resolve<IMapToNew<UserDto, User>>();
 
-            var response = await _bus.Request(new AuthenticateUserRequest(nameOrEmail, password));
+            var response = await _bus.Request(new RegisterUserRequest(name, emailAddress, password));
 
             _userContext.SetUserId(
                 response.UserId, 
                 userMapper.Map(response.User));
 
-            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, "", _userContext.UserId));
+            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, "Console", _userContext.UserId));
+            
+            return logOnInfoMapper.Map(response);
+        }
+        
+        public async Task<LogOnInfo> Connect(string name, string password)
+        {
+            var logOnInfoMapper = _container.Resolve<IMapToNew<AuthenticateUserResponse, LogOnInfo>>();
+            var userMapper = _container.Resolve<IMapToNew<UserDto, User>>();
+
+            var response = await _bus.Request(new AuthenticateUserRequest(name, password));
+
+            _userContext.SetUserId(
+                response.UserId, 
+                userMapper.Map(response.User));
+
+            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, "Console", _userContext.UserId));
             
             return logOnInfoMapper.Map(response);
         }

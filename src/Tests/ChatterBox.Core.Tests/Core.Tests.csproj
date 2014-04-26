@@ -75,6 +75,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="IoC\Conventions\AutofacBaseAssertion.cs" />
     <Compile Include="IoC\Conventions\AutofacContainerAssertion.cs" />
     <Compile Include="IoC\Conventions\AutofacLifetimeAssertion.cs" />

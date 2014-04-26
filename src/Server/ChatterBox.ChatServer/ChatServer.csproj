@@ -110,7 +110,7 @@
     <Compile Include="Handlers\Owners\RemoveOwnerCommandHandler.cs" />
     <Compile Include="Handlers\Users\AllowedRoomsRequestHandler.cs" />
     <Compile Include="Handlers\Users\ChangeUserNameCommandHandler.cs" />
-    <Compile Include="Handlers\Users\CreateUserRequestHandler.cs" />
+    <Compile Include="Handlers\Users\RegisterUserRequestHandler.cs" />
     <Compile Include="Handlers\Users\PreviousMessagesRequestHandler.cs" />
     <Compile Include="Handlers\Users\UserInfoRequestHandler.cs" />
     <Compile Include="Infrastructure\Mappers\MessageToMessageDtoMapper.cs" />

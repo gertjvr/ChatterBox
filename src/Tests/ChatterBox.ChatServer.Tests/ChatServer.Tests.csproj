@@ -106,7 +106,7 @@
     <Compile Include="Scenarios\Authentication\WhenAuthenticatingAUserWithUserNameAndPassword.cs" />
     <Compile Include="Scenarios\WhenChangingAUserName.cs" />
     <Compile Include="Scenarios\WhenConnectingAClient.cs" />
-    <Compile Include="Scenarios\WhenCreatingAUser.cs" />
+    <Compile Include="Scenarios\Users\WhenRegisteringUser.cs" />
     <Compile Include="MessageContracts\Conventions\AllCommandTypes.cs" />
     <Compile Include="MessageContracts\Conventions\AllMessageContractTypes.cs" />
     <Compile Include="MessageContracts\Conventions\AllRequestTypes.cs" />
@@ -114,6 +114,7 @@
     <Compile Include="MessageContracts\Conventions\AllTypesNamesEndingWithRequest.cs" />
     <Compile Include="MessageContracts\Conventions\AllTypesNamesEndingWithResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenarios\Users\WhenRegisteringUserFails.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Server\ChatterBox.ChatServer\app.config">
