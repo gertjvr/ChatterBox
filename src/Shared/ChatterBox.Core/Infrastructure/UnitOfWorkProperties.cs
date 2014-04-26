@@ -4,7 +4,7 @@ namespace ChatterBox.Core.Infrastructure
 {
     public class UnitOfWorkProperties : IComparable<UnitOfWorkProperties>
     {
-        public UnitOfWorkProperties()
+        protected UnitOfWorkProperties()
         {
         }
 

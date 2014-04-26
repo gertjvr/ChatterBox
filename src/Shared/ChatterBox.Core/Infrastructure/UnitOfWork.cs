@@ -70,7 +70,7 @@ namespace ChatterBox.Core.Infrastructure
                 facts.AddRange(factsFromThisPass);
                 foreach (var fact in factsFromThisPass)
                 {
-                    fact.SetUnitOfWorkProperties(new UnitOfWorkProperties(unitOfWorkId, sequenceNumber, _clock.UtcNow));
+                    fact.UnitOfWorkProperties = new UnitOfWorkProperties(unitOfWorkId, sequenceNumber, _clock.UtcNow);
                     _domainEventBroker.Raise((dynamic)fact);
 
                     sequenceNumber++;

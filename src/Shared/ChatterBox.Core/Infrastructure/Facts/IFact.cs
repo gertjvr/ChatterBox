@@ -8,7 +8,6 @@ namespace ChatterBox.Core.Infrastructure.Facts
         string StreamName { get; }
         string EntityTypeName { get; }
 
-        UnitOfWorkProperties UnitOfWorkProperties { get; }
-        void SetUnitOfWorkProperties(UnitOfWorkProperties properties);
+        UnitOfWorkProperties UnitOfWorkProperties { get; set; }
     }
 }

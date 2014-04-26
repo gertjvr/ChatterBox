@@ -27,12 +27,14 @@ namespace ChatterBox.ChatClient
     {
         private readonly UserContext _userContext = new UserContext();
         private readonly ClientContext _clientContext = new ClientContext();
-        
-        private IContainer _container;
-        private IBus _bus;
+        private readonly IBus _bus;
 
-        public ChatClient()
+        private IContainer _container;
+
+        public ChatClient(string userAgent)
         {
+            UserAgent = userAgent;
+
             InitializeLogger();
 
             _container = IoC.LetThereBeIoC();
@@ -41,6 +43,8 @@ namespace ChatterBox.ChatClient
 
             StartNimbus((Bus) _bus);
         }
+
+        public string UserAgent { get; private set; }
 
         public async Task<LogOnInfo> Register(string name, string emailAddress, string password)
         {
@@ -53,7 +57,7 @@ namespace ChatterBox.ChatClient
                 response.UserId, 
                 userMapper.Map(response.User));
 
-            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, "Console", _userContext.UserId));
+            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, UserAgent, _userContext.UserId));
             
             return logOnInfoMapper.Map(response);
         }
@@ -69,7 +73,7 @@ namespace ChatterBox.ChatClient
                 response.UserId, 
                 userMapper.Map(response.User));
 
-            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, "Console", _userContext.UserId));
+            await _bus.Send(new ConnectClientCommand(_clientContext.ClientId, UserAgent, _userContext.UserId));
             
             return logOnInfoMapper.Map(response);
         }

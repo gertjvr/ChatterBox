@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Infrastructure.Entities;
 using ChatterBox.Core.Infrastructure.Facts;
@@ -36,7 +37,8 @@ namespace ChatterBox.Core.Persistence.Disk
             _jsonSerializeSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.All
+                TypeNameHandling = TypeNameHandling.All,
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
             };
         }
 
@@ -96,8 +98,7 @@ namespace ChatterBox.Core.Persistence.Disk
             return LoadFactsFrom(GetFactDirectoryFor(aggregateType.Name, id)) //FIXME hack - use StreamName property
                 .OrderBy(f => f.UnitOfWorkProperties.FactTimestamp)
                 .ThenBy(f => f.UnitOfWorkProperties.UnitOfWorkId)
-                .ThenBy(f => f.UnitOfWorkProperties.SequenceNumber)
-                ;
+                .ThenBy(f => f.UnitOfWorkProperties.SequenceNumber);
         }
 
         public IEnumerable<Guid> GetAllStreamIds<T>() where T : IAggregateRoot
@@ -176,8 +177,8 @@ namespace ChatterBox.Core.Persistence.Disk
                 using (var reader = new StreamReader(stream))
                 {
                     var serialze = reader.ReadToEnd();
-                    var instance = JsonConvert.DeserializeObject<IFact>(serialze, _jsonSerializeSettings);
-                    return instance;
+                    var instance = JsonConvert.DeserializeObject(serialze, _jsonSerializeSettings);
+                    return (IFact)instance;
                 }
             }
         }
@@ -190,8 +191,7 @@ namespace ChatterBox.Core.Persistence.Disk
             return directory
                 .GetFiles("*" + _filenameSuffix)
                 .AsParallel()
-                .Select(ReadFactFromDisk)
-                ;
+                .Select(ReadFactFromDisk);
         }
 
         private string ConstructFullyQualifiedFileName(IFact fact)
