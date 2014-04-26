@@ -25,8 +25,8 @@ task Package -depends Test {
 }
 
 task Test -depends Compile {
-    $fixieRunner = resolve-path '.\packages\Fixie.0.0.1.158\lib\net45\Fixie.Console.exe'
-    exec { & $fixieRunner $src\Tests\$project.Domain.Tests\bin\$configuration\$project.Domain.Tests.dll $src\Tests\$project.ChatServer.Tests\bin\$configuration\$project.ChatServer.Tests.dll $src\Tests\$project.ChatClient.Tests\bin\$configuration\$project.ChatClient.Tests.dll --fixie:NUnitXml TestResult.xml }
+    $nunitRunner = resolve-path '.\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe'
+    exec { & $nunitRunner $src\Tests\ChatterBox.ChatServer.Tests\bin\Release\ChatterBox.ChatServer.Tests.dll $src\Tests\ChatterBox.ChatClient.Tests\bin\Release\ChatterBox.ChatClient.Tests.dll $src\Tests\ChatterBox.Domain.Tests\bin\Release\ChatterBox.Domain.Tests.dll $src\Tests\ChatterBox.Core.Tests\bin\Release\ChatterBox.Core.Tests.dll }
 }
 
 task Compile -depends CommonAssemblyInfo {
