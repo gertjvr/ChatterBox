@@ -14,7 +14,7 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
     [TestFixture]
     public abstract class ChatServerSpecificationForBus : SpecificationForAsync<IBus>
     {
-        protected IContainer _container;
+        protected IContainer Container;
 
         protected ChatServerSpecificationForBus()
         {
@@ -36,9 +36,9 @@ namespace ChatterBox.ChatServer.IntegrationTests.Scenarios
 
         protected override async Task<IBus> Given()
         {
-            _container = CreateContainer();
+            Container = CreateContainer();
 
-            return _container.Resolve<IBus>();
+            return Container.Resolve<IBus>();
         }
 
         protected override async Task When()
