@@ -26,7 +26,7 @@ namespace ChatterBox.ChatServer.AutofacModules
             builder.Register(componentContext => new BusBuilder()
                 .Configure()
                 .WithConnectionString(ConnectionString(componentContext.Resolve<NimbusConnectionStringSetting>()))
-                .WithNames("ChatterBox.ChatServer", MachineName())
+                .WithNames(componentContext.Resolve<ChatServerNameSetting>(), MachineName())
                 .WithTypesFrom(handlerTypesProvider)
                 .WithAutofacDefaults(componentContext)
                 .WithJsonSerializer()

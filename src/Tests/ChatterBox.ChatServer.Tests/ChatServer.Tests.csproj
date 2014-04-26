@@ -50,6 +50,22 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nimbus, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.1.3.0.2\lib\net45\Nimbus.dll</HintPath>
+    </Reference>
+    <Reference Include="Nimbus.InfrastructureContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.InfrastructureContracts.1.3.0.2\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Nimbus.MessageContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.MessageContracts.1.3.0.2\lib\net45\Nimbus.MessageContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Nimbus.Serializers.Json, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Nimbus.Serializers.Json.1.3.0.2\lib\net45\Nimbus.Serializers.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\..\..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
     </Reference>
@@ -120,26 +136,14 @@
     <Compile Include="Scenarios\Users\WhenRegisteringUserFails.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Server\ChatterBox.ChatServer\app.config">
-      <Link>app.config</Link>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\submodules\Nimbus\src\Extensions\Nimbus.Serializers.Json\Nimbus.Serializers.Json.csproj">
-      <Project>{109fb118-fa9a-4eb2-88af-f66c973ce50f}</Project>
-      <Name>Nimbus.Serializers.Json</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\submodules\Nimbus\src\Nimbus.InfrastructureContracts\Nimbus.InfrastructureContracts.csproj">
-      <Project>{D59397D3-F595-45AB-9BF8-4615C298545B}</Project>
-      <Name>Nimbus.InfrastructureContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\submodules\Nimbus\src\Nimbus.MessageContracts\Nimbus.MessageContracts.csproj">
-      <Project>{702A4F7E-97C5-4651-B704-65C6D0D70C1C}</Project>
-      <Name>Nimbus.MessageContracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Server\ChatterBox.ChatServer\ChatServer.csproj">
       <Project>{afcbc106-2080-47d6-a594-04f688b8e7b4}</Project>
       <Name>ChatServer</Name>
