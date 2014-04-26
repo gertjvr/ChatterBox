@@ -44,18 +44,20 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.Albedo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=179ef6dd03497bbd, processorArchitecture=MSIL">
+    <Reference Include="Ploeh.Albedo, Version=1.0.1.0, Culture=neutral, PublicKeyToken=179ef6dd03497bbd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Albedo.1.0.0\lib\net35\Ploeh.Albedo.dll</HintPath>
+      <HintPath>..\..\..\packages\Albedo.1.0.1\lib\net35\Ploeh.Albedo.dll</HintPath>
     </Reference>
     <Reference Include="Ploeh.AutoFixture">
-      <HintPath>..\..\..\packages\AutoFixture.3.18.3\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+      <HintPath>..\..\..\packages\AutoFixture.3.18.5\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture.AutoNSubstitute">
-      <HintPath>..\..\..\packages\AutoFixture.AutoNSubstitute.3.18.3\lib\net40\Ploeh.AutoFixture.AutoNSubstitute.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture.AutoNSubstitute, Version=3.18.5.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AutoFixture.AutoNSubstitute.3.18.5\lib\net40\Ploeh.AutoFixture.AutoNSubstitute.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture.Idioms">
-      <HintPath>..\..\..\packages\AutoFixture.Idioms.3.18.3\lib\net40\Ploeh.AutoFixture.Idioms.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture.Idioms, Version=3.18.3.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AutoFixture.Idioms.3.18.5\lib\net40\Ploeh.AutoFixture.Idioms.dll</HintPath>
     </Reference>
     <Reference Include="Shouldly">
       <HintPath>..\..\..\packages\Shouldly.2.1.1\lib\net40\Shouldly.dll</HintPath>
