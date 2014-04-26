@@ -25,7 +25,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
         [Then]
         public void ShouldHaveDeregisteredUserClient()
         {
-            Subject.ConnectedClients().ShouldNotContain(Client.Id);
+            Subject.ConnectedClients.ShouldNotContain(Client.Id);
         }
     }
 }

@@ -99,15 +99,9 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
 
         public UserStatus Status { get; private set; }
 
-        public IEnumerable<PrivateMessage> PrivateMessages()
-        {
-            return _privateMessages;
-        }
+        public IEnumerable<PrivateMessage> PrivateMessages { get { return _privateMessages; } }
 
-        public IEnumerable<Guid> ConnectedClients()
-        {
-            return _connectedClients;
-        }
+        public IEnumerable<Guid> ConnectedClients { get { return _connectedClients; } }
 
         public void Apply(UserCreatedFact fact)
         {
@@ -259,13 +253,13 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            var fact = new PrivateMessageReceivedFact(Id, content, user.Id, receivedAt);
+            var fact = new UserPrivateMessageReceivedFact(Id, content, user.Id, receivedAt);
 
             Append(fact);
             Apply(fact);
         }
 
-        public void Apply(PrivateMessageReceivedFact fact)
+        public void Apply(UserPrivateMessageReceivedFact fact)
         {
             if (fact == null) 
                 throw new ArgumentNullException("fact");
@@ -278,13 +272,13 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             if (client == null) 
                 throw new ArgumentNullException("client");
 
-            var fact = new ConnectedClientRegisteredFact(Id, client.Id);
+            var fact = new UserClientRegisteredFact(Id, client.Id);
 
             Append(fact);
             Apply(fact);
         }
 
-        public void Apply(ConnectedClientRegisteredFact fact)
+        public void Apply(UserClientRegisteredFact fact)
         {
             if (fact == null) 
                 throw new ArgumentNullException("fact");
@@ -297,13 +291,13 @@ namespace ChatterBox.Domain.Aggregates.UserAggregate
             if (client == null) 
                 throw new ArgumentNullException("client");
 
-            var fact = new ConnectedClientDeregisteredFact(Id, client.Id);
+            var fact = new UserClientDeregisteredFact(Id, client.Id);
 
             Append(fact);
             Apply(fact);
         }
 
-        public void Apply(ConnectedClientDeregisteredFact fact)
+        public void Apply(UserClientDeregisteredFact fact)
         {
             if (fact == null) 
                 throw new ArgumentNullException("fact");

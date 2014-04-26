@@ -54,7 +54,7 @@ namespace ChatterBox.ChatServer.Tests.Mappings
             Expected.WelcomeMessage.ShouldBe(Room.WelcomeMessage);
             Expected.Users.ShouldBe(Room.Users.Select(userId => UserMapper.Map(UserRepository.GetById(userId))).ToArray());
             Expected.Owners.ShouldBe(Room.Owners.Select(userId => UserMapper.Map(UserRepository.GetById(userId))).ToArray());
-            Expected.RecentMessages.ShouldBe(MessageRepository.GetMessages().Select(MessageMapper.Map));
+            Expected.RecentMessages.ShouldBe(MessageRepository.GetMessagesForRoom(Room.Id).Select(MessageMapper.Map));
         }
     }
 }

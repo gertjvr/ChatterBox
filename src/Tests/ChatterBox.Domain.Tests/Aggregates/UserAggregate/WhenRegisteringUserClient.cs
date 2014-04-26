@@ -25,7 +25,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
         [Then]
         public void ShouldHaveRegisteredUserClient()
         {
-            Subject.ConnectedClients().ShouldContain(Client.Id);
+            Subject.ConnectedClients.ShouldContain(Client.Id);
         }
     }
 }

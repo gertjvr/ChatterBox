@@ -93,6 +93,7 @@
     <Compile Include="ConfigurationSettings\SeqServerUriSetting.cs" />
     <Compile Include="IChatClient.cs" />
     <Compile Include="Infrastructure\Mappers\AuthenticateUserResponseToLogOnInfoMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\MessageDtoToMessageMapper.cs" />
     <Compile Include="Infrastructure\Mappers\RegisterUserResponseToLogOnInfoMapper.cs" />
     <Compile Include="Infrastructure\Mappers\RoomDtoToRoomMapper.cs" />
     <Compile Include="Infrastructure\Mappers\UserDtoToUserMapper.cs" />

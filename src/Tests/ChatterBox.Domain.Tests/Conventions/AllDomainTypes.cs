@@ -97,6 +97,7 @@ namespace ChatterBox.Domain.Tests.Conventions
 
             var excludeTypeProperties = new Dictionary<Type, string[]>
             {   
+                { typeof(User), new [] { "PrivateMessages", "ConnectedClients" } },
                 { typeof(Room), new [] { "Closed", "InviteCode", "Owners", "Users", "AllowedUsers" } },
             };
 

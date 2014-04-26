@@ -4,9 +4,9 @@ using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
 {
-    public class ConnectedClientRegisteredFact : FactAbout<User>
+    public class UserClientRegisteredFact : FactAbout<User>
     {
-        public ConnectedClientRegisteredFact(Guid aggregateRootId, Guid clientId) 
+        public UserClientRegisteredFact(Guid aggregateRootId, Guid clientId) 
             : base(aggregateRootId)
         {
             if (clientId == Guid.Empty)

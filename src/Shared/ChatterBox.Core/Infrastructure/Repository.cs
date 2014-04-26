@@ -31,7 +31,13 @@ namespace ChatterBox.Core.Infrastructure
 
         public TAggregateRoot GetById(Guid id)
         {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Guid cannot be empty.", "id");
+
             var item = _queryModel.GetById(id);
+
+            if (item == null)
+                return null;
 
             _unitOfWork.Enlist(item);
             _modifiedItems.Add(item);

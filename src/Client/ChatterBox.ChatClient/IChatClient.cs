@@ -11,10 +11,10 @@ namespace ChatterBox.ChatClient
         Task<User> GetUserInfo();
         Task LogOut();
         Task Send(string message, Guid roomId);
-        Task CreateRoom(string roomName);
+        Task<Guid> CreateRoom(string roomName);
         Task JoinRoom(Guid roomId);
         Task LeaveRoom(Guid roomId);
-        Task SendPrivateMessage(Guid userId, string message);
+        Task SendPrivateMessage(string message, Guid userId);
         Task Kick(Guid userId, Guid roomId);
         Task<IEnumerable<Message>> GetPreviousMessages(Guid fromId);
         Task<Room> GetRoomInfo(Guid roomId);

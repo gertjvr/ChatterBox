@@ -59,6 +59,8 @@ namespace ChatterBox.ChatServer.Handlers.Users
 
                 _clientRepository.Add(client);
 
+                callingUser.RegisterClient(client);
+
                 _unitOfWork.Complete();
             }
             catch

@@ -80,13 +80,13 @@ namespace ChatterBox.Domain.Extensions
             return repository.Query(rooms => rooms.SingleOrDefault(room => room.Name == name));
         }
 
-        public static IEnumerable<Message> GetMessages(this IRepository<Message> repository, int numberOfMessages = 10)
+        public static IEnumerable<Message> GetMessagesForRoom(this IRepository<Message> repository, Guid roomId, int numberOfMessages = 10)
         {
             if (repository == null) 
                 throw new ArgumentNullException("repository");
 
             return
-                repository.Query(messages => messages.OrderByDescending(message => message.CreatedAt)
+                repository.Query(messages => messages.Where(message => message.RoomId == roomId) .OrderByDescending(message => message.CreatedAt)
                     .Take(numberOfMessages));
         }
 

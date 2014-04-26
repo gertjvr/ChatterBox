@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +33,8 @@ namespace ChatterBox.Core.Infrastructure.Queries
             if (itemId == Guid.Empty)
                 throw new ArgumentException("Guid cannot be empty.", "itemId");
 
-            return _items.Value[itemId];
+            T model;
+            return _items.Value.TryGetValue(itemId, out model) ? model : null;
         }
 
         public IQueryable<T> Items

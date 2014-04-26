@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ChatterBox.ChatServer.Handlers.Users;
 using ChatterBox.Core.Infrastructure;
@@ -9,11 +10,13 @@ using ChatterBox.MessageContracts.Users.Requests;
 using NSubstitute;
 using Ploeh.AutoFixture;
 using Shouldly;
+using ThirdDrawer.Extensions.StringExtensionMethods;
 
 namespace ChatterBox.ChatServer.Tests.Scenarios.Users
 {
     public class WhenRegisteringUserFails : AutoSpecificationForAsync<RegisterUserRequestHandler>
     {
+        public User User { get; private set; }
         public RegisterUserRequest Request { get; private set; }
         public RegisterUserResponse Response { get; private set; }
 
@@ -22,10 +25,13 @@ namespace ChatterBox.ChatServer.Tests.Scenarios.Users
 
         protected override async Task<RegisterUserRequestHandler> Given()
         {
-            Request = Fixture.Create<RegisterUserRequest>();
-            Request.SetPropertyValue(p => p.Password, null);
+            User = Fixture.Create<User>();
+
+            Request = new RegisterUserRequest(User.Name, User.EmailAddress, Fixture.Create<string>());
 
             Repository = Fixture.Freeze<IRepository<User>>();
+            Repository.Query(Arg.Any<Func<IQueryable<User>, User>>())
+                .Returns(User);
 
             UnitOfWork = Fixture.Freeze<IUnitOfWork>();
             
@@ -34,7 +40,15 @@ namespace ChatterBox.ChatServer.Tests.Scenarios.Users
 
         protected override async Task When()
         {
-            Should.Throw<Exception>(async () => Response = await Subject.Handle(Request));
+            Exception = Should.Throw<InvalidOperationException>(async () => Response = await Subject.Handle(Request));
+        }
+
+        public InvalidOperationException Exception { get; set; }
+
+        [Then]
+        public void ShouldHaveThrowInvalidOperationException()
+        {
+            Exception.Message.ShouldBe("UserName[{0}] has been already registered.".FormatWith(User.Name));   
         }
 
         [Then]

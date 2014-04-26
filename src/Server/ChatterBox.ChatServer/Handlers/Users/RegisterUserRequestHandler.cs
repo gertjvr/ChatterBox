@@ -6,9 +6,11 @@ using ChatterBox.Core.Infrastructure;
 using ChatterBox.Core.Mapping;
 using ChatterBox.Core.Services;
 using ChatterBox.Domain.Aggregates.UserAggregate;
+using ChatterBox.Domain.Extensions;
 using ChatterBox.MessageContracts.Dtos;
 using ChatterBox.MessageContracts.Users.Requests;
 using Nimbus.Handlers;
+using ThirdDrawer.Extensions.StringExtensionMethods;
 
 namespace ChatterBox.ChatServer.Handlers.Users
 {
@@ -56,6 +58,10 @@ namespace ChatterBox.ChatServer.Handlers.Users
 
             try
             {
+                var targetUser = _userRepository.GetByName(request.UserName);
+                if (targetUser != null)
+                    throw new InvalidOperationException("UserName[{0}] has been already registered.".FormatWith(request.UserName));
+
                 var salt = _cryptoService.CreateSalt();
                 var hashedPassword = request.Password.ToSha256(salt);
 

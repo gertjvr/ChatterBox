@@ -4,9 +4,9 @@ using ChatterBox.Domain.Properties;
 
 namespace ChatterBox.Domain.Aggregates.UserAggregate.Facts
 {
-    public class PrivateMessageReceivedFact : FactAbout<User>
+    public class UserPrivateMessageReceivedFact : FactAbout<User>
     {
-        public PrivateMessageReceivedFact(Guid aggregateRootId, string content, Guid userId, DateTimeOffset receivedAt)
+        public UserPrivateMessageReceivedFact(Guid aggregateRootId, string content, Guid userId, DateTimeOffset receivedAt)
             : base(aggregateRootId)
         {
             if (content == null) 

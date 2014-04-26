@@ -31,7 +31,7 @@ namespace ChatterBox.Domain.Tests.Aggregates.UserAggregate
         [Then]
         public void ShouldContainPrivateMessage()
         {
-            Subject.PrivateMessages().ShouldContain(message => message.Content == Content && message.UserId == User.Id && message.ReceivedAt == ReceivedAt);
+            Subject.PrivateMessages.ShouldContain(message => message.Content == Content && message.UserId == User.Id && message.ReceivedAt == ReceivedAt);
         }
     }
 }

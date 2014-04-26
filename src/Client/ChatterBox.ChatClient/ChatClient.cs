@@ -97,9 +97,13 @@ namespace ChatterBox.ChatClient
             await _bus.Send(new SendMessageCommand(message, roomId, _userContext.UserId));
         }
 
-        public async Task CreateRoom(string roomName)
+        public async Task<Guid> CreateRoom(string roomName)
         {
-            await _bus.Request(new CreateRoomRequest(roomName, _userContext.UserId));
+            var roomMapper = _container.Resolve<IMapToNew<RoomDto, Room>>();
+
+            var response = await _bus.Request(new CreateRoomRequest(roomName, _userContext.UserId));
+
+            return response.RoomId;
         }
 
         public async Task JoinRoom(Guid roomId)
@@ -112,7 +116,7 @@ namespace ChatterBox.ChatClient
             await _bus.Send(new LeaveRoomCommand(roomId, _userContext.UserId, _userContext.UserId));
         }
 
-        public async Task SendPrivateMessage(Guid userId, string message)
+        public async Task SendPrivateMessage(string message, Guid userId)
         {
             await _bus.Send(new SendPrivateMessageCommand(message, userId, _userContext.UserId));
         }

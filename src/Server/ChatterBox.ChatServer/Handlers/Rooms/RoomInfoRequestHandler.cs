@@ -37,6 +37,9 @@ namespace ChatterBox.ChatServer.Handlers.Rooms
 
         public async Task<RoomInfoResponse> Handle(RoomInfoRequest request)
         {
+            if (request == null) 
+                throw new ArgumentNullException("request");
+
             try
             {
                 var targetRoom = _roomRepository.VerifyRoom(request.TargetRoomId);
