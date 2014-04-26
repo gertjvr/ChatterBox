@@ -53,6 +53,7 @@ namespace ChatterBox.ChatServer.Infrastructure.Mappers
             var recentMessages = _messageRepository.GetMessagesForRoom(source.Id).Select(message => _messageMapper.Map(message)).ToArray();
 
             return new RoomDto(
+                source.Id,
                 source.Name,
                 0,
                 source.PrivateRoom,

@@ -25,6 +25,7 @@ namespace ChatterBox.ChatClient.Infrastructure.Mappers
 
             return new Room
             {
+                Id = source.Id,
                 Name = source.Name,
                 Count = source.Count,
                 Private = source.PrivateRoom,

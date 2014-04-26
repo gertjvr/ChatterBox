@@ -153,9 +153,9 @@ namespace ChatterBox.ChatClient
             return response.Rooms.Select(roomMapper.Map);
         }
 
-        public void Disconnect()
+        public async Task Disconnect()
         {
-            _bus.Send(new DisconnectClientCommand(_clientContext.ClientId, _userContext.UserId));
+            await _bus.Send(new DisconnectClientCommand(_clientContext.ClientId, _userContext.UserId));
 
             IContainer container = _container;
             if (container != null) container.Dispose();
@@ -169,17 +169,17 @@ namespace ChatterBox.ChatClient
 
         private static void InitializeLogger()
         {
-            var minimumLogLevel = DefaultSettingsReader.Get<MinimumLogLevelSetting>();
+            var minimumLogLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), DefaultSettingsReader.Get<MinimumLogLevelSetting>());
             var serverUrl = DefaultSettingsReader.Get<SeqServerUriSetting>();
             var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"ClientConsoleLog-{Date}.txt");
 
             LoggerConfiguration logConfiguration = new LoggerConfiguration()
-                .MinimumLevel.Is((LogEventLevel)Enum.Parse(typeof(LogEventLevel), minimumLogLevel))
+                .MinimumLevel.Is(minimumLogLevel)
                 .WriteTo.Trace()
                 .WriteTo.RollingFile(logPath)
                 .WriteTo.Seq(serverUrl);
 
-            if (Environment.UserInteractive)
+            if (Environment.UserInteractive && minimumLogLevel == LogEventLevel.Verbose)
             {
                 logConfiguration.WriteTo.ColoredConsole();
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ChatterBox.Core.Infrastructure;
+using ChatterBox.Domain.Aggregates.ClientAggregate;
 using ChatterBox.Domain.Aggregates.MessageAggregate;
 using ChatterBox.Domain.Aggregates.RoomAggregate;
 using ChatterBox.Domain.Aggregates.UserAggregate;
@@ -25,6 +26,21 @@ namespace ChatterBox.Domain.Extensions
             }
 
             return user;
+        }
+        
+        public static Client VerifyClient(this IRepository<Client> repository, Guid clientId)
+        {
+            if (repository == null) 
+                throw new ArgumentNullException("repository");
+
+            var client = repository.GetById(clientId);
+
+            if (client == null)
+            {
+                throw new Exception("Unable to find {0}.".FormatWith(clientId));
+            }
+
+            return client;
         }
         
         public static Room VerifyRoom(this IRepository<Room> repository, Guid roomId, bool mustBeOpen = false)
@@ -55,7 +71,9 @@ namespace ChatterBox.Domain.Extensions
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            return repository.Query(rooms => rooms.Where(room => room.Users.Contains(user.Id)).ToArray());
+            var allowedRooms = repository.Query(rooms => rooms.Where(room => room.PrivateRoom == false || (room.PrivateRoom && room.AllowedUsers.Contains(user.Id))).ToArray());
+            
+            return allowedRooms;
         }
 
         public static User GetByName(this IRepository<User> repository, string name)

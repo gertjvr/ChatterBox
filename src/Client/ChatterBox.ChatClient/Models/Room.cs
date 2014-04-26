@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ChatterBox.ChatClient.Models
 {
     public class Room
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
         public bool Private { get; set; }

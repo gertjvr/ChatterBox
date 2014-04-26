@@ -19,6 +19,6 @@ namespace ChatterBox.ChatClient
         Task<IEnumerable<Message>> GetPreviousMessages(Guid fromId);
         Task<Room> GetRoomInfo(Guid roomId);
         Task<IEnumerable<Room>> GetRooms();
-        void Disconnect();
+        Task Disconnect();
     }
 }

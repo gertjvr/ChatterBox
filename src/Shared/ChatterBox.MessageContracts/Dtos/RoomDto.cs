@@ -5,9 +5,12 @@ namespace ChatterBox.MessageContracts.Dtos
 {
     public class RoomDto : IDto
     {
-        public RoomDto(string name, int count, bool privateRoom, string topic, bool closed, string welcomeMessage,
+        public RoomDto(Guid id, string name, int count, bool privateRoom, string topic, bool closed, string welcomeMessage,
             IEnumerable<UserDto> users, IEnumerable<UserDto> owners, IEnumerable<MessageDto> recentMessages)
         {
+            if (id == Guid.Empty) 
+                throw new ArgumentException("Guid cannot be empty.", "id");
+            
             if (name == null) 
                 throw new ArgumentNullException("name");
             
@@ -26,6 +29,7 @@ namespace ChatterBox.MessageContracts.Dtos
             if (recentMessages == null) 
                 throw new ArgumentNullException("recentMessages");
 
+            Id = id;
             Name = name;
             Count = count;
             PrivateRoom = privateRoom;
@@ -37,6 +41,7 @@ namespace ChatterBox.MessageContracts.Dtos
             RecentMessages = recentMessages;
         }
 
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public int Count { get; private set; }
         public bool PrivateRoom { get; private set; }
